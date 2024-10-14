@@ -1,8 +1,11 @@
 <script lang="ts">
+	import type { ModalComponent } from '$lib/Layout/Modal/Modal/modal-remote.svelte.js';
 	import Modal from '$lib/Layout/Modal/Modal/Modal.svelte';
 	import type { TooltipRemote } from '$lib/Layout/Modal/Tooltip/tooltip-remote.svelte.js';
 	import Tooltip from '$lib/Layout/Modal/Tooltip/Tooltip.svelte';
+	import { cn } from '$lib/utils/cn.js';
 	let remote: { tooltip: TooltipRemote } = $state()!;
+	let modal: ModalComponent = $state();
 </script>
 
 <div class="bg-gray-100 h-screen pt-10">
@@ -10,9 +13,18 @@
 		<h1 class="text-[20px] font-semibold">Welcome to @nelhoa/svelte-modals</h1>
 		<div>Here is your button to open a modal</div>
 
-		<button class="mt-5 px-3 py-1 bg-cyan-500 text-white rounded font-semibold hover:bg-cyan-400">
+		<button
+			class={cn(
+				'mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400',
+				modal?.modal.isVisible && 'shadow-lg border-black/10'
+			)}
+		>
 			Open modal
-			<Modal class="p-2 text-sm max-w-[200px] text-balance border" placement="bottom-start">
+			<Modal
+				bind:this={modal}
+				class="p-2 text-sm max-w-[200px] text-balance border"
+				placement="bottom-start"
+			>
 				Modal is openned, and now no tooltip is shown !
 				<button class="bg-orange-500 mt-3 rounded font-semibold text-balance text-white">
 					And now with a modal inside !

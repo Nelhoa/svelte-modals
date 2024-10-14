@@ -3,16 +3,16 @@ import type { ModalRemote } from './modal-remote.svelte.js';
 import type { virtualAnchor } from '$lib/types/types.js';
 
 export function setAutoUpdate(
-	remote: ModalRemote,
-	modal: HTMLElement,
+	modal: ModalRemote,
+	element: HTMLElement,
 	anchor: HTMLElement | virtualAnchor
 ) {
-	if (!remote.autoUpdate) return;
-	if (remote.onMouse) return;
+	if (!modal.autoUpdate) return;
+	if (modal.onMouse) return;
 
 	function positionModal() {
-		remote.positionModal(anchor, modal);
+		modal.positionModal(anchor, element);
 	}
 
-	return autoUpdate(anchor, modal, positionModal);
+	return autoUpdate(anchor, element, positionModal);
 }

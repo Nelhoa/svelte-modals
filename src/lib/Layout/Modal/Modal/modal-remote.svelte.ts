@@ -13,6 +13,8 @@ import { wait } from '$lib/utils/wait.js';
 import type { Snippet } from 'svelte';
 import { initModalEscaper } from './open-modals.svelte.js';
 
+export type ModalComponent = { modal: ModalRemote } | undefined;
+
 export interface ModalProps {
 	children?: Snippet;
 	tooltip?: Snippet;
@@ -23,7 +25,7 @@ export interface ModalProps {
 	centered?: boolean;
 	noAutoUpdate?: boolean;
 	noCloseOnHide?: boolean;
-	noAnchorOpenOnClick?: boolean;
+	noOpenOnAnchorClick?: boolean;
 	noCloseOnOutsideClick?: boolean;
 	middleware?: Middleware[];
 	placement?: Placement;
@@ -34,11 +36,11 @@ export interface ModalProps {
 export class ModalRemote {
 	#p: ModalProps = $state()!;
 	parentModal?: ModalRemote;
-	onMouse = false;
-	parentElement?: HTMLElement = $state();
-	modalElement?: HTMLElement = $state();
+	onMouse = $state(false);
+	anchor?: HTMLElement = $state();
+	element?: HTMLElement = $state();
 	#isVisible = $state(false);
-	modalPosition = $state({ x: 0, y: 0 });
+	position = $state({ x: 0, y: 0 });
 	placement: Placement = $derived(this.#p.placement ?? 'bottom');
 	autoUpdate: boolean = $derived(!this.#p.noAutoUpdate);
 	closeOnHide: boolean = $derived(!this.#p.noCloseOnHide);
@@ -67,7 +69,7 @@ export class ModalRemote {
 		this.setAnchorState('closed');
 		this.onMouse = false;
 		this.#isVisible = false;
-		if (setting?.focusParent ?? true) this.focusParentElement();
+		if (setting?.focusParent ?? true) this.focusAnchor();
 	}
 
 	async deepClose(maxCloseNumber?: number) {
@@ -79,12 +81,12 @@ export class ModalRemote {
 		await this.parentModal?.deepClose(maxCloseNumber);
 	}
 
-	focusParentElement() {
-		this.parentElement?.focus();
+	focusAnchor() {
+		this.anchor?.focus();
 	}
 
 	private setAnchorState(state: 'open' | 'closed') {
-		this.parentElement?.setAttribute('data-state', state);
+		this.anchor?.setAttribute('data-state', state);
 	}
 
 	switch() {
@@ -104,8 +106,8 @@ export class ModalRemote {
 			placement: this.placement
 		}).then(({ x, y, middlewareData }) => {
 			const hide = middlewareData.hide;
-			this.modalPosition.x = x;
-			this.modalPosition.y = y;
+			this.position.x = x;
+			this.position.y = y;
 			if (hide?.referenceHidden && this.closeOnHide) this.close();
 		});
 	}

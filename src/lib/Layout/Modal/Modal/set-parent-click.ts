@@ -1,8 +1,7 @@
 import type { ModalRemote } from './modal-remote.svelte.js';
 import { on } from 'svelte/events';
 
-export function setParentClick(remote: ModalRemote) {
-	if (!remote.parentElement) return;
-	const cleanup = on(remote.parentElement, 'click', remote.switch.bind(remote));
-	return cleanup;
+export function setParentClick(modal: ModalRemote, parent: HTMLElement) {
+	const cleanup = on(parent, 'click', modal.switch.bind(modal));
+	return { destroy: cleanup };
 }

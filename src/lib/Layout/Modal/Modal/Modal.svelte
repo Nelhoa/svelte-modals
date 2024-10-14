@@ -3,7 +3,7 @@
 	import Portal from '../../Portal.svelte';
 	import { setParentClick } from './set-parent-click.js';
 	import { setContextClick } from './set-context-click.js';
-	import { onDestroy } from 'svelte';
+	import { untrack } from 'svelte';
 	import { setAutoUpdate } from './set-auto-update.js';
 	import { mouse } from '$lib/utils/mouse-position.svelte.js';
 	import { createVirtualAnchor } from '$lib/utils/create-virtual-anchor.js';
@@ -14,34 +14,27 @@
 	const parentModal = getModal();
 
 	let p: ModalProps = $props();
-	export const remote = createModal(p, parentModal);
+	export const modal = createModal(p, parentModal);
 
 	function onInitAnchorMount(element: HTMLElement) {
-		remote.parentElement = element.parentElement ?? undefined;
-
-		if (!p.noAnchorOpenOnClick) {
-			const removeParentClick = setParentClick(remote);
-			return {
-				destroy: () => {
-					removeParentClick?.();
-				}
-			};
-		}
+		modal.anchor = element.parentElement ?? undefined;
+		if (!modal.anchor) return;
+		if (p.noOpenOnAnchorClick) return;
+		return setParentClick(modal, modal.anchor);
 	}
 
 	function onModalMount(element: HTMLElement) {
-		const parentElement = remote.parentElement;
-		const anchor = remote.onMouse ? createVirtualAnchor(mouse.x, mouse.y) : parentElement;
+		const anchor = modal.onMouse ? createVirtualAnchor(mouse.x, mouse.y) : modal.anchor;
 		if (!anchor) return;
-		remote.positionModal(anchor, element);
-		modalsOpenned.add(remote);
-		const removeAutoUpdate = setAutoUpdate(remote, element, anchor);
+		modal.positionModal(anchor, element);
+		modalsOpenned.add(modal);
+		const removeAutoUpdate = setAutoUpdate(modal, element, anchor);
 		const removeContextClick = p.noCloseOnOutsideClick
 			? undefined
-			: setContextClick(remote, parentElement);
+			: setContextClick(modal, modal.anchor);
 		return {
 			destroy: async () => {
-				modalsOpenned.remove(remote);
+				modalsOpenned.remove(modal);
 				removeAutoUpdate?.();
 				removeContextClick?.();
 			}
@@ -49,14 +42,14 @@
 	}
 
 	function onCenteredModalMount(element: HTMLElement) {
-		const parentElement = remote.parentElement;
-		modalsOpenned.add(remote);
+		const parentElement = modal.anchor;
+		modalsOpenned.add(modal);
 		const removeContextClick = p.noCloseOnOutsideClick
 			? undefined
-			: setContextClick(remote, parentElement);
+			: setContextClick(modal, parentElement);
 		return {
 			destroy: async () => {
-				modalsOpenned.remove(remote);
+				modalsOpenned.remove(modal);
 				removeContextClick?.();
 			}
 		};
@@ -66,12 +59,16 @@
 		if (!p.lockBackground) return;
 		e.stopPropagation();
 		if (p.noCloseOnOutsideClick) return;
-		remote.close();
+		modal.close();
 	}
 
-	onDestroy(() => {
-		remote.close();
-		remote.modalElement?.remove();
+	$effect(() => {
+		return () => {
+			untrack(() => {
+				modal.close();
+				modal.element?.remove();
+			});
+		};
 	});
 </script>
 
@@ -79,7 +76,7 @@
 	<div class="hidden" use:onInitAnchorMount></div>
 {/if}
 
-{#if remote.isVisible && !p.centered}
+{#if modal.isVisible && !p.centered}
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<Portal>
 		<div
@@ -94,7 +91,7 @@
 
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div
-			bind:this={remote.modalElement}
+			bind:this={modal.element}
 			role="dialog"
 			id="modal"
 			use:onModalMount
@@ -103,14 +100,14 @@
 				'pointer-events-auto fixed top-0 z-modal w-max overflow-hidden rounded-lg bg-white text-black shadow-lg dark:bg-blueBank80 dark:text-white',
 				p.class
 			)}
-			style="top: {remote.modalPosition.y}px; left: {remote.modalPosition.x}px;"
+			style="top: {modal.position.y}px; left: {modal.position.x}px;"
 			onclick={(e) => e.stopPropagation()}
 			oncontextmenu={(e) => e.stopPropagation()}
 		>
 			{@render p.children?.()}
 		</div>
 	</Portal>
-{:else if remote.isVisible}
+{:else if modal.isVisible}
 	<Portal>
 		<div
 			onclick={backdropClick}
@@ -127,7 +124,7 @@
 			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 			<div
 				role="dialog"
-				bind:this={remote.modalElement}
+				bind:this={modal.element}
 				id="modal"
 				use:onCenteredModalMount
 				in:fly={{ y: 20, duration: 80 }}
@@ -135,8 +132,6 @@
 					'pointer-events-auto overflow-hidden rounded-lg bg-gradient-to-b from-white/[.45] to-white/[.58] text-black shadow-lg backdrop-blur-md backdrop-brightness-[1.13]  ',
 					p.class
 				)}
-				onclick={(e) => e.stopPropagation()}
-				oncontextmenu={(e) => e.stopPropagation()}
 			>
 				{@render p.children?.()}
 			</div>
@@ -144,6 +139,6 @@
 	</Portal>
 {/if}
 
-{#if !remote.isVisible}
+{#if !modal.isVisible}
 	{@render p.tooltip?.()}
 {/if}
