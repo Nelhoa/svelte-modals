@@ -48,14 +48,14 @@
 		};
 	}
 
-	function onInitDivMount(e: HTMLDivElement) {
+	function onInitAnchorMount(e: HTMLDivElement) {
 		if (!e.parentElement) return;
 		const cleanup = tooltip.initAnchorListeners(e.parentElement);
 		return cleanup;
 	}
 </script>
 
-<div class="hidden" use:onInitDivMount></div>
+<div class="hidden" use:onInitAnchorMount></div>
 
 {#if tooltip.isVisible}
 	<Portal>

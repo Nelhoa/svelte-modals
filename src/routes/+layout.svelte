@@ -4,4 +4,8 @@
 	let props: { children: Snippet } = $props();
 </script>
 
+<svelte:head>
+	<title>@nelhoa/svelte-modals</title>
+</svelte:head>
+
 {@render props.children()}

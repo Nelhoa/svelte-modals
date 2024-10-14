@@ -11,13 +11,13 @@ import type { virtualAnchor } from '$lib/types/types.js';
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import { wait } from '$lib/utils/wait.js';
 import type { Snippet } from 'svelte';
-import { initModalEscaper } from './escape-modals.svelte.js';
+import { initModalEscaper } from './open-modals.svelte.js';
 
 export interface ModalProps {
 	children?: Snippet;
 	tooltip?: Snippet;
 	backdropStyles?: string;
-	modalStyles?: string;
+	class?: string;
 	ModalOffset?: number;
 	ModalShift?: number;
 	centered?: boolean;
@@ -31,23 +31,14 @@ export interface ModalProps {
 	lockBackground?: boolean;
 }
 
-type focusStyle = Omit<HTMLElement['style'], 'length' | 'parentRule'>;
-export type OldFocusStyle = Partial<focusStyle>;
-export type ModalElement = ModalRemote | undefined;
-export type ModalCloseParams = Parameters<(typeof ModalRemote)['prototype']['close']>;
-
 export class ModalRemote {
 	#p: ModalProps = $state()!;
-	parentModal: ModalElement;
+	parentModal?: ModalRemote;
 	onMouse = false;
 	parentElement?: HTMLElement = $state();
-	contextElement?: HTMLElement = $state();
 	modalElement?: HTMLElement = $state();
-	isVisible = $state(false);
-	modalPosition = $state({
-		x: 0,
-		y: 0
-	});
+	#isVisible = $state(false);
+	modalPosition = $state({ x: 0, y: 0 });
 	placement: Placement = $derived(this.#p.placement ?? 'bottom');
 	autoUpdate: boolean = $derived(!this.#p.noAutoUpdate);
 	closeOnHide: boolean = $derived(!this.#p.noCloseOnHide);
@@ -57,13 +48,17 @@ export class ModalRemote {
 		this.#p.middleware ?? [offset(this.ModalOffset), flip(), shift({ padding: this.ModalShift })]
 	);
 
-	constructor(p: ModalProps, parentModal: ModalElement) {
+	get isVisible() {
+		return this.#isVisible;
+	}
+
+	constructor(p: ModalProps, parentModal?: ModalRemote) {
 		this.#p = p;
 		this.parentModal = parentModal;
 	}
 
 	open() {
-		this.isVisible = true;
+		this.#isVisible = true;
 		this.setAnchorState('open');
 	}
 
@@ -71,7 +66,7 @@ export class ModalRemote {
 		await wait(6); //Prevent click to propagate under modal
 		this.setAnchorState('closed');
 		this.onMouse = false;
-		this.isVisible = false;
+		this.#isVisible = false;
 		if (setting?.focusParent ?? true) this.focusParentElement();
 	}
 

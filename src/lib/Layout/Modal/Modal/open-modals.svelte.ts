@@ -24,7 +24,6 @@ let init = false;
 
 export function initModalEscaper() {
 	if (init) return;
-	console.log('init');
 	$effect.root(() => {
 		$effect(() => {
 			on(window, 'keydown', escapeModal);
