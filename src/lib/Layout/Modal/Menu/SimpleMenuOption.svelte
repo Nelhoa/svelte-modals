@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { cn } from '$lib/utils/cn';
 	import { getModalRemote } from '../SimpleModal/simple-modal-remote';
 
@@ -57,4 +57,4 @@
 		{/if}
 	</div>
 	<slot name="menu" />
-</button>
+</button> -->

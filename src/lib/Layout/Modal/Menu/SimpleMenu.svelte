@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import SimpleModal from '../SimpleModal/SimpleModal.svelte';
 	import Option from './SimpleMenuOption.svelte';
 	import Details from './SimpleMenuDetails.svelte';
@@ -51,4 +51,4 @@
 		<slot {Option} {Details} />
 	</button>
 	<slot slot="tooltip" name="tooltip" />
-</SimpleModal>
+</SimpleModal> -->
