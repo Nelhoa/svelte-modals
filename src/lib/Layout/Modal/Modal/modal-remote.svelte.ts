@@ -1,5 +1,12 @@
-import { get, writable } from 'svelte/store';
-import { computePosition, hide, type Middleware, type Placement } from '@floating-ui/dom';
+import {
+	computePosition,
+	flip,
+	hide,
+	offset,
+	shift,
+	type Middleware,
+	type Placement
+} from '@floating-ui/dom';
 import type { virtualAnchor } from '$lib/types/types.js';
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import { wait } from '$lib/utils/wait.js';
@@ -26,40 +33,37 @@ export interface ModalProps {
 
 type focusStyle = Omit<HTMLElement['style'], 'length' | 'parentRule'>;
 export type OldFocusStyle = Partial<focusStyle>;
-export type SimpleModalElement = ModalRemote | undefined;
+export type ModalElement = ModalRemote | undefined;
 export type ModalCloseParams = Parameters<(typeof ModalRemote)['prototype']['close']>;
-export class ModalRemote {
-	parentModal: SimpleModalElement;
-	autoUpdate: boolean;
-	closeOnHide: boolean;
-	onMouse = false;
-	parentElement = writable<HTMLElement | undefined>();
-	contextElement = writable<HTMLElement | undefined>();
-	modalElement = writable<HTMLElement | undefined>();
-	isVisible = writable<boolean>(false);
-	modalPosition = {
-		x: writable<number>(0),
-		y: writable<number>(0)
-	};
-	middleware: Middleware[];
-	placement: Placement;
 
-	constructor(
-		middleware: Middleware[],
-		placement: Placement,
-		autoUpdate: boolean,
-		closeOnHide: boolean,
-		parentModal: SimpleModalElement
-	) {
-		this.middleware = middleware;
-		this.placement = placement;
-		this.autoUpdate = autoUpdate;
-		this.closeOnHide = closeOnHide;
+export class ModalRemote {
+	#p: ModalProps = $state()!;
+	parentModal: ModalElement;
+	onMouse = false;
+	parentElement?: HTMLElement = $state();
+	contextElement?: HTMLElement = $state();
+	modalElement?: HTMLElement = $state();
+	isVisible = $state(false);
+	modalPosition = $state({
+		x: 0,
+		y: 0
+	});
+	placement: Placement = $derived(this.#p.placement ?? 'bottom');
+	autoUpdate: boolean = $derived(!this.#p.noAutoUpdate);
+	closeOnHide: boolean = $derived(!this.#p.noCloseOnHide);
+	ModalOffset: number = $derived(this.#p.ModalOffset ?? 10);
+	ModalShift: number = $derived(this.#p.ModalShift ?? 24);
+	middleware: Middleware[] = $derived(
+		this.#p.middleware ?? [offset(this.ModalOffset), flip(), shift({ padding: this.ModalShift })]
+	);
+
+	constructor(p: ModalProps, parentModal: ModalElement) {
+		this.#p = p;
 		this.parentModal = parentModal;
 	}
 
 	open() {
-		this.isVisible.set(true);
+		this.isVisible = true;
 		this.setAnchorState('open');
 	}
 
@@ -67,7 +71,7 @@ export class ModalRemote {
 		await wait(6); //Prevent click to propagate under modal
 		this.setAnchorState('closed');
 		this.onMouse = false;
-		this.isVisible.set(false);
+		this.isVisible = false;
 		if (setting?.focusParent ?? true) this.focusParentElement();
 	}
 
@@ -81,17 +85,15 @@ export class ModalRemote {
 	}
 
 	focusParentElement() {
-		const parent = get(this.parentElement);
-		parent?.focus();
+		this.parentElement?.focus();
 	}
 
 	private setAnchorState(state: 'open' | 'closed') {
-		const parent = get(this.parentElement);
-		parent?.setAttribute('data-state', state);
+		this.parentElement?.setAttribute('data-state', state);
 	}
 
 	switch() {
-		get(this.isVisible) ? this.close() : this.open();
+		this.isVisible ? this.close() : this.open();
 	}
 
 	async openOnMouse() {
@@ -107,8 +109,8 @@ export class ModalRemote {
 			placement: this.placement
 		}).then(({ x, y, middlewareData }) => {
 			const hide = middlewareData.hide;
-			this.modalPosition.x.set(x);
-			this.modalPosition.y.set(y);
+			this.modalPosition.x = x;
+			this.modalPosition.y = y;
 			if (hide?.referenceHidden && this.closeOnHide) this.close();
 		});
 	}

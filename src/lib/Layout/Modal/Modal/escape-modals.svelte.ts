@@ -7,11 +7,11 @@ function escapeModal(event: KeyboardEvent) {
 	if (event.key === 'Escape') closeFirstModal();
 }
 
-export function addToModalOpenned(remote: ModalRemote) {
+function addToModalOpenned(remote: ModalRemote) {
 	ModalOpened = [remote, ...ModalOpened];
 }
 
-export function removeFromModalOpenned(remote: ModalRemote) {
+function removeFromModalOpenned(remote: ModalRemote) {
 	ModalOpened = ModalOpened.filter((i) => i !== remote);
 }
 
@@ -32,3 +32,8 @@ export function initModalEscaper() {
 	});
 	init = true;
 }
+
+export const modalsOpenned = {
+	add: addToModalOpenned,
+	remove: removeFromModalOpenned
+};

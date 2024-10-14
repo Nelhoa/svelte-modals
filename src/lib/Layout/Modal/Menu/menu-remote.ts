@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store';
 import { getContext, setContext } from 'svelte';
-import type { SimpleModalElement } from '../Modal/modal-remote.svelte.js';
+import type { ModalElement } from '../Modal/modal-remote.svelte.js';
 import type { createVirtualAnchor } from '$lib/utils/create-virtual-anchor.js';
 
 const MENU_CONTEXT = 'menu-remote';
@@ -10,7 +10,7 @@ export type virtualAnchor = ReturnType<typeof createVirtualAnchor>;
 
 export class SimpleMenuRemote {
 	MenuElement = writable<HTMLElement>();
-	Modal = writable<SimpleModalElement>();
+	Modal = writable<ModalElement>();
 
 	focusFirstOption() {
 		const options = this.getOptions();

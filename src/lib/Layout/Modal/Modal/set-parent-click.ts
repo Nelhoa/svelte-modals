@@ -1,13 +1,13 @@
-import { get } from 'svelte/store';
 import type { ModalRemote } from './modal-remote.svelte.js';
+import { on } from 'svelte/events';
 
 export function setParentClick(remote: ModalRemote) {
 	function openMenu() {
 		remote.switch();
 	}
 
-	const parentElement = get(remote.parentElement);
-	parentElement?.addEventListener('click', openMenu);
+	if (!remote.parentElement) return;
+	const cleanup = on(remote.parentElement, 'click', openMenu);
 
-	return () => parentElement?.removeEventListener('click', openMenu);
+	return cleanup;
 }
