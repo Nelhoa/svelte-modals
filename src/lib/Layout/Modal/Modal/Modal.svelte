@@ -16,14 +16,15 @@
 	const parentModal = getModal();
 
 	let p: ModalProps = $props();
-	const middleware: Middleware[] = $derived(
-		p.middleware ?? [offset(p.ModalOffset), flip(), shift({ padding: p.ModalShift })]
-	);
+
 	const placement: Placement = $derived(p.placement ?? 'bottom');
 	const autoUpdate: boolean = $derived(!p.noAutoUpdate);
 	const closeOnHide: boolean = $derived(!p.noCloseOnHide);
 	const ModalOffset: number = $derived(p.ModalOffset ?? 10);
 	const ModalShift: number = $derived(p.ModalShift ?? 24);
+	const middleware: Middleware[] = $derived(
+		p.middleware ?? [offset(ModalOffset), flip(), shift({ padding: ModalShift })]
+	);
 
 	// svelte-ignore state_referenced_locally
 	export const remote = createModal(middleware, placement, autoUpdate, closeOnHide, parentModal);
