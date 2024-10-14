@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store';
 import { getContext, setContext } from 'svelte';
-import type { SimpleModalElement } from '../SimpleModal/simple-modal-remote.js';
+import type { SimpleModalElement } from '../Modal/modal-remote.svelte.js';
 import type { createVirtualAnchor } from '$lib/utils/create-virtual-anchor.js';
 
 const MENU_CONTEXT = 'menu-remote';

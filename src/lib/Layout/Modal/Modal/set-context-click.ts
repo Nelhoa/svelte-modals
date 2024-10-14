@@ -1,7 +1,7 @@
-import type { SimpleModalRemote } from './simple-modal-remote.js';
-import { wait } from '$lib/utils/Public/wait';
+import { wait } from '$lib/utils/wait.js';
+import type { ModalRemote } from './modal-remote.svelte.js';
 
-export function setContextClick(remote: SimpleModalRemote, anchor?: HTMLElement) {
+export function setContextClick(remote: ModalRemote, anchor?: HTMLElement) {
 	const parentModal = anchor?.closest('#modal') as HTMLElement | null | undefined;
 	function close(event: Event) {
 		remote.close({ focusParent: false, event });

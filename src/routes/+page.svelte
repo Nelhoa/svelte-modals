@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Modal from '$lib/Layout/Modal/Modal/Modal.svelte';
 	import type { TooltipRemote } from '$lib/Layout/Modal/Tooltip/tooltip-remote.svelte.js';
 	import Tooltip from '$lib/Layout/Modal/Tooltip/Tooltip.svelte';
 	let remote: { tooltip: TooltipRemote } = $state()!;
@@ -12,14 +13,19 @@
 
 		<button class="mt-5 px-3 py-1 bg-cyan-500 text-white rounded font-semibold hover:bg-cyan-400">
 			Open modal
-			<Tooltip
-				bind:this={remote}
-				class="p-2 text-sm"
-				enableOnMobile
-				placement={'bottom'}
-				tweenDuration={200}
-				modalOffset={5}>Open the modal please !</Tooltip
-			>
+			<Modal>
+				Vive le vent d’hiver
+				{#snippet tooltip()}
+					<Tooltip
+						bind:this={remote}
+						class="p-2 text-sm"
+						enableOnMobile
+						placement={'bottom'}
+						tweenDuration={200}
+						modalOffset={5}>Open the modal please !</Tooltip
+					>
+				{/snippet}
+			</Modal>
 		</button>
 	</div>
 </div>

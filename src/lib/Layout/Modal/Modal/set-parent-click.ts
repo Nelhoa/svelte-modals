@@ -1,7 +1,7 @@
 import { get } from 'svelte/store';
-import type { SimpleModalRemote } from './simple-modal-remote.js';
+import type { ModalRemote } from './modal-remote.svelte.js';
 
-export function setParentClick(remote: SimpleModalRemote) {
+export function setParentClick(remote: ModalRemote) {
 	function openMenu() {
 		remote.switch();
 	}

@@ -28,11 +28,5 @@ export function newRemote<T, A extends any[]>(context: string, classType: new (.
 		return remote as T | undefined;
 	}
 
-	function getOptionnal() {
-		const remote = getContext(context);
-		if (!remote) return;
-		return remote as T;
-	}
-
-	return { create, get, getOptional: getOptionnal, createOrReset };
+	return { create, get, createOrReset };
 }

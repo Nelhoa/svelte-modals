@@ -1,16 +1,34 @@
 import { get, writable } from 'svelte/store';
 import { computePosition, hide, type Middleware, type Placement } from '@floating-ui/dom';
-import { createVirtualAnchor } from '$lib/components/App-Dashboard/SpansTable/Chart-Main/chart-util-stores';
-import { wait } from '$lib/utils/Public/wait';
-import _ from 'lodash';
-import { newRemote } from '$lib/utils/component-remote-wrapper';
+import type { virtualAnchor } from '$lib/types/types.js';
+import { newRemote } from '$lib/utils/component-remote-wrapper.js';
+import { wait } from '$lib/utils/wait.js';
+import type { Snippet } from 'svelte';
+import { initModalEscaper } from './escape-modals.svelte.js';
+
+export interface ModalProps {
+	children?: Snippet;
+	tooltip?: Snippet;
+	backdropStyles?: string;
+	modalStyles?: string;
+	ModalOffset?: number;
+	ModalShift?: number;
+	centered?: boolean;
+	noAutoUpdate?: boolean;
+	noCloseOnHide?: boolean;
+	noAnchorOpenOnClick?: boolean;
+	noCloseOnOutsideClick?: boolean;
+	middleware?: Middleware[];
+	placement?: Placement;
+	noAnchor?: boolean;
+	lockBackground?: boolean;
+}
 
 type focusStyle = Omit<HTMLElement['style'], 'length' | 'parentRule'>;
 export type OldFocusStyle = Partial<focusStyle>;
-export type SimpleModalElement = SimpleModalRemote | undefined;
-export type virtualAnchor = ReturnType<typeof createVirtualAnchor>;
-export type ModalCloseParams = Parameters<(typeof SimpleModalRemote)['prototype']['close']>;
-export class SimpleModalRemote {
+export type SimpleModalElement = ModalRemote | undefined;
+export type ModalCloseParams = Parameters<(typeof ModalRemote)['prototype']['close']>;
+export class ModalRemote {
 	parentModal: SimpleModalElement;
 	autoUpdate: boolean;
 	closeOnHide: boolean;
@@ -96,13 +114,13 @@ export class SimpleModalRemote {
 	}
 }
 
-export const {
-	create: createModalRemote,
-	get: getModalRemote,
-	getOptional: getOptionalModalRemote
-} = newRemote('Modal', SimpleModalRemote);
+const remote = newRemote('Modal', ModalRemote);
+export const createModal = remote.create;
+export const getModal = remote.get;
+
+initModalEscaper();
 
 export async function closeModal() {
-	const modal = getOptionalModalRemote();
+	const modal = getModal();
 	await modal?.close();
 }

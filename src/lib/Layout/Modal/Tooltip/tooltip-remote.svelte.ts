@@ -46,10 +46,7 @@ export class TooltipRemote {
 			on(anchor, 'mouseleave', this.#onAnchorMouseLeave.bind(this))
 		];
 		return {
-			destroy: () => {
-				destroys.forEach((i) => i());
-				console.log('clean');
-			}
+			destroy: () => destroys.forEach((i) => i())
 		};
 	}
 
@@ -77,4 +74,6 @@ export class TooltipRemote {
 	}
 }
 
-export const { create: createTooltip, get: getTooltip } = newRemote('tooltip', TooltipRemote);
+const remote = newRemote('tooltip', TooltipRemote);
+export const createTooltip = remote.create;
+export const getTooltip = remote.get;

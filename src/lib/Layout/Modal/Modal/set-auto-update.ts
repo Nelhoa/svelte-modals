@@ -1,8 +1,9 @@
 import { autoUpdate } from '@floating-ui/dom';
-import type { SimpleModalRemote, virtualAnchor } from './simple-modal-remote.js';
+import type { ModalRemote } from './modal-remote.svelte.js';
+import type { virtualAnchor } from '$lib/types/types.js';
 
 export function setAutoUpdate(
-	remote: SimpleModalRemote,
+	remote: ModalRemote,
 	modal: HTMLElement,
 	anchor: HTMLElement | virtualAnchor
 ) {
