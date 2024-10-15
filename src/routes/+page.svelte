@@ -1,12 +1,10 @@
 <script lang="ts">
-	import type { ModalComponent } from '$lib/Components/Modal/modal-remote.svelte.js';
 	import Modal from '$lib/Components/Modal/Modal.svelte';
 	import type { TooltipRemote } from '$lib/Components/Tooltip/tooltip-remote.svelte.js';
 	import Tooltip from '$lib/Components/Tooltip/Tooltip.svelte';
 	import { cn } from '$lib/utils/cn.js';
 
 	let remote: { tooltip: TooltipRemote } = $state()!;
-	let modal: ModalComponent = $state();
 
 	const propertiesTable: { title: string; description: string }[] = [
 		{
@@ -85,25 +83,44 @@
 </script>
 
 <div class="bg-gray-100 min-h-screen pt-10 py-10">
-	<div class="bg-white w-[90%] max-w-[1000px] mx-auto p-5 rounded">
+	<div class="bg-white w-[90%] max-w-[1000px] mx-auto p-5 rounded text-balance">
 		<h1 class="text-[20px] font-semibold">Welcome to @nelhoa/svelte-modals</h1>
+		<a
+			class="underline text-cyan-500 font-semibold pr-3"
+			href="https://www.npmjs.com/package/@nelhoa/svelte-modals">NPM</a
+		>
+		<a
+			class="underline text-cyan-500 font-semibold pr-3"
+			href="https://github.com/Nelhoa/svelte-modals">Github</a
+		>
 		<div class="my-3">
 			<div class="rounded bg-blue-100 py-1 px-3 inline">npm install @nelhoa/svelte-modals</div>
 		</div>
 		<div>Here is your button to open a modal</div>
+		<div class="mt-3">
+			Just put the {'<Modal></Modal> element'} inside your button and it will get that your button or
+			any other direct HTMLElement parent is the anchor. If your don’t need an anchor, set noAnchor on
+			the modal.
+		</div>
+		<div class="mt-3">
+			You can style how the anchor looks when modal is closed or openned with Tailwindcss and
+			classic CSS using data-state=open or data-state=close. For example with tailwindcss:
+			data-[state=open]:shadow-lg put a shadow on the button when the modal is open.
+		</div>
+		<div class="mt-3">
+			You can add callback functions that take the modal remote as a parameter on the modal if your
+			want side effects when the modal opens or close. For exemple, you can use it for shallow
+			routing with sveltekit.
+		</div>
+		<div class="mt-3">
+			The {'<Tooltip> </Tooltip> element act approximatly the same. If you want a Modal and a tooltip on the same anchor, put the Tooltip component in the tooltip snippet of your modal so the tooltip will only shows when the modal is closed.'}
+		</div>
 
 		<button
-			class={cn(
-				'mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400',
-				modal?.modal.isVisible && 'shadow-lg border-black/10'
-			)}
+			class="mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400 data-[state=open]:shadow-lg data-[state=open]:border-cyan-600"
 		>
 			Open modal
-			<Modal
-				bind:this={modal}
-				class="p-2 text-sm max-w-[200px] text-balance border"
-				placement="bottom-start"
-			>
+			<Modal class="p-2 text-sm max-w-[200px] text-balance border" placement="bottom-start">
 				Modal is openned, and now no tooltip is shown !
 				<button class="bg-orange-500 mt-3 rounded font-semibold text-balance text-white">
 					And now with a modal inside !
@@ -128,9 +145,7 @@
 		</button>
 		<div class="mt-5">You can have a button that open a centered modal</div>
 		<button
-			class={cn(
-				'mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400'
-			)}
+			class="mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400 data-[state=open]:bg-cyan-600"
 		>
 			Open centered modal
 			<Modal
