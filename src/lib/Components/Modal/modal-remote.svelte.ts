@@ -110,8 +110,10 @@ export class ModalRemote {
 			placement: this.placement
 		}).then(({ x, y, middlewareData }) => {
 			const hide = middlewareData.hide;
-			this.position.x = x;
-			this.position.y = y;
+			const scrollX = window.scrollX;
+			const scrollY = window.scrollY;
+			this.position.x = x - scrollX;
+			this.position.y = y - scrollY;
 			if (hide?.referenceHidden && this.closeOnHide) this.close();
 		});
 	}

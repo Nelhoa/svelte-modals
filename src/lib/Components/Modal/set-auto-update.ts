@@ -14,5 +14,5 @@ export function setAutoUpdate(
 		modal.positionModal(anchor, element);
 	}
 
-	return autoUpdate(anchor, element, positionModal);
+	return autoUpdate(anchor, element, positionModal, { ancestorScroll: true });
 }

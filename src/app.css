@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --scroll-bar-size: 7px;
+    --scroll-bar-color: rgba(0, 0, 0, 0);
+    --scroll-bar-color-hover: rgba(0, 0, 0, 0.1);
+    --scroll-bar-border-radius: 20px;
+}
+
+@layer base {
+    /* width of the entire scrollbar */
+    *::-webkit-scrollbar {
+        width: var(--scroll-bar-size);
+        height: var(--scroll-bar-size);
+    }
+    
+    /* color of the tracking area */
+    *::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0)
+    }
+    
+    *::-webkit-scrollbar-thumb {
+        background-color: var(--scroll-bar-color);
+        border-radius: var(--scroll-bar-border-radius)
+    }
+    
+    *:hover::-webkit-scrollbar-thumb {
+        background-color: var(--scroll-bar-color-hover);
+        border-radius: var(--scroll-bar-border-radius);
+    }
+}
