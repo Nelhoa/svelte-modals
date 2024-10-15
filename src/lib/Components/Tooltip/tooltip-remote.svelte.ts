@@ -1,7 +1,7 @@
 import type { SvelteTransition } from '$lib/types/types.js';
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import { isPhone } from '$lib/utils/const.js';
-import type { Middleware, Placement } from '@floating-ui/dom';
+import { flip, offset, shift, type Middleware, type Placement } from '@floating-ui/dom';
 import { Store } from 'runed';
 import type { Snippet } from 'svelte';
 import { on } from 'svelte/events';
@@ -30,6 +30,10 @@ export class TooltipRemote {
 	#y = tweened(0, { duration: 0 });
 	x = new Store(this.#x);
 	y = new Store(this.#y);
+	placement = $derived(this.#props.placement ?? 'bottom');
+	middleware = $derived(
+		this.#props.middleware ?? [offset(this.#props.modalOffset), flip(), shift({ padding: 24 })]
+	);
 
 	get isVisible() {
 		return this.#isVisible;

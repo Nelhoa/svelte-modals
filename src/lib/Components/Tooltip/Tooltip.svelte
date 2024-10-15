@@ -25,11 +25,13 @@
 
 	function positionFunction(anchor: HTMLElement | virtualAnchor, element: HTMLElement) {
 		computePosition(anchor, element, {
-			placement: p.placement ?? 'bottom',
-			middleware: p.middleware ?? [offset(p.modalOffset), flip(), shift({ padding: 24 })]
+			placement: tooltip.placement,
+			middleware: tooltip.middleware
 		}).then(({ x, y }) => {
 			const duration = firstPositionned ? (p.tweenDuration ?? 0) : 0;
-			tooltip.setPosition({ x, y }, { duration });
+			const scrollX = window.scrollX;
+			const scrollY = window.scrollY;
+			tooltip.setPosition({ x: x - scrollX, y: y - scrollY }, { duration });
 			firstPositionned = true;
 		});
 	}
