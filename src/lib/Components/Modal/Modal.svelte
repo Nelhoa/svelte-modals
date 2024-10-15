@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
-	import Portal from '../../Portal.svelte';
+	import Portal from '$lib/Components/Portal.svelte';
 	import { setParentClick } from './set-parent-click.js';
 	import { setContextClick } from './set-context-click.js';
 	import { untrack } from 'svelte';

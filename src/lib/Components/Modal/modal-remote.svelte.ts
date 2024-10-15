@@ -16,21 +16,23 @@ import { initModalEscaper } from './open-modals.svelte.js';
 export type ModalComponent = { modal: ModalRemote } | undefined;
 
 export interface ModalProps {
-	children?: Snippet;
-	tooltip?: Snippet;
-	backdropStyles?: string;
-	class?: string;
-	ModalOffset?: number;
-	ModalShift?: number;
-	centered?: boolean;
-	noAutoUpdate?: boolean;
-	noCloseOnHide?: boolean;
-	noOpenOnAnchorClick?: boolean;
-	noCloseOnOutsideClick?: boolean;
-	middleware?: Middleware[];
-	placement?: Placement;
-	noAnchor?: boolean;
-	lockBackground?: boolean;
+	// if you want to open modal on mouse, use bind:this with the ModalComponent type, inside the remote is a function called openOnMouse dedicated to it.
+	children?: Snippet; // default snippet
+	tooltip?: Snippet; // snippet for the tooltip, so it appears only when modal is closed
+	backdropStyles?: string; // styles of the backdrop
+	class?: string; // styles of the modal
+	ModalOffset?: number; // offset px of the modal from anchor
+	ModalShift?: number; // shift px of the modal from borders of window
+	centered?: boolean; // boolean : is the modal centered or not
+	noAutoUpdate?: boolean; // boolean : remove auto update
+	noCloseOnHide?: boolean; // boolean : remove close on anchor hide
+	noOpenOnAnchorClick?: boolean; // boolean : remove open on anchor click
+	noCloseOnOutsideClick?: boolean; // boolean : remove close when clicking outside the modal, inside it, use « getModal » context function to retrieve modal your'in and make your own button to close it
+	middleware?: Middleware[]; // array of floatingui/dom middleware
+	placement?: Placement; // enums of floatingui/dom placement from anchor or mouse position
+	noAnchor?: boolean; // boolean : remove everthing that depends on the anchor
+	lockBackground?: boolean; // boolean : mouse event wont spread below the backdrop
+	callbacks?: { show: (modal: ModalRemote) => any; hide: (modal: ModalRemote) => any }; // show and hide callbacks
 }
 
 export class ModalRemote {
@@ -60,12 +62,14 @@ export class ModalRemote {
 	}
 
 	open() {
+		this.#p.callbacks?.show(this);
 		this.#isVisible = true;
 		this.setAnchorState('open');
 	}
 
 	async close(setting?: { focusParent?: boolean; event?: Event }) {
 		await wait(6); //Prevent click to propagate under modal
+		this.#p.callbacks?.hide(this);
 		this.setAnchorState('closed');
 		this.onMouse = false;
 		this.#isVisible = false;
@@ -94,7 +98,7 @@ export class ModalRemote {
 	}
 
 	async openOnMouse() {
-		this.close();
+		if (this.isVisible) this.close();
 		await wait(15);
 		this.onMouse = true;
 		this.open();

@@ -1,6 +1,6 @@
-// Reexport your entry components here
-import Tooltip from './Layout/Modal/Tooltip/Tooltip.svelte';
-import Modal from './Layout/Modal/Modal/Modal.svelte';
-import Portal from './Layout/Portal.svelte';
+import Tooltip from './Components/Tooltip/Tooltip.svelte';
+import Modal from './Components/Modal/Modal.svelte';
+import Portal from './Components/Portal.svelte';
+import { type ModalComponent } from './Components/Modal/modal-remote.svelte.js';
 
-export { Tooltip, Modal, Portal };
+export { Tooltip, Modal, Portal, type ModalComponent };

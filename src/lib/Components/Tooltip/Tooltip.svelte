@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fly, type TransitionConfig } from 'svelte/transition';
 	import { computePosition, offset, shift, autoUpdate, flip } from '@floating-ui/dom';
-	import Portal from '$lib/Layout/Portal.svelte';
+	import Portal from '$lib/Components/Portal.svelte';
 	import { cn } from '$lib/utils/cn.js';
 	import { createVirtualAnchor } from '$lib/utils/create-virtual-anchor.js';
 	import type { SvelteTransition, virtualAnchor } from '$lib/types/types.js';
