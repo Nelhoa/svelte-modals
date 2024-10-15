@@ -104,8 +104,8 @@
 		</div>
 		<div class="mt-3">
 			You can style how the anchor looks when modal is closed or openned with Tailwindcss and
-			classic CSS using data-state=open or data-state=close. For example with tailwindcss:
-			data-[state=open]:shadow-lg put a shadow on the button when the modal is open.
+			classic CSS using data-modal=open or data-modal=close. For example with tailwindcss:
+			data-[modal=open]:shadow-lg put a shadow on the button when the modal is open.
 		</div>
 		<div class="mt-3">
 			You can add callback functions that take the modal remote as a parameter on the modal if your
@@ -117,7 +117,7 @@
 		</div>
 
 		<button
-			class="mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400 data-[state=open]:shadow-lg data-[state=open]:border-cyan-600"
+			class="mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400 data-[modal=open]:shadow-lg data-[modal=open]:border-cyan-600"
 		>
 			Open modal
 			<Modal class="p-2 text-sm max-w-[200px] text-balance border" placement="bottom-start">
@@ -145,7 +145,7 @@
 		</button>
 		<div class="mt-5">You can have a button that open a centered modal</div>
 		<button
-			class="mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400 data-[state=open]:bg-cyan-600"
+			class="mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400 data-[modal=open]:bg-cyan-600"
 		>
 			Open centered modal
 			<Modal

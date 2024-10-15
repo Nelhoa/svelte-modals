@@ -14,6 +14,7 @@ import type { Snippet } from 'svelte';
 import { initModalEscaper } from './open-modals.svelte.js';
 
 export type ModalComponent = { modal: ModalRemote } | undefined;
+const MODAL_ATTRIBUTE = 'data-modal';
 
 export interface ModalProps {
 	// if you want to open modal on mouse, use bind:this with the ModalComponent type, inside the remote is a function called openOnMouse dedicated to it.
@@ -90,7 +91,7 @@ export class ModalRemote {
 	}
 
 	private setAnchorState(state: 'open' | 'closed') {
-		this.anchor?.setAttribute('data-state', state);
+		this.anchor?.setAttribute(MODAL_ATTRIBUTE, state);
 	}
 
 	switch() {
