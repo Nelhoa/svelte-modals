@@ -1,7 +1,12 @@
 {
 	"name": "@nelhoa/svelte-modals",
-	"version": "1.0.12",
+	"version": "1.0.13",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Nelhoa/svelte-modals"
+	  },
+	  "author": "Nelhoa",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
