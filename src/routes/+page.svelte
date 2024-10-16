@@ -78,8 +78,14 @@
 		{
 			title: 'callbacks',
 			description: 'Callback functions for showing and hiding the modal (`show` and `hide`).'
+		},
+		{
+			title: 'stopScrollElements',
+			description: `an optionnal callback with the modal as parameter that returns (HTMLElement | undefined | null)[]. Make it returns any element you want to stop scroll on when modal opens`
 		}
 	];
+
+	let stopScroll = $state(false);
 </script>
 
 <div class="bg-gray-100 min-h-screen pt-10 py-10">
@@ -150,6 +156,7 @@
 			Open centered modal
 			<Modal
 				class="p-2 text-sm max-w-[500px] w-[50vw] text-balance border min-h-[30vh] flex items-center justify-center flex-col"
+				stopScrollElements={() => [document.body]}
 				centered
 				lockBackground
 				backdropStyles="bg-black/10"
@@ -183,17 +190,38 @@
 		</button>
 
 		<div
-			class="bg-blue-50 overflow-y-scroll h-[200px] rounded mt-5"
+			class="bg-blue-50 overflow-y-scroll h-[300px] rounded mt-5 stopScroll"
 			style="--scroll-bar-color: rgba(34, 211, 238, 0); --scroll-bar-color-hover: rgba(34, 211, 238, 0.5)"
 		>
-			<div class="h-[500px] flex justify-center p-10 items-start">
+			<div
+				class="h-[700px] flex justify-start gap-2 p-10 items-center flex-col text-center text-balance"
+			>
+				<div class="flex items-center justify-center gap-3">
+					<input type="checkbox" bind:checked={stopScroll} />
+					<div>Disable background scroll when modal is open</div>
+				</div>
+				<div class="text-black/60">
+					This uses property stopScrollElements. stopScrollElements requires a callback function
+					with the modal itself as a parameter (optional), and return an array of (HTMLElement,
+					undefined, null)[].
+				</div>
+				<div class="text-black/60">
+					In this exemple, we put a « stopScroll » class the scrollable div containing the anchor.
+					And stopScrollElements is (m: modalRemote) {'=>'} [m?.anchor?.closest('.stopScroll'), document.body]
+				</div>
 				<button
 					class={cn(
 						'mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400'
 					)}
 				>
 					Test the scrolling modal
-					<Modal class="p-5">It scrolls youhou !</Modal>
+					<Modal
+						stopScrollElements={(m) =>
+							stopScroll ? [m?.anchor?.closest('.stopScroll'), document.body] : []}
+						class="p-5 h-[100px] overflow-auto"
+					>
+						<div class="h-[200px]">It scrolls youhou !</div></Modal
+					>
 				</button>
 			</div>
 		</div>

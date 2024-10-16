@@ -10,6 +10,7 @@
 	import { cn } from '$lib/utils/cn.js';
 	import { createModal, getModal, type ModalProps } from './modal-remote.svelte.js';
 	import { modalsOpenned } from './open-modals.svelte.js';
+	import { ScrollManager } from './scroll-manager.js';
 
 	const parentModal = getModal();
 
@@ -28,12 +29,15 @@
 		if (!anchor) return;
 		modal.positionModal(anchor, element);
 		modalsOpenned.add(modal);
+		const scroll = new ScrollManager();
+		scroll.stop(...modal.stopScrollElements);
 		const removeAutoUpdate = setAutoUpdate(modal, element, anchor);
 		const removeContextClick = p.noCloseOnOutsideClick
 			? undefined
 			: setContextClick(modal, modal.anchor);
 		return {
 			destroy: async () => {
+				scroll.resume?.();
 				modalsOpenned.remove(modal);
 				removeAutoUpdate?.();
 				removeContextClick?.();
@@ -44,11 +48,14 @@
 	function onCenteredModalMount(element: HTMLElement) {
 		const parentElement = modal.anchor;
 		modalsOpenned.add(modal);
+		const scroll = new ScrollManager();
+		scroll.stop(...modal.stopScrollElements);
 		const removeContextClick = p.noCloseOnOutsideClick
 			? undefined
 			: setContextClick(modal, parentElement);
 		return {
 			destroy: async () => {
+				scroll.resume?.();
 				modalsOpenned.remove(modal);
 				removeContextClick?.();
 			}

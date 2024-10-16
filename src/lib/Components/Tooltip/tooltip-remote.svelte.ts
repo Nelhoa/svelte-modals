@@ -10,6 +10,7 @@ import { tweened, type TweenedOptions } from 'svelte/motion';
 export interface TooltipProps {
 	children?: Snippet;
 	modalOffset?: number;
+	ModalShift?: number;
 	middleware?: Middleware[];
 	placement?: Placement;
 	tweenDuration?: number;
@@ -22,7 +23,7 @@ export interface TooltipProps {
 }
 
 export class TooltipRemote {
-	#props: TooltipProps = $state()!;
+	#p: TooltipProps = $state()!;
 	anchor: HTMLElement | undefined | null = $state();
 	element: HTMLElement | undefined | null = $state();
 	#isVisible = $state(false);
@@ -30,9 +31,13 @@ export class TooltipRemote {
 	#y = tweened(0, { duration: 0 });
 	x = new Store(this.#x);
 	y = new Store(this.#y);
-	placement = $derived(this.#props.placement ?? 'bottom');
+	placement = $derived(this.#p.placement ?? 'bottom');
 	middleware = $derived(
-		this.#props.middleware ?? [offset(this.#props.modalOffset), flip(), shift({ padding: 24 })]
+		this.#p.middleware ?? [
+			offset(this.#p.modalOffset ?? 10),
+			flip(),
+			shift({ padding: this.#p.ModalShift ?? 24 })
+		]
 	);
 
 	get isVisible() {
@@ -40,7 +45,7 @@ export class TooltipRemote {
 	}
 
 	constructor(props: TooltipProps) {
-		this.#props = props;
+		this.#p = props;
 	}
 
 	initAnchorListeners(anchor: HTMLElement) {
@@ -60,8 +65,8 @@ export class TooltipRemote {
 	}
 
 	show() {
-		if (this.#props.disabled) return;
-		if (isPhone() && !this.#props.enableOnMobile) return;
+		if (this.#p.disabled) return;
+		if (isPhone() && !this.#p.enableOnMobile) return;
 		this.#isVisible = true;
 	}
 

@@ -33,7 +33,8 @@ export interface ModalProps {
 	placement?: Placement; // enums of floatingui/dom placement from anchor or mouse position
 	noAnchor?: boolean; // boolean : remove everthing that depends on the anchor
 	lockBackground?: boolean; // boolean : mouse event wont spread below the backdrop
-	callbacks?: { show: (modal: ModalRemote) => any; hide: (modal: ModalRemote) => any }; // show and hide callbacks
+	stopScrollElements?: (modal: ModalRemote) => (HTMLElement | undefined | null)[];
+	callbacks?: { show?: (modal: ModalRemote) => any; hide?: (modal: ModalRemote) => any }; // show and hide callbacks
 }
 
 export class ModalRemote {
@@ -47,11 +48,17 @@ export class ModalRemote {
 	placement: Placement = $derived(this.#p.placement ?? 'bottom');
 	autoUpdate: boolean = $derived(!this.#p.noAutoUpdate);
 	closeOnHide: boolean = $derived(!this.#p.noCloseOnHide);
-	ModalOffset: number = $derived(this.#p.ModalOffset ?? 10);
-	ModalShift: number = $derived(this.#p.ModalShift ?? 24);
 	middleware: Middleware[] = $derived(
-		this.#p.middleware ?? [offset(this.ModalOffset), flip(), shift({ padding: this.ModalShift })]
+		this.#p.middleware ?? [
+			offset(this.#p.ModalOffset ?? 10),
+			flip(),
+			shift({ padding: this.#p.ModalShift ?? 24 })
+		]
 	);
+
+	get stopScrollElements() {
+		return this.#p.stopScrollElements?.(this) ?? [];
+	}
 
 	get isVisible() {
 		return this.#isVisible;
@@ -63,14 +70,14 @@ export class ModalRemote {
 	}
 
 	open() {
-		this.#p.callbacks?.show(this);
+		this.#p.callbacks?.show?.(this);
 		this.#isVisible = true;
 		this.setAnchorState('open');
 	}
 
 	async close(setting?: { focusParent?: boolean; event?: Event }) {
 		await wait(6); //Prevent click to propagate under modal
-		this.#p.callbacks?.hide(this);
+		this.#p.callbacks?.hide?.(this);
 		this.setAnchorState('closed');
 		this.onMouse = false;
 		this.#isVisible = false;
