@@ -113,6 +113,11 @@
 		>
 			{@render p.children?.()}
 		</div>
+		{#if p.portal}
+			<div class="fixed inset-0">
+				{@render p.portal()}
+			</div>
+		{/if}
 	</Portal>
 {:else if modal.isVisible}
 	<Portal>
@@ -143,6 +148,9 @@
 				{@render p.children?.()}
 			</div>
 		</div>
+		{#if p.portal}
+			{@render p.portal()}
+		{/if}
 	</Portal>
 {/if}
 

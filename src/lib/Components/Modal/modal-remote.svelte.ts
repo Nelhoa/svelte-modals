@@ -14,12 +14,18 @@ import type { Snippet } from 'svelte';
 import { initModalEscaper } from './open-modals.svelte.js';
 
 export type ModalComponent = { modal: ModalRemote } | undefined;
+type shallow = {
+	pushState: (url: string, object: Record<string, any>) => void;
+	stateName: string;
+	page: Record<string, any>;
+};
 const MODAL_ATTRIBUTE = 'data-modal';
 
 export interface ModalProps {
 	// if you want to open modal on mouse, use bind:this with the ModalComponent type, inside the remote is a function called openOnMouse dedicated to it.
 	children?: Snippet; // default snippet
 	tooltip?: Snippet; // snippet for the tooltip, so it appears only when modal is closed
+	portal?: Snippet; // snippet for setting content above the modals
 	backdropStyles?: string; // styles of the backdrop
 	class?: string; // styles of the modal
 	ModalOffset?: number; // offset px of the modal from anchor
@@ -33,31 +39,35 @@ export interface ModalProps {
 	placement?: Placement; // enums of floatingui/dom placement from anchor or mouse position
 	noAnchor?: boolean; // boolean : remove everthing that depends on the anchor
 	lockBackground?: boolean; // boolean : mouse event wont spread below the backdrop
+	shallow?: shallow;
 	stopScrollElements?: (modal: ModalRemote) => (HTMLElement | undefined | null)[];
 	callbacks?: { show?: (modal: ModalRemote) => any; hide?: (modal: ModalRemote) => any }; // show and hide callbacks
 }
 
 export class ModalRemote {
-	#p: ModalProps = $state()!;
+	p: ModalProps = $state()!;
 	parentModal?: ModalRemote;
 	onMouse = $state(false);
 	anchor?: HTMLElement = $state();
 	element?: HTMLElement = $state();
-	#isVisible = $state(false);
+	#isVisibleBase = $state(false);
+	#isVisible = $derived(
+		this.p.shallow ? this.p.shallow.page.state[this.p.shallow.stateName] : this.#isVisibleBase
+	);
 	position = $state({ x: 0, y: 0 });
-	placement: Placement = $derived(this.#p.placement ?? 'bottom');
-	autoUpdate: boolean = $derived(!this.#p.noAutoUpdate);
-	closeOnHide: boolean = $derived(!this.#p.noCloseOnHide);
+	placement: Placement = $derived(this.p.placement ?? 'bottom');
+	autoUpdate: boolean = $derived(!this.p.noAutoUpdate);
+	closeOnHide: boolean = $derived(!this.p.noCloseOnHide);
 	middleware: Middleware[] = $derived(
-		this.#p.middleware ?? [
-			offset(this.#p.ModalOffset ?? 10),
+		this.p.middleware ?? [
+			offset(this.p.ModalOffset ?? 10),
 			flip(),
-			shift({ padding: this.#p.ModalShift ?? 24 })
+			shift({ padding: this.p.ModalShift ?? 24 })
 		]
 	);
 
 	get stopScrollElements() {
-		return this.#p.stopScrollElements?.(this) ?? [];
+		return this.p.stopScrollElements?.(this) ?? [];
 	}
 
 	get isVisible() {
@@ -65,22 +75,54 @@ export class ModalRemote {
 	}
 
 	constructor(p: ModalProps, parentModal?: ModalRemote) {
-		this.#p = p;
+		this.p = p;
 		this.parentModal = parentModal;
+		this.checkShallowStack();
+	}
+
+	checkShallowStack() {
+		if (!this.p.shallow) return;
+		if (!this.parentModal?.hasShallowAncestors) return;
+		throw Error(`You can’t stack shallow routed modals`);
+	}
+
+	hasShallowAncestors(): boolean {
+		const parentShallow = this.parentModal?.hasShallowAncestors();
+		return Boolean(this.p.shallow || parentShallow);
+	}
+
+	getShallowState(state: Record<string, any>) {
+		this.parentModal?.getShallowState(state);
+		const shallow = this.p.shallow;
+		if (shallow) state[shallow.stateName] = true;
+	}
+
+	openState(shallow: shallow) {
+		const newState: Record<string, any> = {};
+		this.getShallowState(newState);
+		shallow.pushState('', newState);
+	}
+
+	closeState() {
+		history.back();
 	}
 
 	open() {
-		this.#p.callbacks?.show?.(this);
-		this.#isVisible = true;
+		const shallow = this.p.shallow;
+		if (shallow) return this.openState(shallow);
+		this.p.callbacks?.show?.(this);
+		this.#isVisibleBase = true;
 		this.setAnchorState('open');
 	}
 
 	async close(setting?: { focusParent?: boolean; event?: Event }) {
 		await wait(6); //Prevent click to propagate under modal
-		this.#p.callbacks?.hide?.(this);
+		const shallow = this.p.shallow;
+		if (shallow) return this.closeState();
+		this.p.callbacks?.hide?.(this);
 		this.setAnchorState('closed');
 		this.onMouse = false;
-		this.#isVisible = false;
+		this.#isVisibleBase = false;
 		if (setting?.focusParent ?? true) this.focusAnchor();
 	}
 

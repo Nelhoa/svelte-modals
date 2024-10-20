@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
 	import Modal from '$lib/Components/Modal/Modal.svelte';
 	import type { TooltipRemote } from '$lib/Components/Tooltip/tooltip-remote.svelte.js';
 	import Tooltip from '$lib/Components/Tooltip/Tooltip.svelte';
@@ -115,9 +117,14 @@
 		</div>
 		<div class="mt-3">
 			You can add callback functions that take the modal remote as a parameter on the modal if your
-			want side effects when the modal opens or close. For exemple, you can use it for shallow
-			routing with sveltekit.
+			want side effects when the modal opens or close.
 		</div>
+		<div class="mt-3">
+			You can pass a shallow property witch takes pushState from $app/environnement, a stateName for
+			the modal open property in page state. And the page store itself subscribed in the markup.
+			like page: $page
+		</div>
+
 		<div class="mt-3">
 			The {'<Tooltip> </Tooltip> element act approximatly the same. If you want a Modal and a tooltip on the same anchor, put the Tooltip component in the tooltip snippet of your modal so the tooltip will only shows when the modal is closed.'}
 		</div>
@@ -149,7 +156,10 @@
 				{/snippet}
 			</Modal>
 		</button>
-		<div class="mt-5">You can have a button that open a centered modal</div>
+		<div class="mt-5">
+			You can have a button that open a centered modal, try to close it by going backward on your
+			browser
+		</div>
 		<button
 			class="mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400 data-[modal=open]:bg-cyan-600"
 		>
@@ -159,6 +169,7 @@
 				stopScrollElements={() => [document.body]}
 				centered
 				lockBackground
+				shallow={{ pushState, stateName: 'openModal', page: $page }}
 				backdropStyles="bg-black/10"
 				placement="bottom-start"
 			>
@@ -186,8 +197,22 @@
 						Open the modal please !
 					</Tooltip>
 				{/snippet}
+				{#snippet portal()}
+					{@render next('Back', 'left: 15px;')}
+					{@render next('Next', 'right: 15px;')}
+				{/snippet}
 			</Modal>
 		</button>
+
+		{#snippet next(text: string, style: string)}
+			<button
+				class="fixed top-[50%] bg-white rounded-full py-1 px-3 -translate-y-1/2"
+				{style}
+				onclick={(e) => e.stopPropagation()}
+			>
+				{text}
+			</button>
+		{/snippet}
 
 		<div
 			class="bg-blue-50 overflow-y-scroll h-[300px] rounded mt-5 stopScroll"
