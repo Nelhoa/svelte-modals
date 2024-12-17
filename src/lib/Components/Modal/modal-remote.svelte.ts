@@ -52,7 +52,9 @@ export class ModalRemote {
 	element?: HTMLElement = $state();
 	#isVisibleBase = $state(false);
 	#isVisible = $derived(
-		this.p.shallow ? this.p.shallow.page.state[this.p.shallow.stateName] : this.#isVisibleBase
+		Boolean(
+			this.p.shallow ? this.p.shallow.page.state[this.p.shallow.stateName] : this.#isVisibleBase
+		)
 	);
 	position = $state({ x: 0, y: 0 });
 	placement: Placement = $derived(this.p.placement ?? 'bottom');
