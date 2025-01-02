@@ -1,6 +1,6 @@
 {
 	"name": "@nelhoa/svelte-modals",
-	"version": "1.0.19",
+	"version": "1.0.21",
 	"description": "A flexible modal library with TailwindCSS.",
 	"license": "MIT",
 	"homepage": "https://nelhoa-svelte-modals.vercel.app/",

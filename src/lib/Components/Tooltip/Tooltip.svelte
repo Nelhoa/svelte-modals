@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fly, type TransitionConfig } from 'svelte/transition';
-	import { computePosition, offset, shift, autoUpdate, flip } from '@floating-ui/dom';
+	import { computePosition, autoUpdate } from '@floating-ui/dom';
 	import Portal from '$lib/Components/Portal.svelte';
 	import { cn } from '$lib/utils/cn.js';
 	import { createVirtualAnchor } from '$lib/utils/create-virtual-anchor.js';
@@ -14,22 +14,9 @@
 	const inTransition: SvelteTransition = $derived(p.in ?? ((node) => fly(node, { y: 10 })));
 	const outTransition: SvelteTransition = $derived(p.out ?? (() => ({}) as TransitionConfig));
 
-	$effect(() => {
-		if (p.onMouse && tooltip.isVisible && tooltip.element) {
-			const mouseAnchor = createVirtualAnchor(mouse.x, mouse.y);
-			positionFunction(mouseAnchor, tooltip.element);
-		}
-	});
-
-	$effect(() => {
-		if (tooltip.customAnchor && tooltip.isVisible && tooltip.element) {
-			positionFunction(tooltip.customAnchor, tooltip.element);
-		}
-	});
-
 	let firstPositionned = $state(false);
 
-	export function positionFunction(anchor: HTMLElement | virtualAnchor, element: HTMLElement) {
+	export function position(anchor: HTMLElement | virtualAnchor, element: HTMLElement) {
 		computePosition(anchor, element, {
 			placement: tooltip.placement,
 			middleware: tooltip.middleware
@@ -42,20 +29,21 @@
 		});
 	}
 
-	function onTooltipMount(e: HTMLDivElement) {
-		if (tooltip.customAnchor) return;
-		if (p.onMouse) return;
-		if (!tooltip.anchor) return;
-		const cleanup = autoUpdate(tooltip.anchor, e, () => {
-			if (tooltip.anchor) positionFunction(tooltip.anchor, e);
-		});
-		return {
-			destroy: () => {
-				firstPositionned = false;
-				cleanup();
-			}
-		};
-	}
+	$effect(() => {
+		if (tooltip.isVisible && tooltip.element && tooltip.anchor) {
+			const clean = autoUpdate(tooltip.anchor, tooltip.element, () => {
+				if (tooltip.anchor && tooltip.element) position(tooltip.anchor, tooltip.element);
+			});
+			return clean;
+		}
+	});
+
+	$effect(() => {
+		if (p.onMouse && tooltip.isVisible && tooltip.element) {
+			const mouseAnchor = createVirtualAnchor(mouse.x, mouse.y);
+			position(mouseAnchor, tooltip.element);
+		}
+	});
 
 	function onInitAnchorMount(e: HTMLDivElement) {
 		if (!e.parentElement) return;
@@ -64,24 +52,23 @@
 	}
 </script>
 
-<div class="hidden" use:onInitAnchorMount></div>
+{#if !p.noDefaultAnchor}
+	<div class="hidden" use:onInitAnchorMount></div>
+{/if}
 
 {#if tooltip.isVisible}
 	<Portal>
-		{#key tooltip.customAnchor}
-			<div
-				in:inTransition
-				out:outTransition
-				bind:this={tooltip.element}
-				class={cn(
-					'pointer-events-none fixed left-[--x] top-[--y] z-modal rounded bg-white shadow',
-					p.class
-				)}
-				style="--x: {tooltip.x.current}px; --y: {tooltip.y.current}px"
-				use:onTooltipMount
-			>
-				{@render p.children?.()}
-			</div>
-		{/key}
+		<div
+			in:inTransition
+			out:outTransition
+			bind:this={tooltip.element}
+			class={cn(
+				'pointer-events-none fixed left-[--x] top-[--y] z-modal rounded bg-white shadow',
+				p.class
+			)}
+			style="--x: {tooltip.x.current}px; --y: {tooltip.y.current}px"
+		>
+			{@render p.children?.()}
+		</div>
 	</Portal>
 {/if}

@@ -1,8 +1,9 @@
 import type { SvelteTransition } from '$lib/types/types.js';
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import { isPhone } from '$lib/utils/const.js';
+import { wait } from '$lib/utils/wait.js';
 import { flip, offset, shift, type Middleware, type Placement } from '@floating-ui/dom';
-import type { Snippet } from 'svelte';
+import { untrack, type Snippet } from 'svelte';
 import { on } from 'svelte/events';
 import { tweened } from 'svelte/motion';
 import { fromStore } from 'svelte/store';
@@ -22,18 +23,24 @@ export interface TooltipProps {
 	class?: string;
 	in?: SvelteTransition;
 	out?: SvelteTransition;
+	noDefaultAnchor?: boolean;
+	hideMS?: number;
 }
 
 export class TooltipRemote {
+	currentHides: Symbol[] = [];
 	#p: TooltipProps = $state()!;
-	anchor: HTMLElement | undefined | null = $state();
-	#customAnchor = $state<HTMLElement>();
+	#hideMS = $derived(this.#p?.hideMS !== undefined ? this.#p.hideMS : 150);
+	defaultAnchor: HTMLElement | undefined | null = $state();
+	customAnchor = $state<HTMLElement>();
+	anchor = $derived(this.customAnchor ?? this.defaultAnchor);
 	element: HTMLElement | undefined | null = $state();
 	#isVisible = $state(false);
 	#x = tweened(0, { duration: 0 });
 	#y = tweened(0, { duration: 0 });
 	x = fromStore(this.#x);
 	y = fromStore(this.#y);
+	cleanupAutoUpdate?: () => void;
 	placement = $derived(this.#p.placement ?? 'bottom');
 	middleware = $derived(
 		this.#p.middleware ?? [
@@ -43,10 +50,6 @@ export class TooltipRemote {
 		]
 	);
 
-	get customAnchor() {
-		return this.#customAnchor;
-	}
-
 	get isVisible() {
 		return this.#isVisible;
 	}
@@ -55,12 +58,8 @@ export class TooltipRemote {
 		this.#p = props;
 	}
 
-	setCustomAnchor(anchor: HTMLElement) {
-		this.#customAnchor = anchor;
-	}
-
 	initAnchorListeners(anchor: HTMLElement) {
-		this.anchor = anchor;
+		this.defaultAnchor = anchor;
 		const destroys = [
 			on(anchor, 'mouseenter', this.#onAnchorMouseEnter.bind(this)),
 			on(anchor, 'mouseleave', this.#onAnchorMouseLeave.bind(this))
@@ -78,10 +77,16 @@ export class TooltipRemote {
 	show() {
 		if (this.#p.disabled) return;
 		if (isPhone() && !this.#p.enableOnMobile) return;
+		this.currentHides = [];
 		this.#isVisible = true;
 	}
 
-	hide() {
+	async hide() {
+		const hideSymbol = Symbol();
+		this.currentHides.push(hideSymbol);
+		await wait(this.#hideMS);
+		if (!this.currentHides.includes(hideSymbol)) return;
+		this.currentHides = this.currentHides.filter((i) => i !== hideSymbol);
 		this.#isVisible = false;
 	}
 
