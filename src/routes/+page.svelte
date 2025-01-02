@@ -5,6 +5,7 @@
 	import type { TooltipRemote } from '$lib/Components/Tooltip/tooltip-remote.svelte.js';
 	import Tooltip from '$lib/Components/Tooltip/Tooltip.svelte';
 	import { cn } from '$lib/utils/cn.js';
+	import GridOfTooltip from './GridOfTooltip.svelte';
 
 	let remote: { tooltip: TooltipRemote } = $state()!;
 
@@ -93,6 +94,7 @@
 <div class="bg-gray-100 min-h-screen pt-10 py-10">
 	<div class="bg-white w-[90%] max-w-[1000px] mx-auto p-5 rounded text-balance">
 		<h1 class="text-[20px] font-semibold">Welcome to @nelhoa/svelte-modals</h1>
+		<GridOfTooltip />
 		<a
 			class="underline text-cyan-500 font-semibold pr-3"
 			href="https://www.npmjs.com/package/@nelhoa/svelte-modals">NPM</a

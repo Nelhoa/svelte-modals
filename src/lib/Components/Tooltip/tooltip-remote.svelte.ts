@@ -2,10 +2,12 @@ import type { SvelteTransition } from '$lib/types/types.js';
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import { isPhone } from '$lib/utils/const.js';
 import { flip, offset, shift, type Middleware, type Placement } from '@floating-ui/dom';
-import { Store } from 'runed';
 import type { Snippet } from 'svelte';
 import { on } from 'svelte/events';
-import { tweened, type TweenedOptions } from 'svelte/motion';
+import { tweened } from 'svelte/motion';
+import { fromStore } from 'svelte/store';
+
+type tweenedOptions = Parameters<ReturnType<typeof tweened<number>>['set']>[1];
 
 export interface TooltipProps {
 	children?: Snippet;
@@ -25,12 +27,13 @@ export interface TooltipProps {
 export class TooltipRemote {
 	#p: TooltipProps = $state()!;
 	anchor: HTMLElement | undefined | null = $state();
+	#customAnchor = $state<HTMLElement>();
 	element: HTMLElement | undefined | null = $state();
 	#isVisible = $state(false);
 	#x = tweened(0, { duration: 0 });
 	#y = tweened(0, { duration: 0 });
-	x = new Store(this.#x);
-	y = new Store(this.#y);
+	x = fromStore(this.#x);
+	y = fromStore(this.#y);
 	placement = $derived(this.#p.placement ?? 'bottom');
 	middleware = $derived(
 		this.#p.middleware ?? [
@@ -40,12 +43,20 @@ export class TooltipRemote {
 		]
 	);
 
+	get customAnchor() {
+		return this.#customAnchor;
+	}
+
 	get isVisible() {
 		return this.#isVisible;
 	}
 
 	constructor(props: TooltipProps) {
 		this.#p = props;
+	}
+
+	setCustomAnchor(anchor: HTMLElement) {
+		this.#customAnchor = anchor;
 	}
 
 	initAnchorListeners(anchor: HTMLElement) {
@@ -59,7 +70,7 @@ export class TooltipRemote {
 		};
 	}
 
-	setPosition({ x, y }: { x: number; y: number }, options: TweenedOptions<number>) {
+	setPosition({ x, y }: { x: number; y: number }, options: tweenedOptions) {
 		this.#x.set(x, options);
 		this.#y.set(y, options);
 	}

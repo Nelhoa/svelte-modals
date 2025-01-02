@@ -21,9 +21,15 @@
 		}
 	});
 
+	$effect(() => {
+		if (tooltip.customAnchor && tooltip.isVisible && tooltip.element) {
+			positionFunction(tooltip.customAnchor, tooltip.element);
+		}
+	});
+
 	let firstPositionned = $state(false);
 
-	function positionFunction(anchor: HTMLElement | virtualAnchor, element: HTMLElement) {
+	export function positionFunction(anchor: HTMLElement | virtualAnchor, element: HTMLElement) {
 		computePosition(anchor, element, {
 			placement: tooltip.placement,
 			middleware: tooltip.middleware
@@ -37,6 +43,7 @@
 	}
 
 	function onTooltipMount(e: HTMLDivElement) {
+		if (tooltip.customAnchor) return;
 		if (p.onMouse) return;
 		if (!tooltip.anchor) return;
 		const cleanup = autoUpdate(tooltip.anchor, e, () => {
@@ -61,18 +68,20 @@
 
 {#if tooltip.isVisible}
 	<Portal>
-		<div
-			in:inTransition
-			out:outTransition
-			bind:this={tooltip.element}
-			class={cn(
-				'pointer-events-none fixed left-[--x] top-[--y] z-modal rounded bg-white shadow',
-				p.class
-			)}
-			style="--x: {tooltip.x.current}px; --y: {tooltip.y.current}px"
-			use:onTooltipMount
-		>
-			{@render p.children?.()}
-		</div>
+		{#key tooltip.customAnchor}
+			<div
+				in:inTransition
+				out:outTransition
+				bind:this={tooltip.element}
+				class={cn(
+					'pointer-events-none fixed left-[--x] top-[--y] z-modal rounded bg-white shadow',
+					p.class
+				)}
+				style="--x: {tooltip.x.current}px; --y: {tooltip.y.current}px"
+				use:onTooltipMount
+			>
+				{@render p.children?.()}
+			</div>
+		{/key}
 	</Portal>
 {/if}
