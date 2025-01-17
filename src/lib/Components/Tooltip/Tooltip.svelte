@@ -7,8 +7,6 @@
 	import type { SvelteTransition, virtualAnchor } from '$lib/types/types.js';
 	import { createTooltip, type TooltipProps } from './tooltip-remote.svelte.js';
 	import { mouse } from '$lib/utils/mouse-position.svelte.js';
-	import { wait } from '$lib/utils/wait.js';
-	import { untrack } from 'svelte';
 
 	let p: TooltipProps = $props();
 	export const tooltip = createTooltip(p);
@@ -23,7 +21,7 @@
 			placement: tooltip.placement,
 			middleware: tooltip.middleware
 		}).then(({ x, y }) => {
-			const duration = firstPositionned ? 0 : p.tweenDuration;
+			const duration = firstPositionned ? 0 : (p.tweenDuration ?? 0);
 			firstPositionned = false;
 			const scrollX = window.scrollX;
 			const scrollY = window.scrollY;
