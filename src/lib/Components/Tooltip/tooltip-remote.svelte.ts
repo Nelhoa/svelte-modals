@@ -79,7 +79,7 @@ export class TooltipRemote {
 		this.#isVisible = true;
 	}
 
-	async hide(ms?: number | null) {
+	async hide(ms?: number | null, callback?: () => unknown) {
 		const hideMS = ms ?? this.#p.hideMS;
 		if (hideMS && ms !== null) {
 			const hideSymbol = Symbol();
@@ -89,6 +89,7 @@ export class TooltipRemote {
 			this.currentHides = this.currentHides.filter((i) => i !== hideSymbol);
 		}
 		this.#isVisible = false;
+		callback?.();
 	}
 
 	#onAnchorMouseEnter() {

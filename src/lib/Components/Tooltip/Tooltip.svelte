@@ -32,7 +32,7 @@
 	}
 
 	$effect(() => {
-		if (tooltip.isVisible && tooltip.element && tooltip.anchor) {
+		if (!p.onMouse && tooltip.isVisible && tooltip.element && tooltip.anchor) {
 			var clean = autoUpdate(tooltip.anchor, tooltip.element, () => {
 				if (tooltip.anchor && tooltip.element) position(tooltip.anchor, tooltip.element);
 			});
