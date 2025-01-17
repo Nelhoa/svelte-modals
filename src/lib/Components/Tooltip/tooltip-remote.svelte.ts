@@ -3,12 +3,12 @@ import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import { isPhone } from '$lib/utils/const.js';
 import { wait } from '$lib/utils/wait.js';
 import { flip, offset, shift, type Middleware, type Placement } from '@floating-ui/dom';
-import { untrack, type Snippet } from 'svelte';
+import { type Snippet } from 'svelte';
 import { on } from 'svelte/events';
-import { tweened } from 'svelte/motion';
-import { fromStore } from 'svelte/store';
+import { Tween } from 'svelte/motion';
 
-type tweenedOptions = Parameters<ReturnType<typeof tweened<number>>['set']>[1];
+type tweenType<T> = InstanceType<typeof Tween<T>>;
+type tweenOptions<T> = Parameters<tweenType<T>['set']>['1'];
 
 export interface TooltipProps {
 	children?: Snippet;
@@ -28,18 +28,14 @@ export interface TooltipProps {
 }
 
 export class TooltipRemote {
-	currentHides: Symbol[] = [];
+	currentHides: symbol[] = [];
 	#p: TooltipProps = $state()!;
-	#hideMS = $derived(this.#p?.hideMS !== undefined ? this.#p.hideMS : 150);
 	defaultAnchor: HTMLElement | undefined | null = $state();
 	customAnchor = $state<HTMLElement>();
 	anchor = $derived(this.customAnchor ?? this.defaultAnchor);
 	element: HTMLElement | undefined | null = $state();
 	#isVisible = $state(false);
-	#x = tweened(0, { duration: 0 });
-	#y = tweened(0, { duration: 0 });
-	x = fromStore(this.#x);
-	y = fromStore(this.#y);
+	position = new Tween({ x: 0, y: 0 }, { duration: 0 });
 	cleanupAutoUpdate?: () => void;
 	placement = $derived(this.#p.placement ?? 'bottom');
 	middleware = $derived(
@@ -69,9 +65,11 @@ export class TooltipRemote {
 		};
 	}
 
-	setPosition({ x, y }: { x: number; y: number }, options: tweenedOptions) {
-		this.#x.set(x, options);
-		this.#y.set(y, options);
+	setPosition(
+		newPosition: { x: number; y: number },
+		options: tweenOptions<{ x: number; y: number }>
+	) {
+		this.position.set(newPosition, options);
 	}
 
 	show() {
@@ -81,12 +79,15 @@ export class TooltipRemote {
 		this.#isVisible = true;
 	}
 
-	async hide() {
-		const hideSymbol = Symbol();
-		this.currentHides.push(hideSymbol);
-		await wait(this.#hideMS);
-		if (!this.currentHides.includes(hideSymbol)) return;
-		this.currentHides = this.currentHides.filter((i) => i !== hideSymbol);
+	async hide(ms?: number | null) {
+		const hideMS = ms ?? this.#p.hideMS;
+		if (hideMS && ms !== null) {
+			const hideSymbol = Symbol();
+			this.currentHides.push(hideSymbol);
+			await wait(hideMS);
+			if (!this.currentHides.includes(hideSymbol)) return;
+			this.currentHides = this.currentHides.filter((i) => i !== hideSymbol);
+		}
 		this.#isVisible = false;
 	}
 
