@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	computePosition,
 	flip,
@@ -15,7 +16,7 @@ import { initModalEscaper } from './open-modals.svelte.js';
 
 export type ModalComponent = { modal: ModalRemote } | undefined;
 type shallow = {
-	pushState: (url: string, object: Record<string, any>) => void;
+	pushState: (url: string, object: Record<string, unknown>) => void;
 	stateName: string;
 	page: Record<string, any>;
 };
@@ -41,7 +42,7 @@ export interface ModalProps {
 	lockBackground?: boolean; // boolean : mouse event wont spread below the backdrop
 	shallow?: shallow;
 	stopScrollElements?: (modal: ModalRemote) => (HTMLElement | undefined | null)[];
-	callbacks?: { show?: (modal: ModalRemote) => any; hide?: (modal: ModalRemote) => any }; // show and hide callbacks
+	callbacks?: { show?: (modal: ModalRemote) => unknown; hide?: (modal: ModalRemote) => unknown }; // show and hide callbacks
 }
 
 export class ModalRemote {
@@ -146,6 +147,7 @@ export class ModalRemote {
 	}
 
 	switch() {
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		this.isVisible ? this.close() : this.open();
 	}
 
