@@ -38,7 +38,7 @@
 </script>
 
 <button
-	class="option group grid h-[32px] w-full grid-cols-[15px_1fr_auto] items-center gap-x-[12px] border-b px-3 last:border-none hover:bg-black/5 focus:bg-black/5 focus:shadow modal-open:bg-black/[.03]"
+	class="option group grid h-[32px] w-full grid-cols-[15px_1fr_auto] items-center gap-x-[12px] border-b px-3 last:border-none hover:bg-black/5 focus:bg-black/5 focus:shadow-sm modal-open:bg-black/[.03]"
 	on:click={clickOption}
 >
 	<div class={cn('flex h-full w-full items-center justify-center text-black/30', emojiStyles)}>
@@ -52,7 +52,7 @@
 	<div class="flex gap-x-[5px] text-[13px] text-black/50">
 		{#if shortcut}
 			{#each shortcut as key}
-				<div class="rounded bg-black/5 px-[5px] py-[0px]">{key}</div>
+				<div class="rounded-sm bg-black/5 px-[5px] py-[0px]">{key}</div>
 			{/each}
 		{/if}
 	</div>

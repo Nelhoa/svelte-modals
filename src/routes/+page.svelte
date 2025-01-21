@@ -92,7 +92,7 @@
 </script>
 
 <div class="bg-gray-100 min-h-screen pt-10 py-10">
-	<div class="bg-white w-[90%] max-w-[1000px] mx-auto p-5 rounded text-balance">
+	<div class="bg-white w-[90%] max-w-[1000px] mx-auto p-5 rounded-sm text-balance">
 		<h1 class="text-[20px] font-semibold">Welcome to @nelhoa/svelte-modals</h1>
 		<GridOfTooltip />
 		<a
@@ -104,7 +104,7 @@
 			href="https://github.com/Nelhoa/svelte-modals">Github</a
 		>
 		<div class="my-3">
-			<div class="rounded bg-blue-100 py-1 px-3 inline">npm install @nelhoa/svelte-modals</div>
+			<div class="rounded-sm bg-blue-100 py-1 px-3 inline">npm install @nelhoa/svelte-modals</div>
 		</div>
 		<div>Here is your button to open a modal</div>
 		<div class="mt-3">
@@ -132,12 +132,12 @@
 		</div>
 
 		<button
-			class="mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400 data-[modal=open]:shadow-lg data-[modal=open]:border-cyan-600"
+			class="mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded-sm font-semibold hover:bg-cyan-400 data-[modal=open]:shadow-lg data-[modal=open]:border-cyan-600"
 		>
 			Open modal
 			<Modal class="p-2 text-sm max-w-[200px] text-balance border" placement="bottom-start">
 				Modal is openned, and now no tooltip is shown !
-				<button class="bg-orange-500 mt-3 rounded font-semibold text-balance text-white">
+				<button class="bg-orange-500 mt-3 rounded-sm font-semibold text-balance text-white">
 					And now with a modal inside !
 					<Modal class="p-2 text-sm max-w-[200px] text-balance border" placement="bottom-start"
 						>You can close this new modal by clicking inside the previous one, witch will remove it
@@ -163,7 +163,7 @@
 			browser
 		</div>
 		<button
-			class="mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400 data-[modal=open]:bg-cyan-600"
+			class="mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded-sm font-semibold hover:bg-cyan-400 data-[modal=open]:bg-cyan-600"
 		>
 			Open centered modal
 			<Modal
@@ -179,7 +179,7 @@
 					Modal is openned, and now no tooltip is shown !
 				</div>
 				<button
-					class="bg-orange-500 mt-3 rounded font-semibold text-balance text-white px-3 py-1 hover:bg-orange-400"
+					class="bg-orange-500 mt-3 rounded-sm font-semibold text-balance text-white px-3 py-1 hover:bg-orange-400"
 				>
 					And now with a modal inside !
 					<Modal class="p-2 text-sm max-w-[200px] text-balance border" placement="bottom-start"
@@ -217,7 +217,7 @@
 		{/snippet}
 
 		<div
-			class="bg-blue-50 overflow-y-scroll h-[300px] rounded mt-5 stopScroll"
+			class="bg-blue-50 overflow-y-scroll h-[300px] rounded-sm mt-5 stopScroll"
 			style="--scroll-bar-color: rgba(34, 211, 238, 0); --scroll-bar-color-hover: rgba(34, 211, 238, 0.5)"
 		>
 			<div
@@ -238,7 +238,7 @@
 				</div>
 				<button
 					class={cn(
-						'mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded font-semibold hover:bg-cyan-400'
+						'mt-5 px-3 py-1 bg-cyan-500 border border-black/0 text-white rounded-sm font-semibold hover:bg-cyan-400'
 					)}
 				>
 					Test the scrolling modal
@@ -255,7 +255,7 @@
 		<div class="font-semibold text-lg mt-5">Properties</div>
 		<div class="grid sm:grid-cols-[auto_1fr] grid-cols-1 gap-3 mt-5">
 			{#each propertiesTable as property}
-				<div class="text-[13px] font-semibold text-black/80 bg-black/5 rounded px-2 py-1">
+				<div class="text-[13px] font-semibold text-black/80 bg-black/5 rounded-sm px-2 py-1">
 					{property.title}
 				</div>
 				<div class="text-[15px] text-black/80">

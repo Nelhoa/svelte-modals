@@ -1,12 +1,22 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer utilities {
+  :root {
     --scroll-bar-size: 7px;
     --scroll-bar-color: rgba(0, 0, 0, 0);
     --scroll-bar-color-hover: rgba(0, 0, 0, 0.1);
     --scroll-bar-border-radius: 20px;
+  }
 }
 
 @layer base {

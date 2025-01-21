@@ -141,7 +141,7 @@
 				use:onCenteredModalMount
 				in:fly={{ y: 20, duration: 80 }}
 				class={cn(
-					'pointer-events-auto overflow-hidden rounded-lg bg-gradient-to-b from-white/[.45] to-white/[.58] text-black shadow-lg backdrop-blur-md backdrop-brightness-[1.13]  ',
+					'pointer-events-auto overflow-hidden rounded-lg bg-linear-to-b from-white/[.45] to-white/[.58] text-black shadow-lg backdrop-blur-md backdrop-brightness-[1.13]  ',
 					p.class
 				)}
 			>

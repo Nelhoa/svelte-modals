@@ -26,7 +26,7 @@
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div
 			aria-label="tooltip"
-			class="bg-blue-100 font-semibold w-full h-full flex items-center justify-center rounded"
+			class="bg-blue-100 font-semibold w-full h-full flex items-center justify-center rounded-sm"
 			onmouseenter={(e) => onmouseenter(e, index)}
 			{onmouseleave}
 		>

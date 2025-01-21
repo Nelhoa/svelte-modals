@@ -80,7 +80,7 @@
 			out:outTransition
 			bind:this={tooltip.element}
 			class={cn(
-				'pointer-events-none fixed left-[--x] top-[--y] z-modal rounded bg-white shadow',
+				'pointer-events-none fixed left-(--x) top-(--y) z-modal rounded-sm bg-white shadow-sm',
 				p.class
 			)}
 			style="--x: {x}px; --y: {y}px"
