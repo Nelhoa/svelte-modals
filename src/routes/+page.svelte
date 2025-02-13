@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
-	import Modal from '$lib/Components/Modal/Modal.svelte';
+	import Modal from '$lib/Components/OldModal/Modal.svelte';
 	import type { TooltipRemote } from '$lib/Components/Tooltip/tooltip-remote.svelte.js';
 	import Tooltip from '$lib/Components/Tooltip/Tooltip.svelte';
 	import { cn } from '$lib/utils/cn.js';

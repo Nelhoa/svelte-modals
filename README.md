@@ -4,6 +4,16 @@ Includes tooltips that work harmoniously with the modals.
 
 Find the documentation on [the library's demo site](https://nelhoa-svelte-modals.vercel.app/)
 
+# Objectifs
+
+- Performant
+- Facile à intégrer
+- Manipulable
+- Mieux typé
+- Stackable
+- Le tooltip devrait être intégré à la modale
+- 
+
 ## Installation Guide
 
 ```bash

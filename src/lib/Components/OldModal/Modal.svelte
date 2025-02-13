@@ -2,22 +2,20 @@
 	import { fly } from 'svelte/transition';
 	import Portal from '$lib/Components/Portal.svelte';
 	import { setParentClick } from './set-parent-click.js';
+	import { setContextClick } from './set-context-click.js';
 	import { untrack } from 'svelte';
 	import { setAutoUpdate } from './set-auto-update.js';
 	import { mouse } from '$lib/utils/mouse-position.svelte.js';
 	import { createVirtualAnchor } from '$lib/utils/create-virtual-anchor.js';
 	import { cn } from '$lib/utils/cn.js';
-	import { createModal, getModal } from './modal-remote.svelte.js';
+	import { createModal, getModal, type ModalProps } from './modal-remote.svelte.js';
+	import { modalsOpenned } from './open-modals.svelte.js';
 	import { ScrollManager } from './scroll-manager.js';
-	import { getModalContext } from './modal-context-remote.svelte.js';
-	import CloseDialog from './CloseDialog.svelte';
-	import type { ModalProps } from './modal-props.svelte.js';
 
 	const parentModal = getModal();
-	const modalContext = getModalContext();
 
 	let p: ModalProps = $props();
-	export const modal = createModal({ p, modalContext, parentModal });
+	export const modal = createModal(p, parentModal);
 
 	function onInitAnchorMount(element: HTMLElement) {
 		modal.anchor = element.parentElement ?? undefined;
@@ -30,23 +28,36 @@
 		const anchor = modal.onMouse ? createVirtualAnchor(mouse.x, mouse.y) : modal.anchor;
 		if (!anchor) return;
 		modal.positionModal(anchor, element);
+		modalsOpenned.add(modal);
 		const scroll = new ScrollManager();
 		scroll.stop(...modal.stopScrollElements);
 		const removeAutoUpdate = setAutoUpdate(modal, element, anchor);
+		const removeContextClick = p.noCloseOnOutsideClick
+			? undefined
+			: setContextClick(modal, modal.anchor);
 		return {
 			destroy: async () => {
 				scroll.resume?.();
+				modalsOpenned.remove(modal);
 				removeAutoUpdate?.();
+				removeContextClick?.();
 			}
 		};
 	}
 
 	function onCenteredModalMount(element: HTMLElement) {
+		const parentElement = modal.anchor;
+		modalsOpenned.add(modal);
 		const scroll = new ScrollManager();
 		scroll.stop(...modal.stopScrollElements);
+		const removeContextClick = p.noCloseOnOutsideClick
+			? undefined
+			: setContextClick(modal, parentElement);
 		return {
 			destroy: async () => {
 				scroll.resume?.();
+				modalsOpenned.remove(modal);
+				removeContextClick?.();
 			}
 		};
 	}
@@ -61,7 +72,7 @@
 	$effect(() => {
 		return () => {
 			untrack(() => {
-				modal.close('force');
+				modal.close();
 				modal.element?.remove();
 			});
 		};
@@ -97,10 +108,9 @@
 				p.class
 			)}
 			style="top: {modal.position.y}px; left: {modal.position.x}px;"
+			onclick={(e) => e.stopPropagation()}
+			oncontextmenu={(e) => e.stopPropagation()}
 		>
-			<div>
-				{modal.childModalOpenned}
-			</div>
 			{@render p.children?.()}
 		</div>
 		{#if p.portal}
@@ -147,5 +157,3 @@
 {#if !modal.isVisible}
 	{@render p.tooltip?.()}
 {/if}
-
-<CloseDialog {modal} />

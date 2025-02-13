@@ -28,5 +28,10 @@ export default tseslint.config(
 	},
 	{
 		ignores: ['build/', '.svelte-kit/', 'dist/']
-	}
+	},
+	{rules: {
+		"@typescript-eslint/no-unused-vars": ["warn"],
+		"no-unused-private-class-members": ["warn"]
+	}}
+	
 );

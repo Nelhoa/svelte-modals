@@ -1,3 +1,5 @@
+export function createStopScroll(styleGetter: () => CSSStyleDeclaration) {}
+
 export class ScrollManager {
 	#resume?: () => void;
 	get resume() {

@@ -1,0 +1,97 @@
+<script lang="ts">
+	import { initModalContext } from '$lib/Components/Modal/modal-context-init.svelte.js';
+	import Modal from '$lib/Components/Modal/Modal.svelte';
+	import Tooltip from '$lib/Components/Tooltip/Tooltip.svelte';
+	import Close from './Close.svelte';
+	initModalContext();
+
+	let myModal = $state<ReturnType<typeof Modal>>();
+</script>
+
+<div class="p-10 bg-blue-100 h-screen">
+	<div class="font-bold text-lg">Nouvelle modal</div>
+	<div>
+		{myModal?.modal.modalContext.rootModalOpenned}
+	</div>
+	<button
+		class="bg-blue-500 mt-2 text-sm text-white font-semibold rounded px-3 py-1 cursor-pointer hover:bg-blue-600"
+		>Tester
+		<Modal bind:this={myModal} placement="bottom-start" class="px-3 py-1" enableCloseDialog
+			>Voici ma super modale !
+			<button onclick={() => myModal?.modal.close()}>Fermer</button>
+
+			{#snippet tooltip()}
+				<Tooltip class="text-sm px-2 py-0.5">Vive le vent</Tooltip>
+			{/snippet}
+			<button
+				class="bg-blue-500 mt-2 text-sm text-white font-semibold rounded px-3 py-1 cursor-pointer hover:bg-blue-600"
+				>Tester
+				<Modal placement="bottom-start" class="px-3 py-1" enableCloseDialog
+					>Imbrication ?
+
+					{#snippet tooltip()}
+						<Tooltip class="text-sm px-2 py-0.5">Vive le vent</Tooltip>
+					{/snippet}
+					<!-- {#snippet closeDialog(close, back)}
+				<div>
+					Va te faire foutre
+					<button onclick={close}>Oui</button>
+					<button onclick={back}>Non</button>
+				</div>
+			{/snippet} -->
+				</Modal></button
+			>
+			<!-- {#snippet closeDialog(close, back)}
+				<div>
+					Va te faire foutre
+					<button onclick={close}>Oui</button>
+					<button onclick={back}>Non</button>
+				</div>
+			{/snippet} -->
+		</Modal></button
+	>
+	<button
+		class="bg-blue-500 mt-2 text-sm text-white font-semibold rounded px-3 py-1 cursor-pointer hover:bg-blue-600"
+		>Tester
+		<Modal placement="bottom-start" class="px-3 py-1"
+			>Voici un peu de folie
+			<button
+				class="bg-blue-500 mt-2 text-sm text-white font-semibold rounded px-3 py-1 cursor-pointer hover:bg-blue-600"
+				>Tester
+				<Modal placement="bottom-start" class="px-3 py-1"
+					>Voici ma super modale !
+
+					{#snippet tooltip()}
+						<Tooltip class="text-sm px-2 py-0.5">Vive le vent</Tooltip>
+					{/snippet}
+				</Modal></button
+			>
+			<button
+				class="bg-blue-500 mt-2 text-sm text-white font-semibold rounded px-3 py-1 cursor-pointer hover:bg-blue-600"
+				>Tester
+				<Modal placement="bottom-start" class="px-3 py-1"
+					>Voici ma super modale !
+
+					<button
+						class="bg-blue-500 mt-2 text-sm text-white font-semibold rounded px-3 py-1 cursor-pointer hover:bg-blue-600"
+						>Tester
+						<Modal placement="bottom-start" class="px-3 py-1"
+							><Close>Ferme</Close>
+
+							{#snippet tooltip()}
+								<Tooltip class="text-sm px-2 py-0.5">Vive le vent</Tooltip>
+							{/snippet}
+						</Modal></button
+					>
+
+					{#snippet tooltip()}
+						<Tooltip class="text-sm px-2 py-0.5">Vive le vent</Tooltip>
+					{/snippet}
+				</Modal></button
+			>
+			{#snippet tooltip()}
+				<Tooltip class="text-sm px-2 py-0.5">Vive le vent</Tooltip>
+			{/snippet}
+		</Modal></button
+	>
+</div>
