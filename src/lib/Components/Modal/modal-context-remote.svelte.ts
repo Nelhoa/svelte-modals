@@ -42,6 +42,7 @@ export class ModalContextRemote {
 	}
 
 	captureContextEvent(event: Event) {
+		this.openning = undefined;
 		this.event = event;
 		this.eventTarget = event.target;
 		this.opennedAtCaptureTime = this.everyModalOpenned.map((i) => ({

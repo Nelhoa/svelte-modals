@@ -25,7 +25,6 @@
 
 {#if modal.p.enableCloseDialog}
 	<Modal
-		debug
 		backdropStyles="bg-black/20"
 		bind:this={modal.closeDialogElement}
 		noAnchor

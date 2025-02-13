@@ -10,9 +10,7 @@
 
 <div class="p-10 bg-blue-100 h-screen">
 	<div class="font-bold text-lg">Nouvelle modal</div>
-	<div>
-		{myModal?.modal.modalContext.rootModalOpenned}
-	</div>
+
 	<button
 		class="bg-blue-500 mt-2 text-sm text-white font-semibold rounded px-3 py-1 cursor-pointer hover:bg-blue-600"
 		>Tester

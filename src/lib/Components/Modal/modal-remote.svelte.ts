@@ -126,13 +126,14 @@ export class ModalRemote {
 
 	getDeepestBlockingModal() {
 		let checkedModal = this.getDeepestModalOpenned();
-		let lastModalChecked: ModalRemote | undefined;
-		while (lastModalChecked !== this) {
-			lastModalChecked = checkedModal;
+		let security = 0;
+		while (security <= 20) {
 			if (checkedModal.isModalBlocked()) return checkedModal;
-			const parentModal = this.parentModal;
+			if (this === checkedModal) return;
+			const parentModal = checkedModal.parentModal;
 			if (!parentModal) return undefined;
 			checkedModal = parentModal;
+			security++;
 		}
 	}
 
@@ -150,16 +151,16 @@ export class ModalRemote {
 	}
 
 	contextClose(exception: (ModalRemote | undefined)[] = []) {
-		if (exception.includes(this))
-			return console.log('Request for closing a modal that is openning');
+		const aModalIsTryingToOpen = exception.filter((i) => i).length > 0;
+		if (aModalIsTryingToOpen) return;
 		this.close();
 	}
 
-	close(force?: 'force'): boolean {
+	close(force?: 'force' | 'deepforce'): boolean {
 		const deepestBlockingModal = this.getDeepestBlockingModal();
 		const noBlockingModal = !deepestBlockingModal;
-		const thisIsTheBlockingModalToForceClose = force && deepestBlockingModal === this;
-		if (noBlockingModal || thisIsTheBlockingModalToForceClose) {
+		const thisIsTheBlockingModalToForceClose = force === 'force' && deepestBlockingModal === this;
+		if (force === 'deepforce' || noBlockingModal || thisIsTheBlockingModalToForceClose) {
 			this.closeModal();
 			return true;
 		}
@@ -168,6 +169,7 @@ export class ModalRemote {
 	}
 
 	closeModal() {
+		this.closeChild();
 		this.declareClosed();
 		this.modalContext.preventWindowClick();
 		const shallow = this.p.shallow;
@@ -179,6 +181,11 @@ export class ModalRemote {
 		this.focusAnchor();
 	}
 
+	closeChild() {
+		this.childModalOpenned?.closeChild();
+		this.childModalOpenned?.closeModal();
+	}
+
 	deepClose(maxCloseNumber?: number) {
 		if (maxCloseNumber !== undefined) {
 			if (maxCloseNumber === 0) return;
@@ -186,15 +193,6 @@ export class ModalRemote {
 		}
 		this.close();
 		this.parentModal?.deepClose(maxCloseNumber);
-	}
-
-	DEBUG(text: string, detail?: any) {
-		const title = this.p.isCloseDialog
-			? 'Close dialog'
-			: this.parentModal
-				? 'Child modal'
-				: 'Root Modal';
-		if (this.p.debug) console.log(title + ' : ' + text, detail);
 	}
 
 	focusAnchor() {
@@ -206,8 +204,11 @@ export class ModalRemote {
 	}
 
 	switch() {
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-		this.isVisible ? this.close() : this.open();
+		if (this.isVisible) {
+			this.close();
+		} else {
+			this.open();
+		}
 	}
 
 	async openOnMouse() {

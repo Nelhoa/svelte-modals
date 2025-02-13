@@ -27,7 +27,7 @@ export interface ModalProps {
 	stopScrollElements?: (modal: ModalRemote) => (HTMLElement | undefined | null)[];
 	callbacks?: { show?: (modal: ModalRemote) => unknown; hide?: (modal: ModalRemote) => unknown }; // show and hide callbacks
 	isCloseDialog?: boolean;
-	debug?: boolean;
+	DEBUG?: { name?: string; log?: boolean };
 }
 
 export type Shallow = {

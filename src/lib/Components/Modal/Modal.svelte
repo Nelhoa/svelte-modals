@@ -98,9 +98,6 @@
 			)}
 			style="top: {modal.position.y}px; left: {modal.position.x}px;"
 		>
-			<div>
-				{modal.childModalOpenned}
-			</div>
 			{@render p.children?.()}
 		</div>
 		{#if p.portal}
