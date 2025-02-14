@@ -91,6 +91,7 @@
 <h2>Features</h2>
 
 <ul>
+	<li>Great DX with no extra bindings</li>
 	<li>Widely customizable</li>
 	<li>Stackable popover</li>
 	<li>Handle tooltips</li>
