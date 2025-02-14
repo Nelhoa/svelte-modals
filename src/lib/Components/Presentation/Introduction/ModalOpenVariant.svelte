@@ -26,7 +26,7 @@
 
 <h2>Use</h2>
 
-<button class="modal-open:outline modal-open:outline-black">
+<button class="modal-open:bg-green-600">
 	Styled when openned
 	<Modal placement="bottom-start" class="p-3 border border-black/10">Openned</Modal>
 </button>
@@ -34,8 +34,8 @@
 <CodeSnippet
 	class="mt-5"
 	lang="svelte"
-	code={`<button class="modal-open:outline modal-open:outline-black">
+	code={`<button class="modal-open:bg-green-600">
 	Styled when openned
-	<Modal placement="bottom-start" class="p-3 border border-black/10">Openned</Modal>
+	<Modal>Your content goes here</Modal>
 </button>`}
 />
