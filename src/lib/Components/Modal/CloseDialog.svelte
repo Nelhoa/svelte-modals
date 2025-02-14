@@ -30,9 +30,10 @@
 		noAnchor
 		centered
 		isCloseDialog
+		DEBUG={{ name: `${modal.p.DEBUG?.name} - Close Dialog` }}
 	>
 		{#if modal.p.closeDialog}
-			{@render modal.p.closeDialog(close, back)}
+			{@render modal.p.closeDialog({ close, back })}
 		{:else}
 			<div class="flex justify-items flex-col text-center w-[200px] text-balance p-3 gap-3">
 				<div>Fermer la fenêtre ?</div>

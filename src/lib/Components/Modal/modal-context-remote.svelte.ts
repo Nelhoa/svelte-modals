@@ -51,8 +51,11 @@ export class ModalContextRemote {
 		}));
 	}
 
-	private getTargetedRootModals(target: Node) {
-		for (const openned of this.opennedAtCaptureTime) {
+	private getTargetedRootModals(
+		target: Node,
+		opennedAtCaptureTime: { modal: ModalRemote; element?: HTMLElement }[]
+	) {
+		for (const openned of opennedAtCaptureTime) {
 			if (!openned.element?.contains(target)) continue;
 			return openned.modal.childModalOpenned;
 		}
@@ -62,13 +65,15 @@ export class ModalContextRemote {
 	windowClick() {
 		const exception = [this.openning];
 		const target = this.eventTarget;
+		const opennedAtCaptureTime = [...this.opennedAtCaptureTime];
+		this.opennedAtCaptureTime = [];
 		this.openning = undefined;
 		this.eventTarget = undefined;
 		this.event = undefined;
 
 		if (this.everyModalOpenned.length === 0) return;
 		if (!(target instanceof Node)) return;
-		const branchToClose = this.getTargetedRootModals(target);
+		const branchToClose = this.getTargetedRootModals(target, opennedAtCaptureTime);
 		branchToClose?.contextClose(exception);
 	}
 }

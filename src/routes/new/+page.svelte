@@ -14,7 +14,12 @@
 	<button
 		class="bg-blue-500 mt-2 text-sm text-white font-semibold rounded px-3 py-1 cursor-pointer hover:bg-blue-600"
 		>Tester
-		<Modal bind:this={myModal} placement="bottom-start" class="px-3 py-1" enableCloseDialog
+		<Modal
+			DEBUG={{ name: 'Modal 1' }}
+			bind:this={myModal}
+			placement="bottom-start"
+			class="px-3 py-1"
+			enableCloseDialog
 			>Voici ma super modale !
 			<button onclick={() => myModal?.modal.close()}>Fermer</button>
 

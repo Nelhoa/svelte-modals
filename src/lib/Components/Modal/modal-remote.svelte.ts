@@ -109,6 +109,7 @@ export class ModalRemote {
 		if (!this.canOpenModal()) return;
 		this.getSister()?.closeModal();
 		if (this.modalContext.opennedAtCaptureTime.map((i) => i.modal).includes(this)) return;
+
 		const shallow = this.p.shallow;
 		if (shallow) return this.openState(shallow);
 		this.p.callbacks?.show?.(this);
@@ -153,11 +154,14 @@ export class ModalRemote {
 	contextClose(exception: (ModalRemote | undefined)[] = []) {
 		const aModalIsTryingToOpen = exception.filter((i) => i).length > 0;
 		if (aModalIsTryingToOpen) return;
+		console.log('launch close');
 		this.close();
 	}
 
 	close(force?: 'force' | 'deepforce'): boolean {
+		this.debug('Close');
 		const deepestBlockingModal = this.getDeepestBlockingModal();
+		this.debug(`Deepest : ${deepestBlockingModal?.p.DEBUG?.name}`);
 		const noBlockingModal = !deepestBlockingModal;
 		const thisIsTheBlockingModalToForceClose = force === 'force' && deepestBlockingModal === this;
 		if (force === 'deepforce' || noBlockingModal || thisIsTheBlockingModalToForceClose) {
@@ -216,6 +220,13 @@ export class ModalRemote {
 		await wait(15);
 		this.onMouse = true;
 		this.open();
+	}
+
+	private debug(...data: [string, unknown] | [string] | [unknown]) {
+		const name = this.p.DEBUG?.name;
+		if (data[1]) return console.log(`${name} : ${data[0]}`, data[1]);
+		if (typeof data[0] === 'string') return console.log(`${name} : ${data[0]}`);
+		return console.log(`${name}`, data[0]);
 	}
 
 	positionModal(anchor: HTMLElement | virtualAnchor, modalElement: HTMLElement) {

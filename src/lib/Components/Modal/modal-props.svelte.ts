@@ -2,10 +2,12 @@ import type { Middleware, Placement } from '@floating-ui/dom';
 import type { Snippet } from 'svelte';
 import type { ModalRemote } from './modal-remote.svelte.js';
 
+type CloseDialogSnippet = Snippet<[{ close: () => unknown; back: () => unknown }]>;
+
 export interface ModalProps {
 	// if you want to open modal on mouse, use bind:this with the ModalComponent type, inside the remote is a function called openOnMouse dedicated to it.
 	children?: Snippet; // default snippet
-	closeDialog?: Snippet<[() => unknown, () => unknown]>;
+	closeDialog?: CloseDialogSnippet;
 	tooltip?: Snippet; // snippet for the tooltip, so it appears only when modal is closed
 	portal?: Snippet; // snippet for setting content above the modals
 	enableCloseDialog?: boolean;
