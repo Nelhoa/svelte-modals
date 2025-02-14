@@ -71,7 +71,7 @@ export class ModalContextRemote {
 		this.eventTarget = undefined;
 		this.event = undefined;
 
-		if (this.everyModalOpenned.length === 0) return;
+		if (opennedAtCaptureTime.length === 0) return;
 		if (!(target instanceof Node)) return;
 		const branchToClose = this.getTargetedRootModals(target, opennedAtCaptureTime);
 		branchToClose?.contextClose(exception);

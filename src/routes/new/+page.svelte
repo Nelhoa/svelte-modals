@@ -1,15 +1,33 @@
 <script lang="ts">
 	import { initModalContext } from '$lib/Components/Modal/modal-context-init.svelte.js';
 	import Modal from '$lib/Components/Modal/Modal.svelte';
+	import CodeSnippet from '$lib/Components/PresentationAtoms/CodeSnippet.svelte';
 	import Tooltip from '$lib/Components/Tooltip/Tooltip.svelte';
 	import Close from './Close.svelte';
 	initModalContext();
 
 	let myModal = $state<ReturnType<typeof Modal>>();
+
+	const code: string = `\<script>
+  import Highlight from "svelte-highlight";
+  import typescript from "svelte-highlight/languages/typescript";
+  import horizonDark from "svelte-highlight/styles/horizon-dark";
+
+  const code = "const add = (a: number, b: number) => a + b;";
+\</script\>
+
+<svelte:head>
+  {@html horizonDark}
+</svelte:head>
+
+<Highlight language={typescript} {code} />
+`;
 </script>
 
 <div class="p-10 bg-blue-100 h-screen">
 	<div class="font-bold text-lg">Nouvelle modal</div>
+
+	<CodeSnippet lang="svelte" {code} />
 
 	<button
 		class="bg-blue-500 mt-2 text-sm text-white font-semibold rounded px-3 py-1 cursor-pointer hover:bg-blue-600"

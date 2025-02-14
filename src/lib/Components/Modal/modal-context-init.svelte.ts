@@ -23,10 +23,10 @@ export function initModalContext() {
 		});
 
 		return () => {
+			console.log('clean modal context');
 			modalContext.everyModalOpenned = [];
 			modalContext.rootModalOpenned = undefined;
 			subs.unsubscribe();
-			console.log('clean modal context');
 		};
 	});
 }

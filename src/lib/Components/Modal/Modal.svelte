@@ -61,7 +61,7 @@
 	$effect(() => {
 		return () => {
 			untrack(() => {
-				modal.close('force');
+				modal.close();
 				modal.element?.remove();
 			});
 		};

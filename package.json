@@ -72,12 +72,13 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"@floating-ui/dom": "^1.6.13",
+		"@floating-ui/dom": "^1.6.11",
 		"@tailwindcss/vite": "^4.0.6",
 		"clsx": "^2.1.1",
-		"postcss": "^8.5.2",
-		"svelte": "^5.19.9",
-		"tailwind-merge": "^3.0.1",
-		"tailwindcss": "^4.0.6"
+		"postcss": "^8.4.47",
+		"svelte": "^5.0.0",
+		"svelte-highlight": "^7.8.2",
+		"tailwind-merge": "^2.5.3",
+		"tailwindcss": "^4.0.0-beta.9"
 	}
 }

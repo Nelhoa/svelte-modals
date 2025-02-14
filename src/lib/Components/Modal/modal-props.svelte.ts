@@ -8,6 +8,7 @@ export interface ModalProps {
 	// if you want to open modal on mouse, use bind:this with the ModalComponent type, inside the remote is a function called openOnMouse dedicated to it.
 	children?: Snippet; // default snippet
 	closeDialog?: CloseDialogSnippet;
+	closeDialogContent?: { content?: string; backButton?: string; confirmButton?: string };
 	tooltip?: Snippet; // snippet for the tooltip, so it appears only when modal is closed
 	portal?: Snippet; // snippet for setting content above the modals
 	enableCloseDialog?: boolean;

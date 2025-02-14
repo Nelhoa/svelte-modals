@@ -15,7 +15,7 @@ import type { ModalContextRemote } from './modal-context-remote.svelte.js';
 import type Modal from './Modal.svelte';
 import type { ModalProps, Shallow } from './modal-props.svelte.js';
 
-export type ModalComponent = { modal: ModalRemote } | undefined;
+export type ModalElement = ReturnType<typeof Modal>;
 export type closeContext = 'outsideContextmenu' | 'outsideClick' | 'escape' | 'force';
 
 const MODAL_ATTRIBUTE = 'data-modal';
@@ -141,6 +141,7 @@ export class ModalRemote {
 	isModalBlocked() {
 		if (this.p.enableCloseDialog) return true;
 		if (this.p.noCloseOnOutsideClick) return true;
+		return false;
 	}
 
 	canOpenModal(): boolean {
@@ -154,16 +155,13 @@ export class ModalRemote {
 	contextClose(exception: (ModalRemote | undefined)[] = []) {
 		const aModalIsTryingToOpen = exception.filter((i) => i).length > 0;
 		if (aModalIsTryingToOpen) return;
-		console.log('launch close');
-		this.close();
+		this.close('context');
 	}
 
-	close(force?: 'force' | 'deepforce'): boolean {
-		this.debug('Close');
+	close(force?: 'context' | 'deepforce'): boolean {
 		const deepestBlockingModal = this.getDeepestBlockingModal();
-		this.debug(`Deepest : ${deepestBlockingModal?.p.DEBUG?.name}`);
 		const noBlockingModal = !deepestBlockingModal;
-		const thisIsTheBlockingModalToForceClose = force === 'force' && deepestBlockingModal === this;
+		const thisIsTheBlockingModalToForceClose = force === undefined && deepestBlockingModal === this;
 		if (force === 'deepforce' || noBlockingModal || thisIsTheBlockingModalToForceClose) {
 			this.closeModal();
 			return true;

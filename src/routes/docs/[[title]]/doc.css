@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+
+@layer base {
+
+    .presentation {
+        div {
+            @apply text-black/80
+        }
+
+        a {
+            @apply underline font-semibold text-blue-900/70 hover:text-blue-900/85
+        }
+    
+        
+    }
+
+    button {
+        @apply bg-blue-500 text-white font-semibold px-3 rounded py-1 hover:bg-blue-600 cursor-pointer focus:shadow-sm focus:outline-1;
+    }
+
+    a {
+        @apply cursor-pointer
+    }
+
+    h2 {
+        @apply text-2xl text-black/90 font-serif mb-3 mt-7;
+    }
+
+    ul {
+        @apply list-disc marker:text-blue-500/55 pl-5;
+
+        li {
+            @apply mb-1
+        }
+    }
+}
