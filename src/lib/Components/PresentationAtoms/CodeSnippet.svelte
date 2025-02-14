@@ -3,6 +3,7 @@
 	import Highlight, { HighlightSvelte } from 'svelte-highlight';
 	import typescript from 'svelte-highlight/languages/typescript';
 	import powershell from 'svelte-highlight/languages/powershell';
+	import scss from 'svelte-highlight/languages/scss';
 	import 'svelte-highlight/styles/github.css';
 
 	let {
@@ -11,7 +12,7 @@
 		fileName,
 		class: className
 	}: {
-		lang: 'typescript' | 'svelte' | 'powershell';
+		lang: 'typescript' | 'svelte' | 'powershell' | 'css';
 		code: string;
 		fileName?: string;
 		class?: string;
@@ -21,12 +22,11 @@
 <div class={cn('relative rounded-md overflow-clip border border-black/10 mt-3 mb-6', className)}>
 	{#if !fileName}
 		<div class="absolute top-[5px] font-mono right-[10px] text-blue-900/40">{lang}</div>
-	{/if}
-	{#if fileName}
+	{:else}
 		<div
-			class="w-full bg-blue-50 py-1 font-mono font-medium text-blue-900/60 tracking-wide px-4 text-[15px] flex justify-between"
+			class="w-full bg-blue-50 font-mono font-medium text-blue-900/60 tracking-wide px-4 text-[15px] flex justify-between py-1"
 		>
-			<div>
+			<div class="">
 				{fileName}
 			</div>
 			<div class="font-mono text-blue-900/40">{lang}</div>
@@ -38,5 +38,7 @@
 		<HighlightSvelte {code}></HighlightSvelte>
 	{:else if lang === 'powershell'}
 		<Highlight language={powershell} {code} />
+	{:else if lang === 'css'}
+		<Highlight language={scss} {code} />
 	{/if}
 </div>

@@ -42,3 +42,5 @@
         border-radius: var(--scroll-bar-border-radius);
     }
 }
+
+@custom-variant modal-open (&:is([data-modal='open']));

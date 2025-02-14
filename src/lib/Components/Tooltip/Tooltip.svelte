@@ -52,12 +52,6 @@
 	$effect(() => {
 		if (tooltip.isVisible && !lastVisible) {
 			firstPositionned = true;
-			// untrack(async () => {
-			// 	fi
-			// 	// tooltip.setPosition(mouse, { instant: true });
-			// 	// xTween.set(mouse.x, { instant: true });
-			// 	// yTween.set(mouse.y, { instant: true });
-			// });
 		}
 		lastVisible = tooltip.isVisible;
 	});

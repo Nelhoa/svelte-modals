@@ -8,11 +8,11 @@
 	let modal = $state<ModalElement>();
 </script>
 
-<div class="mb-3 text-balance">
+<p class="mb-3 text-balance">
 	Svelte-modals is a performant and easy to use popover manager for creating dialog and tooltips.
 	Primarly build for <a href="https://planhead.fr">Planhead (Cashflow management)</a> by
 	<a href="https://github.com/Nelhoa">Neil Savin</a>.
-</div>
+</p>
 
 <button class="my-3 mr-2"
 	>Anchored modal
@@ -92,7 +92,7 @@
 
 <ul>
 	<li>Widely customizable</li>
-	<li>Stakable popover</li>
+	<li>Stackable popover</li>
 	<li>Handle tooltips</li>
 	<li>Handle <InlineCode code="shallow routing" /></li>
 	<li>Handle <InlineCode code="escape" /> keydown shortcut</li>
@@ -106,13 +106,13 @@
 
 <h2>Basic use</h2>
 
-<div>Just need to init the context manager in your top <InlineCode code="+layout.svelte" /></div>
+<p>Just need to init the context manager in your top <InlineCode code="+layout.svelte" /></p>
 
 <CodeSnippet lang="svelte" code={layoutInit} fileName="+layout.svelte" />
 
-<div>
+<p>
 	And then, <InlineCode code="Modal" /> component goes directly inside your anchor
-</div>
+</p>
 
 <CodeSnippet
 	lang="svelte"

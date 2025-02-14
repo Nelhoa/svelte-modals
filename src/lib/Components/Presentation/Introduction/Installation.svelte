@@ -1,7 +1,12 @@
 <script>
 	import CodeSnippet from '$lib/Components/PresentationAtoms/CodeSnippet.svelte';
+	import { layoutInit } from '../codeSnippet.js';
 </script>
 
-<div>Install using npm</div>
+<p>Install using npm</p>
 
 <CodeSnippet lang="powershell" code={`npm install @nelhoa/svelte-modals`} />
+
+<p>And init context</p>
+
+<CodeSnippet lang="svelte" code={layoutInit} fileName="+layout.svelte" />

@@ -38,7 +38,7 @@
 				<div class="uppercase text-black/50 tracking-wide leading-0.5 text-[15px]">
 					{title.title}
 				</div>
-				<div class="text-[44px] font-serif mb-5">{item.subtitle}</div>
+				<div class="text-[40px] font-serif mb-5">{item.subtitle}</div>
 				<div class="presentation">
 					<ItemComponent />
 				</div>

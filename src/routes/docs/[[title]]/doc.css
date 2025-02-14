@@ -3,15 +3,17 @@
 @layer base {
 
     .presentation {
-        div {
-            @apply text-black/80
-        }
+        
 
         a {
             @apply underline font-semibold text-blue-900/70 hover:text-blue-900/85
         }
     
         
+    }
+
+    p {
+        @apply text-black/80 mt-3.5
     }
 
     button {

@@ -1,6 +1,7 @@
 import type { Component } from 'svelte';
 import Overview from './Introduction/Overview.svelte';
 import Installation from './Introduction/Installation.svelte';
+import ModalOpenVariant from './Introduction/ModalOpenVariant.svelte';
 
 type title = { title: string; items: presentationItem[] };
 type presentationItem = { subtitle: string; slug: string; component: Component };
@@ -19,6 +20,11 @@ export const index: title[] = [
 				subtitle: 'Installation',
 				slug: 'installation',
 				component: Installation
+			},
+			{
+				subtitle: `'modal-open:' Variant `,
+				slug: 'variant-configuration',
+				component: ModalOpenVariant
 			}
 		]
 	}
