@@ -25,7 +25,7 @@
 	@reference "tailwindcss/theme";
 
 	.main {
-		@apply grid grid-rows-[auto_1fr] min-h-[100dvh] max-h-[100vh];
+		@apply grid grid-rows-[auto_1fr] h-[100dvh];
 
 		grid-template-areas:
 			'header'
