@@ -8,7 +8,9 @@
 </script>
 
 <div class="main">
-	<Header {item} />
+	<div>
+		<Header {item} />
+	</div>
 	<div class="body" style="grid-area: body;">
 		<div class="nav bg-blue-200/5 overflow-y-auto p-5" style="grid-area: navigation;">
 			<Navigation {item} />
@@ -23,7 +25,7 @@
 	@reference "tailwindcss/theme";
 
 	.main {
-		@apply grid grid-rows-[auto_1fr] h-[100dvh];
+		@apply grid grid-rows-[auto_1fr] min-h-[100dvh];
 
 		grid-template-areas:
 			'header'
