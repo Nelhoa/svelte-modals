@@ -14,48 +14,51 @@
 	<a href="https://github.com/Nelhoa">Neil Savin</a>.
 </p>
 
-<button class="my-3 mr-2"
-	>Anchored modal
-	<Modal
-		placement="bottom-start"
-		class="p-3 flex flex-col items-start border border-black/10 gap-y-2"
-		><div>Here is your content</div>
-		<button
-			>Next modal ?
-			<Modal
-				placement="bottom-start"
-				class="p-3 flex flex-col item-start justify-center border border-black/10"
-				><div>Its stackable !</div>
-				{#snippet tooltip()}
-					<Tooltip placement="bottom" class="mb-3 py-0.5 px-2">Click here !</Tooltip>
-				{/snippet}
-			</Modal>
-		</button>
-		{#snippet tooltip()}
-			<Tooltip placement="top" class="mb-3 py-0.5 px-2">Click here !</Tooltip>
-		{/snippet}
-	</Modal>
-</button>
-<button class="my-3 mr-2"
-	>Centered modal
-	<Modal
-		bind:this={modal}
-		class="presentation p-8 w-[90%] max-w-[550px] bg-white flex items-start justify-center flex-col gap-3"
-		centered
-		lockBackground
-		backdropStyles="bg-black/30"
-		stopScrollElements={(modal) => [modal.anchor?.parentElement?.parentElement?.parentElement]}
-	>
-		<h2 class="mt-0 mb-1">A centered modal</h2>
-		<div>For exemple :</div>
-		<ul>
-			<li>Background interactivity disabled.</li>
-			<li>Scrolling stoped.</li>
-		</ul>
-		<CodeSnippet
-			class="w-full my-1"
-			lang="svelte"
-			code={`<button
+<h2>Test it !</h2>
+
+<div class="flex gap-3 mt-3 mb-3 flex-wrap">
+	<button
+		>Anchored modal
+		<Modal
+			placement="bottom-start"
+			class="p-3 flex flex-col items-start border border-black/10 gap-y-2"
+			><div>Here is your content</div>
+			<button
+				>Next modal ?
+				<Modal
+					placement="bottom-start"
+					class="p-3 flex flex-col item-start justify-center border border-black/10"
+					><div>Its stackable !</div>
+					{#snippet tooltip()}
+						<Tooltip placement="bottom" class="mb-3 py-0.5 px-2">Click here !</Tooltip>
+					{/snippet}
+				</Modal>
+			</button>
+			{#snippet tooltip()}
+				<Tooltip placement="top" class="mb-3 py-0.5 px-2">Click here !</Tooltip>
+			{/snippet}
+		</Modal>
+	</button>
+	<button
+		>Centered modal
+		<Modal
+			bind:this={modal}
+			class="presentation p-8 w-[90%] max-w-[550px] bg-white flex items-start justify-center flex-col gap-3"
+			centered
+			lockBackground
+			backdropStyles="bg-black/30"
+			stopScrollElements={(modal) => [modal.anchor?.parentElement?.parentElement?.parentElement]}
+		>
+			<h2 class="mt-0 mb-1">A centered modal</h2>
+			<div>For exemple :</div>
+			<ul>
+				<li>Background interactivity disabled.</li>
+				<li>Scrolling stoped.</li>
+			</ul>
+			<CodeSnippet
+				class="w-full my-1"
+				lang="svelte"
+				code={`<button
 	>Centered modal
 	<Modal
 		bind:this={modal}
@@ -69,24 +72,25 @@
 		<button onclick={() => modal?.modal.close()}>Click here to close</button>
 	</Modal>
 </button>`}
-		/>
-		<button onclick={() => modal?.modal.close()}>Click here to close</button>
-		{#snippet tooltip()}
-			<Tooltip placement="bottom-start" class="my-2 py-0.5 px-2">Click here !</Tooltip>
-		{/snippet}
-	</Modal>
-</button>
-<button class="my-3"
-	>Protected modal
-	<Modal enableCloseDialog class="p-3 max-w-[200px]">
-		You won’t be able to close this modal unless you confirm your choice.
-		{#snippet tooltip()}
-			<Tooltip onMouse placement="bottom-start" class="m-5 py-0.5 px-2" tweenDuration={200}
-				>Click here !</Tooltip
-			>
-		{/snippet}
-	</Modal>
-</button>
+			/>
+			<button onclick={() => modal?.modal.close()}>Click here to close</button>
+			{#snippet tooltip()}
+				<Tooltip placement="bottom-start" class="my-2 py-0.5 px-2">Click here !</Tooltip>
+			{/snippet}
+		</Modal>
+	</button>
+	<button
+		>Protected modal
+		<Modal enableCloseDialog class="p-3 max-w-[200px]">
+			You won’t be able to close this modal unless you confirm your choice.
+			{#snippet tooltip()}
+				<Tooltip onMouse placement="bottom-start" class="m-5 py-0.5 px-2" tweenDuration={200}
+					>Click here !</Tooltip
+				>
+			{/snippet}
+		</Modal>
+	</button>
+</div>
 
 <h2>Features</h2>
 

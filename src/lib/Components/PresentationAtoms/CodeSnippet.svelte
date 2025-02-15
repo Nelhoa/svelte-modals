@@ -19,9 +19,15 @@
 	} = $props();
 </script>
 
-<div class={cn('relative rounded-md overflow-clip border border-black/10 mt-3 mb-6', className)}>
+<div
+	class={cn(
+		'relative rounded-md overflow-clip border border-black/10 mt-3 mb-6',
+		!fileName && 'pt-2',
+		className
+	)}
+>
 	{#if !fileName}
-		<div class="absolute top-[5px] font-mono right-[10px] text-blue-900/40">{lang}</div>
+		<div class="absolute top-[3px] text-[13px] font-mono right-[8px] text-blue-900/40">{lang}</div>
 	{:else}
 		<div
 			class="w-full bg-blue-50 font-mono font-medium text-blue-900/60 tracking-wide px-4 text-[15px] flex justify-between py-1"

@@ -29,7 +29,7 @@
     }
 
     ul {
-        @apply list-disc marker:text-blue-500/55 pl-5;
+        @apply list-disc marker:text-blue-500/55 pl-6;
 
         li {
             @apply mb-1
