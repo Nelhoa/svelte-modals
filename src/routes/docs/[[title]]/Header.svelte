@@ -1,4 +1,5 @@
 <div
+	style="grid-area: header;"
 	class="bg-white px-5 py-3 text-lg font-semibold border-b border-b-black/10 flex justify-between"
 >
 	<div>@nelhoa/svelte-modals</div>

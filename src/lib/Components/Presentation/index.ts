@@ -3,8 +3,8 @@ import Overview from './Introduction/Overview.svelte';
 import Installation from './Introduction/Installation.svelte';
 import ModalOpenVariant from './Introduction/ModalOpenVariant.svelte';
 
-type title = { title: string; items: presentationItem[] };
-type presentationItem = { subtitle: string; slug: string; component: Component };
+export type title = { title: string; items: presentationItem[] };
+export type presentationItem = { subtitle: string; slug: string; component: Component };
 
 export function findPresentationItem(slug?: string) {
 	const item = subitems.find((i) => i.slug === slug);

@@ -1,48 +1,54 @@
 <script lang="ts">
-	import { index } from '$lib/Components/Presentation/index.js';
-	import { cn } from '$lib/utils/cn.js';
+	import Content from './Content.svelte';
 	import Header from './Header.svelte';
+	import Navigation from './Navigation.svelte';
 
 	let { data } = $props();
 	const item = $derived(data.item);
-	const ItemComponent = $derived(item.component);
-	const title = $derived(index.find((i) => i.items.find((sub) => sub === item)))!;
 </script>
 
-<div class="grid grid-rows-[auto_1fr] h-screen">
+<div class="main">
 	<Header />
-	<div class="grid grid-cols-[250px_1fr] h-full min-h-0">
-		<div class="bg-blue-200/5 overflow-y-auto p-5">
-			{#each index as mainTitle}
-				<div>
-					<div class="text-[20px] font-serif mb-2">{mainTitle.title}</div>
-					<div>
-						{#each mainTitle.items as subitem}
-							<a
-								class={cn(
-									'block text-black/60 mb-0.5',
-									subitem !== item && 'hover:text-black',
-									subitem === item && 'text-blue-500 font-bold'
-								)}
-								href={`/docs/${subitem.slug}`}
-							>
-								{subitem.subtitle}
-							</a>
-						{/each}
-					</div>
-				</div>
-			{/each}
+	<div class="body" style="grid-area: body;">
+		<div class="nav bg-blue-200/5 overflow-y-auto p-5" style="grid-area: navigation;">
+			<Navigation {item} />
 		</div>
-		<div class="bg-white overflow-y-auto h-full min-h-0">
-			<div class="mx-auto w-[90%] max-w-[1100px] py-9">
-				<div class="uppercase text-black/50 tracking-wide leading-0.5 text-[15px]">
-					{title.title}
-				</div>
-				<div class="text-[40px] font-serif mb-5">{item.subtitle}</div>
-				<div class="presentation">
-					<ItemComponent />
-				</div>
-			</div>
+		<div class="bg-white overflow-y-auto h-full min-h-0" style="grid-area: content;">
+			<Content {item} />
 		</div>
 	</div>
 </div>
+
+<style lang="postcss">
+	@reference "tailwindcss/theme";
+
+	.main {
+		@apply grid grid-rows-[auto_1fr] h-screen;
+
+		grid-template-areas:
+			'header'
+			'body';
+
+		@media (width < 800px) {
+			grid-template-areas:
+				'body'
+				'header';
+
+			@apply nth-[2]:border-t;
+		}
+	}
+
+	.body {
+		@apply grid grid-cols-[250px_1fr] h-full min-h-0;
+
+		grid-template-areas: 'navigation content';
+
+		@media (width < 800px) {
+			grid-template-areas: 'content content';
+
+			.nav {
+				@apply hidden;
+			}
+		}
+	}
+</style>
