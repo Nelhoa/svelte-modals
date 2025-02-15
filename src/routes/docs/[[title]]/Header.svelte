@@ -11,7 +11,9 @@
 <div
 	class="bg-white px-5 py-3 text-lg font-semibold border-b border-b-black/10 flex justify-between items-center max-[800px]:bg-blue-50 max-[800px]:border-t border-t-blue-200 max-[800px]:shadow"
 >
-	<div>@nelhoa/svelte-modals</div>
+	<div>
+		<span class="text-blue-500">@nelhoa</span><span class="text-black/45">/</span>svelte-modals
+	</div>
 	<div class="hidden max-[800px]:block">
 		<button
 			class="p-0 text-sm text-black/75 focus:outline-hidden focus:shadow-none modal-open:text-white modal-open:bg-blue-500 px-2 py-0.5 bg-blue-500/15 hover:bg-blue-500/30"

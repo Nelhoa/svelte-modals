@@ -8,7 +8,7 @@
 </script>
 
 <div class="main">
-	<div style="grid-area: header;" class="sticky min-[800px]:top-0 max-[800px]:bottom-0 z-1">
+	<div style="grid-area: header;">
 		<Header {item} />
 	</div>
 	<div class="body" style="grid-area: body;">
