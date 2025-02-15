@@ -23,7 +23,7 @@
 	@reference "tailwindcss/theme";
 
 	.main {
-		@apply grid grid-rows-[auto_1fr] h-screen;
+		@apply grid grid-rows-[auto_1fr] h-[100dvh];
 
 		grid-template-areas:
 			'header'
@@ -34,7 +34,7 @@
 				'body'
 				'header';
 
-			@apply *:border-t grid-rows-[1fr_auto];
+			@apply grid-rows-[1fr_auto];
 		}
 	}
 
