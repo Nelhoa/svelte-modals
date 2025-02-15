@@ -10,7 +10,7 @@
 
 <p class="mb-3 text-balance">
 	Svelte-modals is a performant and easy to use popover manager for creating dialog and tooltips.
-	Primarly build for <a href="https://planhead.fr">Planhead (cashflow management)</a> by
+	Primarly built for <a href="https://planhead.fr">Planhead (cashflow management)</a> by
 	<a href="https://github.com/Nelhoa">Neil Savin</a>.
 </p>
 
