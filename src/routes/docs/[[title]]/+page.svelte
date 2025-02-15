@@ -34,7 +34,7 @@
 				'body'
 				'header';
 
-			@apply nth-[2]:border-t;
+			@apply *:border-t grid-rows-[1fr_auto];
 		}
 	}
 
