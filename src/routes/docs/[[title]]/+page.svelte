@@ -8,7 +8,7 @@
 </script>
 
 <div class="main">
-	<div>
+	<div style="grid-area: header;" class="sticky min-[800px]:top-0 max-[800px]:bottom-0 z-1">
 		<Header {item} />
 	</div>
 	<div class="body" style="grid-area: body;">
@@ -25,7 +25,7 @@
 	@reference "tailwindcss/theme";
 
 	.main {
-		@apply grid grid-rows-[auto_1fr] min-h-[100dvh];
+		@apply grid grid-rows-[auto_1fr] min-h-[100dvh] max-h-[100vh];
 
 		grid-template-areas:
 			'header'

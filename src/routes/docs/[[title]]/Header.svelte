@@ -9,7 +9,6 @@
 </script>
 
 <div
-	style="grid-area: header;"
 	class="bg-white px-5 py-3 text-lg font-semibold border-b border-b-black/10 flex justify-between items-center max-[800px]:bg-blue-50 max-[800px]:border-t border-t-blue-200 max-[800px]:shadow"
 >
 	<div>@nelhoa/svelte-modals</div>
