@@ -2,6 +2,12 @@
 
 @layer base {
 
+    body {
+        @media (width < 800px) {
+            @apply text-[15px];
+        }
+    }
+
     .presentation {
         
 

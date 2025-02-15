@@ -43,7 +43,7 @@
 		>Centered modal
 		<Modal
 			bind:this={modal}
-			class="presentation p-8 w-[90%] max-w-[550px] bg-white flex items-start justify-center flex-col gap-3"
+			class="presentation p-8 w-[90%] max-w-[550px] max-h-[80dvh] bg-white flex items-start justify-center flex-col gap-3"
 			centered
 			lockBackground
 			backdropStyles="bg-black/30"

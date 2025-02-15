@@ -34,7 +34,7 @@
 				'body'
 				'header';
 
-			@apply grid-rows-[1fr_auto] text-[15px];
+			@apply grid-rows-[1fr_auto];
 		}
 	}
 
