@@ -43,20 +43,20 @@
 		>Centered modal
 		<Modal
 			bind:this={modal}
-			class="presentation p-8 w-[90%] max-w-[550px] max-h-[80dvh] bg-white flex items-start justify-center flex-col gap-3"
+			class="presentation p-8 w-[90%] max-w-[550px] overflow-y-auto max-h-[80dvh] bg-white"
 			centered
 			lockBackground
 			backdropStyles="bg-black/30"
 			stopScrollElements={(modal) => [modal.anchor?.parentElement?.parentElement?.parentElement]}
 		>
-			<h2 class="mt-0 mb-1">A centered modal</h2>
-			<div>For exemple :</div>
+			<h2 class="mt-0">A centered modal</h2>
+			<p>For exemple:</p>
 			<ul>
 				<li>Background interactivity disabled.</li>
 				<li>Scrolling stoped.</li>
 			</ul>
 			<CodeSnippet
-				class="w-full my-1"
+				class="w-full my-3"
 				lang="svelte"
 				code={`<button
 	>Centered modal
@@ -73,7 +73,7 @@
 	</Modal>
 </button>`}
 			/>
-			<button onclick={() => modal?.modal.close()}>Click here to close</button>
+			<button class="mt-4" onclick={() => modal?.modal.close()}>Click here to close</button>
 			{#snippet tooltip()}
 				<Tooltip placement="bottom-start" class="my-2 py-0.5 px-2">Click here !</Tooltip>
 			{/snippet}

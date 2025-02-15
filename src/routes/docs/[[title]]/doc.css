@@ -19,7 +19,7 @@
     }
 
     p {
-        @apply text-black/80 mt-3.5
+        @apply text-black/80 mt-3.5 text-balance;
     }
 
     button {
@@ -35,7 +35,7 @@
     }
 
     ul {
-        @apply list-disc marker:text-blue-500/55 pl-6;
+        @apply list-disc marker:text-blue-500/55 pl-6 mt-3;
 
         li {
             @apply mb-1

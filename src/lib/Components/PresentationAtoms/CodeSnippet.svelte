@@ -21,7 +21,7 @@
 
 <div
 	class={cn(
-		'relative rounded-md overflow-clip border border-black/10 mt-3 mb-6',
+		'relative rounded-md overflow-clip border border-black/10 mt-3 mb-6 max-[800px]:scrollbarr-show',
 		!fileName && 'pt-2',
 		className
 	)}

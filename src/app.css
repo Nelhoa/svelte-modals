@@ -43,4 +43,29 @@
     }
 }
 
+@utility scrollbarr-hide {
+	-ms-overflow-style: none;
+	scrollbar-width: none; /* Masque la barre de défilement */
+	-webkit-overflow-scrolling: touch;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+@utility scrollbarr-show {
+	-ms-overflow-style: auto;
+	scrollbar-width: auto; /* Masque la barre de défilement */
+	-webkit-overflow-scrolling: auto;
+
+	&::-webkit-scrollbar {
+		display: auto;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background-color: rgba(0, 0, 0, 0.1);
+		border-radius: 20px;
+	}
+}
+
 @custom-variant modal-open (&:is([data-modal='open']));

@@ -8,7 +8,7 @@
 </script>
 
 <div class="main">
-	<Header />
+	<Header {item} />
 	<div class="body" style="grid-area: body;">
 		<div class="nav bg-blue-200/5 overflow-y-auto p-5" style="grid-area: navigation;">
 			<Navigation {item} />
