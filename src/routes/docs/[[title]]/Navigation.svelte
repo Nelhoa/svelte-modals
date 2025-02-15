@@ -9,7 +9,7 @@
 {#each index as mainTitle}
 	<div>
 		<div class="text-[20px] font-serif mb-2">{mainTitle.title}</div>
-		<div>
+		<div class="flex flex-col max-[800px]:gap-y-[5px] text-[16px]">
 			{#each mainTitle.items as subitem}
 				<a
 					class={cn(

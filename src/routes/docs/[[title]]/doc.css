@@ -12,7 +12,7 @@
         
 
         a {
-            @apply underline font-semibold text-blue-900/70 hover:text-blue-900/85
+            @apply underline font-semibold text-blue-700/70 hover:text-blue-700
         }
     
         

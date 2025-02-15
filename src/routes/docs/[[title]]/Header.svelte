@@ -16,9 +16,12 @@
 	</div>
 	<div class="hidden max-[800px]:block">
 		<button
-			class="p-0 text-sm text-black/75 focus:outline-hidden focus:shadow-none modal-open:text-white modal-open:bg-blue-500 px-2 py-0.5 bg-blue-500/15 hover:bg-blue-500/30"
+			class="p-0 text-sm text-black/75 focus:outline-hidden focus:shadow-none modal-open:text-white modal-open:bg-blue-500 px-2.5 py-1 bg-blue-500/15 hover:bg-blue-500/30"
 			>Menu
-			<Modal bind:this={modal} class="w-[250px] border-blue-100 border">
+			<Modal
+				bind:this={modal}
+				class="w-[250px] border-blue-100 border max-h-[90dvh] overflow-y-auto"
+			>
 				<!-- svelte-ignore a11y_click_events_have_key_events -->
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div class="p-3" onclick={() => modal?.modal.close()}>
