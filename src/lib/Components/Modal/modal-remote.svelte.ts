@@ -20,32 +20,44 @@ export type closeContext = 'outsideContextmenu' | 'outsideClick' | 'escape' | 'f
 
 const MODAL_ATTRIBUTE = 'data-modal';
 export class ModalRemote {
-	p: ModalProps = $state()!;
+	p: Readonly<ModalProps> = $state()!;
 	closeDialogElement?: ReturnType<typeof Modal> = $state();
-	closeDialog = $derived(this.closeDialogElement?.modal);
+	readonly closeDialog = $derived(this.closeDialogElement?.modal);
 	modalContext: ModalContextRemote;
 	parentModal?: ModalRemote;
 	childModalOpenned?: ModalRemote = $state();
 	onMouse = $state(false);
-	anchor?: HTMLElement = $state();
+	defaultAnchor?: HTMLElement = $state();
+	givenAnchor?: HTMLElement = $state();
+	readonly #anchor?: HTMLElement = $derived(
+		this.givenAnchor ?? this.p.anchor ?? this.defaultAnchor
+	);
 	element?: HTMLElement = $state();
 	#isVisibleBase = $state(false);
-	#isVisible = $derived(
+	readonly #isVisible = $derived(
 		Boolean(
 			this.p.shallow ? this.p.shallow.page.state[this.p.shallow.stateName] : this.#isVisibleBase
 		)
 	);
 	position = $state({ x: 0, y: 0 });
-	placement: Placement = $derived(this.p.placement ?? 'bottom');
-	autoUpdate: boolean = $derived(!this.p.noAutoUpdate);
-	closeOnHide: boolean = $derived(!this.p.noCloseOnHide);
-	middleware: Middleware[] = $derived(
+	readonly placement: Placement = $derived(this.p.placement ?? 'bottom');
+	readonly autoUpdate: boolean = $derived(!this.p.noAutoUpdate);
+	readonly closeOnHide: boolean = $derived(!this.p.noCloseOnHide);
+	readonly middleware: Middleware[] = $derived(
 		this.p.middleware ?? [
 			offset(this.p.ModalOffset ?? 10),
 			flip(),
 			shift({ padding: this.p.ModalShift ?? 24 })
 		]
 	);
+
+	get anchor() {
+		return this.#anchor;
+	}
+
+	set anchor(v) {
+		this.givenAnchor = v;
+	}
 
 	get stopScrollElements() {
 		return this.p.stopScrollElements?.(this) ?? [];

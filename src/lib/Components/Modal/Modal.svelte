@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import Portal from '$lib/Components/Portal.svelte';
-	import { setParentClick } from './set-parent-click.js';
 	import { untrack } from 'svelte';
 	import { setAutoUpdate } from './set-auto-update.js';
 	import { mouse } from '$lib/utils/mouse-position.svelte.js';
@@ -12,6 +11,7 @@
 	import { getModalContext } from './modal-context-remote.svelte.js';
 	import CloseDialog from './CloseDialog.svelte';
 	import type { ModalProps } from './modal-props.svelte.js';
+	import { on } from 'svelte/events';
 
 	const parentModal = getModal();
 	const modalContext = getModalContext();
@@ -20,11 +20,14 @@
 	export const modal = createModal({ p, modalContext, parentModal });
 
 	function onInitAnchorMount(element: HTMLElement) {
-		modal.anchor = element.parentElement ?? undefined;
+		modal.defaultAnchor = element.parentElement ?? undefined;
+	}
+
+	$effect(() => {
 		if (!modal.anchor) return;
 		if (p.noOpenOnAnchorClick) return;
-		return setParentClick(modal, modal.anchor);
-	}
+		return on(modal.anchor, 'click', modal.switch.bind(modal));
+	});
 
 	function onModalMount(element: HTMLElement) {
 		const anchor = modal.onMouse ? createVirtualAnchor(mouse.x, mouse.y) : modal.anchor;
@@ -68,7 +71,7 @@
 	});
 </script>
 
-{#if !p.noAnchor}
+{#if !p.noAnchor && !p.anchor}
 	<div class="hidden" use:onInitAnchorMount></div>
 {/if}
 

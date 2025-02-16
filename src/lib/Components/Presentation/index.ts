@@ -2,6 +2,7 @@ import type { Component } from 'svelte';
 import Overview from './Introduction/Overview.svelte';
 import Installation from './Introduction/Installation.svelte';
 import ModalOpenVariant from './Introduction/ModalOpenVariant.svelte';
+import Anchor from './Introduction/Anchor.svelte';
 
 export type title = { title: string; items: presentationItem[] };
 export type presentationItem = { subtitle: string; slug: string; component: Component };
@@ -25,7 +26,8 @@ export const index: title[] = [
 				subtitle: `'modal-open:' Variant `,
 				slug: 'variant-configuration',
 				component: ModalOpenVariant
-			}
+			},
+			{ subtitle: `How anchor works`, slug: 'how-anchor-works', component: Anchor }
 		]
 	}
 ];
