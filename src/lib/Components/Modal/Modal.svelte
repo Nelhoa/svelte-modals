@@ -30,35 +30,28 @@
 	});
 
 	function onModalMount(element: HTMLElement) {
-		const anchor = modal.onMouse ? createVirtualAnchor(mouse.x, mouse.y) : modal.anchor;
-		if (!anchor) return;
-		modal.positionModal(anchor, element);
-		const scroll = new ScrollManager();
-		scroll.stop(...modal.stopScrollElements);
-		const removeAutoUpdate = setAutoUpdate(modal, element, anchor);
-		return {
-			destroy: async () => {
+		$effect(() => {
+			const mouseAnchor = createVirtualAnchor(mouse.x, mouse.y);
+			const anchor = modal.onMouse ? mouseAnchor : modal.anchor;
+			if (!anchor) return;
+			const scroll = new ScrollManager();
+			scroll.stop(...modal.stopScrollElements);
+			const removeAutoUpdate = setAutoUpdate(modal, element, anchor);
+			return () => {
 				scroll.resume?.();
 				removeAutoUpdate?.();
-			}
-		};
+			};
+		});
 	}
 
 	function onCenteredModalMount(element: HTMLElement) {
-		const scroll = new ScrollManager();
-		scroll.stop(...modal.stopScrollElements);
-		return {
-			destroy: async () => {
+		$effect(() => {
+			const scroll = new ScrollManager();
+			scroll.stop(...modal.stopScrollElements);
+			return () => {
 				scroll.resume?.();
-			}
-		};
-	}
-
-	function backdropClick(e: Event) {
-		if (!p.lockBackground) return;
-		e.stopPropagation();
-		if (p.noCloseOnOutsideClick) return;
-		modal.close();
+			};
+		});
 	}
 
 	$effect(() => {
@@ -80,7 +73,6 @@
 	<Portal>
 		<div
 			role="none"
-			onclick={backdropClick}
 			class={cn(
 				'pointer-events-none fixed inset-0 z-modal',
 				p.lockBackground && 'pointer-events-auto',
@@ -112,7 +104,6 @@
 {:else if modal.isVisible}
 	<Portal>
 		<div
-			onclick={backdropClick}
 			role="none"
 			class={cn(
 				'pointer-events-none fixed inset-0 z-modal',

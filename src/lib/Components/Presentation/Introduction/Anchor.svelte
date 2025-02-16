@@ -17,8 +17,6 @@
 	/> component which gets its parent thanks to the <InlineCode code={'.closestParent'} /> method.
 </p>
 
-<h2>Performance matters ?</h2>
-
 <p>
 	In the vast majority of cases, you won't notice any performance issues even when using hundreds of <InlineCode
 		code={'Modals'}
@@ -34,6 +32,14 @@
 <CodeSnippet
 	class="mt-5"
 	lang="svelte"
+	code={`<Modal noAnchor anchor={myAnchor}>My content</Modal>`}
+/>
+
+<h2>You can set anchor manualy</h2>
+
+<CodeSnippet
+	class="mt-5"
+	lang="svelte"
 	code={`\<script lang="ts">
 	let myButton = $state<HTMLElement>();
 </script\>
@@ -42,21 +48,23 @@
 <Modal noAnchor anchor={myButton}>My content</Modal>`}
 />
 
-<h2>You can also switch anchor</h2>
+<h2>And make it switch</h2>
 
-<div class="flex gap-x-3 items-center mb-3">
-	<input type="checkbox" bind:checked />
-	<div>Switch anchor</div>
+<div class="flex gap-3 mt-5 mb-5 flex-wrap">
+	<button disabled={bindedButton !== button1} bind:this={button1} class="disabled:opacity-30"
+		>Button One</button
+	>
+	<button disabled={bindedButton !== button2} class="disabled:opacity-30" bind:this={button2}
+		>Button Two</button
+	>
 </div>
 
-<button disabled={bindedButton !== button1} bind:this={button1} class="disabled:opacity-30"
-	>Button One</button
+<Modal class="p-4" noAnchor anchor={bindedButton}
+	><div class="flex gap-x-3 items-center">
+		<input type="checkbox" bind:checked />
+		<div>Switch anchor</div>
+	</div></Modal
 >
-<button disabled={bindedButton !== button2} class="disabled:opacity-30" bind:this={button2}
-	>Button Two</button
->
-
-<Modal class="p-4" noAnchor anchor={bindedButton}>My content</Modal>
 
 <CodeSnippet
 	class="mt-5"
@@ -68,11 +76,11 @@
 	const bindedButton = $derived(checked ? button2 : button1);
 </script\>
 
-<input type="checkbox" bind:checked />
-<div>Switch anchor</div>
-
 <button bind:this={button1}>Button One</button>
 <button bind:this={button2}>Button Two</button>
 
-<Modal noAnchor anchor={bindedButton}>My content</Modal>`}
+<Modal noAnchor anchor={bindedButton}>
+	<input type="checkbox" bind:checked />
+	<div>Switch anchor</div>
+</Modal>`}
 />
