@@ -30,11 +30,11 @@
 	});
 
 	function onModalMount(element: HTMLElement) {
+		const mouseAnchor = createVirtualAnchor(mouse.x, mouse.y);
 		$effect(() => {
-			const mouseAnchor = createVirtualAnchor(mouse.x, mouse.y);
 			const anchor = modal.onMouse ? mouseAnchor : modal.anchor;
 			if (!anchor) return;
-			const scroll = new ScrollManager();
+			var scroll = new ScrollManager();
 			scroll.stop(...modal.stopScrollElements);
 			if (modal.p.noAutoUpdate || modal.onMouse) {
 				modal.positionModal(anchor, element);
