@@ -36,7 +36,11 @@
 			if (!anchor) return;
 			const scroll = new ScrollManager();
 			scroll.stop(...modal.stopScrollElements);
-			const removeAutoUpdate = setAutoUpdate(modal, element, anchor);
+			if (modal.p.noAutoUpdate || modal.onMouse) {
+				modal.positionModal(anchor, element);
+			} else {
+				var removeAutoUpdate = setAutoUpdate(modal, element, anchor);
+			}
 			return () => {
 				scroll.resume?.();
 				removeAutoUpdate?.();
@@ -64,7 +68,7 @@
 	});
 </script>
 
-{#if !p.noAnchor && !p.anchor}
+{#if !p.noAnchor}
 	<div class="hidden" use:onInitAnchorMount></div>
 {/if}
 

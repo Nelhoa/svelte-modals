@@ -41,7 +41,6 @@ export class ModalRemote {
 	);
 	position = $state({ x: 0, y: 0 });
 	readonly placement: Placement = $derived(this.p.placement ?? 'bottom');
-	readonly autoUpdate: boolean = $derived(!this.p.noAutoUpdate);
 	readonly closeOnHide: boolean = $derived(!this.p.noCloseOnHide);
 	readonly middleware: Middleware[] = $derived(
 		this.p.middleware ?? [

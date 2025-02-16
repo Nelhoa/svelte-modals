@@ -7,9 +7,6 @@ export function setAutoUpdate(
 	element: HTMLElement,
 	anchor: HTMLElement | virtualAnchor
 ) {
-	if (!modal.autoUpdate) return;
-	if (modal.onMouse) return;
-
 	function positionModal() {
 		modal.positionModal(anchor, element);
 	}
