@@ -26,7 +26,7 @@
 	$effect(() => {
 		if (!modal.anchor) return;
 		if (p.noOpenOnAnchorClick) return;
-		return on(modal.anchor, 'click', modal.switch.bind(modal));
+		return on(modal.anchor, 'click', modal.open.bind(modal));
 	});
 
 	function onModalMount(element: HTMLElement) {
