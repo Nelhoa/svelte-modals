@@ -1,4 +1,4 @@
-import { findPresentationItem } from '$lib/Components/Presentation/index.js';
+import { findPresentationItem } from '$lib/Presentation/index.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load({ params }) {

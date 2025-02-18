@@ -1,5 +1,5 @@
 <script>
-	import CodeSnippet from '$lib/Components/PresentationAtoms/CodeSnippet.svelte';
+	import CodeSnippet from '$lib/Presentation/PresentationAtoms/CodeSnippet.svelte';
 	import { layoutInit } from '../codeSnippet.js';
 </script>
 

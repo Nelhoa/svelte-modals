@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ModalElement } from '$lib/Components/Modal/modal.svelte.js';
 	import Modal from '$lib/Components/Modal/Modal.svelte';
-	import type { presentationItem } from '$lib/Components/Presentation/index.js';
+	import type { presentationItem } from '$lib/Presentation/index.js';
 	import Navigation from './Navigation.svelte';
 
 	let { item }: { item: presentationItem } = $props();

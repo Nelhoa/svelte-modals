@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { initModalContext } from '$lib/Components/Modal/modal-context-init.svelte.js';
 	import Modal from '$lib/Components/Modal/Modal.svelte';
-	import CodeSnippet from '$lib/Components/PresentationAtoms/CodeSnippet.svelte';
+	import CodeSnippet from '$lib/Presentation/PresentationAtoms/CodeSnippet.svelte';
 	import Tooltip from '$lib/Components/Tooltip/Tooltip.svelte';
 	import Close from './Close.svelte';
 	initModalContext();

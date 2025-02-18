@@ -6,9 +6,11 @@ import { flip, offset, shift, type Middleware, type Placement } from '@floating-
 import { type Snippet } from 'svelte';
 import { on } from 'svelte/events';
 import { Tween } from 'svelte/motion';
+import type Tooltip from './Tooltip.svelte';
 
 type tweenType<T> = InstanceType<typeof Tween<T>>;
 type tweenOptions<T> = Parameters<tweenType<T>['set']>['1'];
+export type TooltipElement = ReturnType<typeof Tooltip>;
 
 export interface TooltipProps {
 	children?: Snippet;

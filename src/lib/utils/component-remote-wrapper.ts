@@ -1,6 +1,6 @@
 import { getContext, setContext } from 'svelte';
 
-export function newRemote<T, A extends any[]>(context: string, classType: new (...i: A) => T) {
+export function newRemote<T, A extends unknown[]>(context: string, classType: new (...i: A) => T) {
 	function create(...params: ConstructorParameters<typeof classType>) {
 		const remote = new classType(...params);
 		setContext(context, remote);
@@ -8,7 +8,7 @@ export function newRemote<T, A extends any[]>(context: string, classType: new (.
 	}
 
 	function createOrReset(
-		func?: { get: () => T | undefined | null; set: (remote: T) => any },
+		func?: { get: () => T | undefined | null; set: (remote: T) => unknown },
 		...params: ConstructorParameters<typeof classType>
 	) {
 		const remote = func?.get() ?? new classType(...params);

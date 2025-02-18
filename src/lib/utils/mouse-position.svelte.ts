@@ -1,6 +1,6 @@
 import { on } from 'svelte/events';
 
-let mousePosition = $state({ x: 0, y: 0 });
+const mousePosition = $state({ x: 0, y: 0 });
 
 $effect.root(() => {
 	$effect(() => {

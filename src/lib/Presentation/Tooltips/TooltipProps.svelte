@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Modal from '$lib/Components/Modal/Modal.svelte';
-	import CodeSnippet from '$lib/Components/PresentationAtoms/CodeSnippet.svelte';
-	import CustomInput from '$lib/Components/PresentationAtoms/CustomInput.svelte';
-	import InlineCode from '$lib/Components/PresentationAtoms/InlineCode.svelte';
+	import CodeSnippet from '$lib/Presentation/PresentationAtoms/CodeSnippet.svelte';
+	import CustomInput from '$lib/Presentation/PresentationAtoms/CustomInput.svelte';
+	import InlineCode from '$lib/Presentation/PresentationAtoms/InlineCode.svelte';
 	import type { TooltipProps } from '$lib/Components/Tooltip/tooltip-remote.svelte.js';
 	import type { Placement } from '@floating-ui/dom';
 	let tooltipProps: TooltipProps = $state({
@@ -74,6 +74,7 @@
 
 <h2>Advanced</h2>
 <p><InlineCode code="class" /> string. For styling tooltip with tailwindcss.</p>
+<p><InlineCode code="children" /> Snippet rendered in the tooltip element.</p>
 <p>
 	<InlineCode code="middleware" /> Middleware[]; Floating-ui middlewares. If you want to configure how
 	tooltip will be placed by yourself.
@@ -106,7 +107,7 @@
 	class="mt-8"
 	lang="svelte"
 	code={`\<script lang="ts">
-    let tooltipProps: TooltipProps = $state({ onMouse: true });
+    let tooltipProps: TooltipProps = $state({});
 </script\>
 
 {#snippet tooltip()}
