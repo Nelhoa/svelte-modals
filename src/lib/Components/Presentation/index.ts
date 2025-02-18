@@ -29,7 +29,7 @@ export const index: title[] = [
 				component: ModalOpenVariant
 			},
 			{ subtitle: `How anchor works`, slug: 'how-anchor-works', component: Anchor },
-			{ subtitle: `Tooltips`, slug: 'tooltips-intro', component: TooltipIntro }
+			{ subtitle: `Tooltip props`, slug: 'tooltips-intro', component: TooltipIntro }
 		]
 	}
 ];

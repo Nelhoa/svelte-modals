@@ -8,23 +8,14 @@ type tooltipElement = ReturnType<typeof Tooltip>;
 type tooltipRemote = tooltipElement['tooltip'];
 type tooltipProps = ComponentProps<typeof Tooltip>;
 
-const defaultTooltipProps: tooltipProps = {
-	noDefaultAnchor: true
-};
-
 export class TooltipContext {
-	specialProps?: () => tooltipProps = $state();
-	readonly props: tooltipProps = $derived.by(() => {
-		const specialProps = this.specialProps?.() ?? {};
-		return { ...defaultTooltipProps, ...specialProps };
-	});
 	element: tooltipElement;
 	remote: tooltipRemote;
 
 	constructor() {
 		this.element = mount(Tooltip, {
 			target: document.querySelector('body')!,
-			props: this.props
+			props: { noDefaultAnchor: true }
 		});
 		this.remote = this.element.tooltip;
 	}
@@ -38,8 +29,8 @@ export class TooltipContext {
 		return {
 			enter: () => {
 				if (!tooltip) return;
-				this.specialProps = props;
-				tooltip.customAnchor = this.props.onMouse ? undefined : element;
+				this.remote.specialProps = props;
+				tooltip.customAnchor = element;
 				tooltip.show();
 			},
 			leave: async () => {

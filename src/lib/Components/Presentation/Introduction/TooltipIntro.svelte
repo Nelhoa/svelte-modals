@@ -1,24 +1,125 @@
 <script lang="ts">
-	import { getModalContext } from '$lib/Components/Modal/modal-context.svelte.js';
-	import { initTooltip } from '$lib/Components/Modal/tooltip-context.svelte.js';
-	let props = $state({ onMouse: true });
-	const modalContext = getModalContext();
+	import Modal from '$lib/Components/Modal/Modal.svelte';
+	import CodeSnippet from '$lib/Components/PresentationAtoms/CodeSnippet.svelte';
+	import CustomInput from '$lib/Components/PresentationAtoms/CustomInput.svelte';
+	import InlineCode from '$lib/Components/PresentationAtoms/InlineCode.svelte';
+	import type { TooltipProps } from '$lib/Components/Tooltip/tooltip-remote.svelte.js';
+	import type { Placement } from '@floating-ui/dom';
+	let tooltipProps: TooltipProps = $state({
+		onMouse: false,
+		hideMS: 50,
+		tweenDuration: 150,
+		class: 'px-2 py-0.5',
+		modalOffset: 10,
+		disabled: false,
+		enableOnMobile: true,
+		placement: 'bottom'
+	});
 
-	function onclick() {
-		props.onMouse = !props.onMouse;
-	}
+	const placements: Placement[] = [
+		'bottom',
+		'bottom-end',
+		'bottom-start',
+		'left',
+		'left-end',
+		'left-start',
+		'right',
+		'right-end',
+		'right-start',
+		'top',
+		'top-end',
+		'top-start'
+	];
+
+	/**
+     * 
+	
+    */
 </script>
 
-<p>Tooltips</p>
+<CustomInput type="boolean" bind:value={tooltipProps.disabled} title="disabled"></CustomInput>
+<CustomInput type="boolean" bind:value={tooltipProps.enableOnMobile} title="enableOnMobile"
+></CustomInput>
 
-<p>Hello {JSON.stringify(modalContext.tooltip?.props)}</p>
+<CustomInput type="boolean" bind:value={tooltipProps.onMouse} title="onMouse">
+	<p>Makes the tooltip be placed relatively to its anchor or to the mouse.</p>
+</CustomInput>
 
-{#snippet element()}
-	<div>Coucou</div>
+<CustomInput type="number" bind:value={tooltipProps.hideMS} title="hideMS">
+	<p>
+		Time before tooltip hides when <InlineCode code="close()" /> function is called. For instance, when
+		mouse leaves anchor. You can override this when manualy calling <InlineCode
+			code="tooltip.close(<hideMS>)"
+		/>.
+	</p>
+</CustomInput>
+
+<CustomInput type="number" bind:value={tooltipProps.tweenDuration} title="tweenDuration">
+	<p>
+		For having a latency when updating tooltip position. You can notice that tooltip will go from
+		one anchor to an other if you set an <InlineCode code="hideMS" /> long enough so mouses go from one
+		to an other before tooltip close.
+	</p>
+</CustomInput>
+
+<CustomInput type="number" bind:value={tooltipProps.modalOffset} title="modalOffset">
+	<p>Offset between tooltip and its anchor or mouse</p>
+</CustomInput>
+
+<CustomInput type={placements} bind:value={tooltipProps.placement} title="placement"
+	><p>
+		Floating ui placement preference. But will flip by default if no space is available.
+	</p></CustomInput
+>
+
+<h2>Advanced</h2>
+<p><InlineCode code="class" /> string. For styling tooltip with tailwindcss.</p>
+<p>
+	<InlineCode code="middleware" /> Middleware[]; Floating-ui middlewares. If you want to configure how
+	tooltip will be placed by yourself.
+</p>
+
+<p>
+	<InlineCode code="noDefaultAnchor" /> For removing the default anchor like you would for modals. Learn
+	more in <a href="/docs/how-anchor-works">How anchor works</a> section.
+</p>
+<p><InlineCode code="in" /> SvelteTransition.</p>
+<p><InlineCode code="out" /> SvelteTransition.</p>
+
+{#snippet tooltip()}
+	My tooltip content
 {/snippet}
 
-<button class="mt-5" {onclick} use:initTooltip={() => ({ children: element, ...props })}>
-	Hover this button !
+<div class="flex gap-3 mt-3 mb-3 flex-wrap">
+	<button class="mt-4">
+		Button one
+		<Modal class="px-3 py-1" {tooltipProps} {tooltip}>Modal content</Modal>
+	</button>
+
+	<button class="mt-4">
+		Button two
+		<Modal class="px-3 py-1" {tooltipProps} {tooltip}>Modal content</Modal>
+	</button>
+</div>
+
+<CodeSnippet
+	class="mt-8"
+	lang="svelte"
+	code={`\<script lang="ts">
+    let tooltipProps: TooltipProps = $state({ onMouse: true });
+</script\>
+
+{#snippet tooltip()}
+	My tooltip content
+{/snippet}
+
+<button>
+    Button one
+    <Modal {tooltipProps} {tooltip}>Modal content</Modal>
 </button>
 
-<!-- <button use:initModal={{ children: element, class: 'bg-blue-100 px-3' }}>Test modal</button> -->
+<button>
+    Button two
+    <Modal {tooltipProps} {tooltip}>Modal content</Modal>
+</button>`}
+/>

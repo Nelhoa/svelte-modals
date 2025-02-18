@@ -10,10 +10,14 @@
 
 	let p: TooltipProps = $props();
 	export const tooltip = createTooltip(p);
-	$inspect(p);
+	const tooltipProps = $derived(tooltip.props);
 
-	const inTransition: SvelteTransition = $derived(p.in ?? ((node) => fly(node, { y: 10 })));
-	const outTransition: SvelteTransition = $derived(p.out ?? (() => ({}) as TransitionConfig));
+	const inTransition: SvelteTransition = $derived(
+		tooltipProps.in ?? ((node) => fly(node, { y: 10 }))
+	);
+	const outTransition: SvelteTransition = $derived(
+		tooltipProps.out ?? (() => ({}) as TransitionConfig)
+	);
 	const { x, y } = $derived(tooltip.position.current);
 
 	let firstPositionned = false;
@@ -22,7 +26,7 @@
 			placement: tooltip.placement,
 			middleware: tooltip.middleware
 		}).then(({ x, y }) => {
-			const duration = firstPositionned ? 0 : (p.tweenDuration ?? 0);
+			const duration = firstPositionned ? 0 : (tooltipProps.tweenDuration ?? 0);
 			firstPositionned = false;
 			const scrollX = window.scrollX;
 			const scrollY = window.scrollY;
@@ -31,7 +35,7 @@
 	}
 
 	$effect(() => {
-		if (!p.onMouse && tooltip.isVisible && tooltip.element && tooltip.anchor) {
+		if (!tooltipProps.onMouse && tooltip.isVisible && tooltip.element && tooltip.anchor) {
 			var clean = autoUpdate(tooltip.anchor, tooltip.element, () => {
 				if (tooltip.anchor && tooltip.element) position(tooltip.anchor, tooltip.element);
 			});
@@ -42,7 +46,7 @@
 	});
 
 	$effect(() => {
-		if (p.onMouse && tooltip.isVisible && tooltip.element) {
+		if (tooltipProps.onMouse && tooltip.isVisible && tooltip.element) {
 			const mouseAnchor = createVirtualAnchor(mouse.x, mouse.y);
 			position(mouseAnchor, tooltip.element);
 		}
@@ -64,11 +68,7 @@
 	}
 </script>
 
-<div>
-	{JSON.stringify(p)}
-</div>
-
-{#if !p.noDefaultAnchor}
+{#if !tooltipProps.noDefaultAnchor}
 	<div class="hidden" use:onInitAnchorMount></div>
 {/if}
 
@@ -80,11 +80,11 @@
 			bind:this={tooltip.element}
 			class={cn(
 				'pointer-events-none fixed left-(--x) top-(--y) z-modal rounded-sm bg-white shadow-sm',
-				p.class
+				tooltipProps.class
 			)}
 			style="--x: {x}px; --y: {y}px"
 		>
-			{@render p.children?.()}
+			{@render tooltipProps.children?.()}
 		</div>
 	</Portal>
 {/if}

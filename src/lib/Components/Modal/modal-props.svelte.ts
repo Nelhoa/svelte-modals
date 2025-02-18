@@ -1,12 +1,13 @@
 import type { Middleware, Placement } from '@floating-ui/dom';
-import type { Snippet } from 'svelte';
+import type { ComponentProps, Snippet } from 'svelte';
 import type { ModalRemote } from './modal.svelte.js';
+import type Tooltip from '../Tooltip/Tooltip.svelte';
 
 type CloseDialogSnippet = Snippet<[{ close: () => unknown; back: () => unknown }]>;
 
 export interface ModalProps {
 	// if you want to open modal on mouse, use bind:this with the ModalComponent type, inside the remote is a function called openOnMouse dedicated to it.
-	children?: Snippet; // default snippet
+	children?: Snippet | Snippet<[ModalRemote]>; // default snippet
 	closeDialog?: CloseDialogSnippet;
 	closeDialogContent?: { content?: string; backButton?: string; confirmButton?: string };
 	tooltip?: Snippet; // snippet for the tooltip, so it appears only when modal is closed
@@ -30,6 +31,7 @@ export interface ModalProps {
 	stopScrollElements?: (modal: ModalRemote) => (HTMLElement | undefined | null)[];
 	callbacks?: { show?: (modal: ModalRemote) => unknown; hide?: (modal: ModalRemote) => unknown }; // show and hide callbacks
 	isCloseDialog?: boolean;
+	tooltipProps?: ComponentProps<typeof Tooltip>;
 	DEBUG?: { name?: string; log?: boolean };
 }
 

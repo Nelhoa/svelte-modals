@@ -6,12 +6,13 @@
 	import { mouse } from '$lib/utils/mouse-position.svelte.js';
 	import { createVirtualAnchor } from '$lib/utils/create-virtual-anchor.js';
 	import { cn } from '$lib/utils/cn.js';
-	import { createModal, getModal } from './modal.svelte.js';
+	import { createModal, getModal, ModalRemote } from './modal.svelte.js';
 	import { ScrollManager } from './scroll-manager.js';
 	import { getModalContext } from './modal-context.svelte.js';
 	import CloseDialog from './CloseDialog.svelte';
 	import type { ModalProps } from './modal-props.svelte.js';
 	import { on } from 'svelte/events';
+	import { Subscribers } from '$lib/utils/subscribers.svelte.js';
 
 	const parentModal = getModal();
 	const modalContext = getModalContext();
@@ -22,6 +23,10 @@
 	function onInitAnchorMount(element: HTMLElement) {
 		modal.defaultAnchor = element.parentElement ?? undefined;
 	}
+
+	// function renderChild(modal: ModalRemote){
+	// 	return p.children?.(modal)
+	// }
 
 	$effect(() => {
 		if (!modal.anchor) return;
@@ -66,6 +71,24 @@
 			});
 		};
 	});
+
+	$effect(() => {
+		const anchor = modal.anchor;
+		const tooltipContext = modal.modalContext.tooltip;
+		if (!modal.isVisible && anchor && tooltipContext) {
+			const { enter, leave } = tooltipContext.setTooltipAction(
+				() => ({ ...p.tooltipProps, children: p.tooltip }),
+				anchor
+			);
+			const subs = new Subscribers();
+			subs.add(on(anchor, 'mouseenter', enter));
+			subs.add(on(anchor, 'mouseleave', leave));
+			return () => {
+				tooltipContext.remote.hide(0);
+				subs.unsubscribe();
+			};
+		}
+	});
 </script>
 
 {#if !p.noAnchor}
@@ -97,7 +120,7 @@
 			)}
 			style="top: {modal.position.y}px; left: {modal.position.x}px;"
 		>
-			{@render p.children?.()}
+			{@render p.children?.(modal)}
 		</div>
 		{#if p.portal}
 			<div class="fixed inset-0">
@@ -130,7 +153,7 @@
 					p.class
 				)}
 			>
-				{@render p.children?.()}
+				{@render p.children?.(modal)}
 			</div>
 		</div>
 		{#if p.portal}
@@ -139,8 +162,8 @@
 	</Portal>
 {/if}
 
-{#if !modal.isVisible}
+<!-- {#if !modal.isVisible}
 	{@render p.tooltip?.()}
-{/if}
+{/if} -->
 
 <CloseDialog {modal} />

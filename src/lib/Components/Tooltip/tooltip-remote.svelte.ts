@@ -29,7 +29,9 @@ export interface TooltipProps {
 
 export class TooltipRemote {
 	currentHides: symbol[] = [];
+	specialProps?: () => TooltipProps = $state();
 	#p: TooltipProps = $state()!;
+	readonly props: TooltipProps = $derived({ ...this.#p, ...this.specialProps?.() });
 	defaultAnchor: HTMLElement | undefined | null = $state();
 	customAnchor = $state<HTMLElement>();
 	anchor = $derived(this.customAnchor ?? this.defaultAnchor);
@@ -37,12 +39,12 @@ export class TooltipRemote {
 	#isVisible = $state(false);
 	position = new Tween({ x: 0, y: 0 }, { duration: 0 });
 	cleanupAutoUpdate?: () => void;
-	placement = $derived(this.#p.placement ?? 'bottom');
+	placement = $derived(this.props.placement ?? 'bottom');
 	middleware = $derived(
-		this.#p.middleware ?? [
-			offset(this.#p.modalOffset ?? 10),
+		this.props.middleware ?? [
+			offset(this.props.modalOffset ?? 10),
 			flip(),
-			shift({ padding: this.#p.ModalShift ?? 24 })
+			shift({ padding: this.props.ModalShift ?? 24 })
 		]
 	);
 
@@ -73,14 +75,14 @@ export class TooltipRemote {
 	}
 
 	show() {
-		if (this.#p.disabled) return;
-		if (isPhone() && !this.#p.enableOnMobile) return;
+		if (this.props.disabled) return;
+		if (isPhone() && !this.props.enableOnMobile) return;
 		this.currentHides = [];
 		this.#isVisible = true;
 	}
 
 	async hide(ms?: number | null, callback?: () => unknown) {
-		const hideMS = ms ?? this.#p.hideMS;
+		const hideMS = ms ?? this.props.hideMS;
 		if (hideMS && ms !== null) {
 			const hideSymbol = Symbol();
 			this.currentHides.push(hideSymbol);
