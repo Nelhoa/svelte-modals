@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ModalElement } from '$lib/Components/Modal/modal-remote.svelte.js';
+	import type { ModalElement } from '$lib/Components/Modal/modal.svelte.js';
 	import Modal from '$lib/Components/Modal/Modal.svelte';
 	import CodeSnippet from '$lib/Components/PresentationAtoms/CodeSnippet.svelte';
 	import InlineCode from '$lib/Components/PresentationAtoms/InlineCode.svelte';
@@ -18,7 +18,7 @@
 
 <div class="flex gap-3 mt-3 mb-3 flex-wrap">
 	<button
-		>Anchored modal
+		>⚓ Anchored modal
 		<Modal
 			placement="bottom-start"
 			class="p-3 flex flex-col items-start border border-black/10 gap-y-2"
@@ -40,7 +40,7 @@
 		</Modal>
 	</button>
 	<button
-		>Centered modal
+		>🎯 Centered modal
 		<Modal
 			bind:this={modal}
 			class="presentation p-8 w-[90%] max-w-[550px] overflow-y-auto max-h-[80dvh] bg-white"
@@ -80,7 +80,7 @@
 		</Modal>
 	</button>
 	<button
-		>Protected modal
+		>🔒 Protected modal
 		<Modal enableCloseDialog class="p-3 max-w-[200px]">
 			You won’t be able to close this modal unless you confirm your choice.
 			{#snippet tooltip()}

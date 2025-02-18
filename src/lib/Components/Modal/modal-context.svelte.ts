@@ -1,13 +1,23 @@
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
-import type { ModalRemote } from './modal-remote.svelte.js';
+import type { ModalRemote } from './modal.svelte.js';
+import type { TooltipContext } from './tooltip-context.svelte.js';
 
 export class ModalContextRemote {
 	event?: Event;
+	#tooltip?: TooltipContext = $state();
 	eventTarget?: EventTarget | null;
 	rootModalOpenned?: ModalRemote = $state();
 	everyModalOpenned: ModalRemote[] = $state.raw([]);
 	opennedAtCaptureTime: { modal: ModalRemote; element?: HTMLElement }[] = [];
 	openning?: ModalRemote;
+
+	get tooltip() {
+		return this.#tooltip!;
+	}
+
+	set tooltip(v) {
+		this.#tooltip = v;
+	}
 
 	preventWindowClick() {
 		this.event = undefined;

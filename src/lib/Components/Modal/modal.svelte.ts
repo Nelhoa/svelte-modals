@@ -11,8 +11,8 @@ import {
 import type { virtualAnchor } from '$lib/types/types.js';
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import { wait } from '$lib/utils/wait.js';
-import type { ModalContextRemote } from './modal-context-remote.svelte.js';
-import type Modal from './Modal.svelte';
+import type { ModalContextRemote } from './modal-context.svelte.js';
+import type Modal from './Modal.svelte.js';
 import type { ModalProps, Shallow } from './modal-props.svelte.js';
 
 export type ModalElement = ReturnType<typeof Modal>;

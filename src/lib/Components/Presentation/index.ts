@@ -3,6 +3,7 @@ import Overview from './Introduction/Overview.svelte';
 import Installation from './Introduction/Installation.svelte';
 import ModalOpenVariant from './Introduction/ModalOpenVariant.svelte';
 import Anchor from './Introduction/Anchor.svelte';
+import TooltipIntro from './Introduction/TooltipIntro.svelte';
 
 export type title = { title: string; items: presentationItem[] };
 export type presentationItem = { subtitle: string; slug: string; component: Component };
@@ -27,7 +28,8 @@ export const index: title[] = [
 				slug: 'variant-configuration',
 				component: ModalOpenVariant
 			},
-			{ subtitle: `How anchor works`, slug: 'how-anchor-works', component: Anchor }
+			{ subtitle: `How anchor works`, slug: 'how-anchor-works', component: Anchor },
+			{ subtitle: `Tooltips`, slug: 'tooltips-intro', component: TooltipIntro }
 		]
 	}
 ];

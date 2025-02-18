@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { wait } from '$lib/utils/wait.js';
-	import type { ModalRemote } from './modal-remote.svelte.js';
+	import type { ModalRemote } from './modal.svelte.js';
 	import Modal from './Modal.svelte';
 
 	let { modal }: { modal: ModalRemote } = $props();

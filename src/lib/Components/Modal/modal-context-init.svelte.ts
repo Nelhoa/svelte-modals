@@ -1,6 +1,8 @@
 import { untrack } from 'svelte';
-import { createModalContextRemote } from './modal-context-remote.svelte.js';
+import { createModalContextRemote } from './modal-context.svelte.js';
 import { on } from 'svelte/events';
+import { TooltipContext } from './tooltip-context.svelte.js';
+import { Subscribers } from '$lib/utils/subscribers.svelte.js';
 
 export function initModalContext() {
 	const modalContext = createModalContextRemote();
@@ -10,6 +12,10 @@ export function initModalContext() {
 		const subs = new Subscribers();
 
 		untrack(() => {
+			const tooltipContext = new TooltipContext();
+			modalContext.tooltip = tooltipContext;
+			subs.add(tooltipContext.unmount.bind(tooltipContext));
+
 			const onclick = () => modalContext.windowClick();
 			const oncontextmenu = () => modalContext.windowClick();
 			const onkeydown = (e: KeyboardEvent) => modalContext.escapeModals(e);
@@ -29,19 +35,4 @@ export function initModalContext() {
 			subs.unsubscribe();
 		};
 	});
-}
-
-type unsubscriber = () => unknown;
-
-class Subscribers {
-	#list: unsubscriber[] = [];
-
-	add(unsubscriber: unsubscriber) {
-		this.#list.push(unsubscriber);
-	}
-
-	unsubscribe() {
-		this.#list.forEach((i) => i());
-		this.#list = [];
-	}
 }

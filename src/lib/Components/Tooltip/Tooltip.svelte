@@ -10,6 +10,7 @@
 
 	let p: TooltipProps = $props();
 	export const tooltip = createTooltip(p);
+	$inspect(p);
 
 	const inTransition: SvelteTransition = $derived(p.in ?? ((node) => fly(node, { y: 10 })));
 	const outTransition: SvelteTransition = $derived(p.out ?? (() => ({}) as TransitionConfig));
@@ -62,6 +63,10 @@
 		return cleanup;
 	}
 </script>
+
+<div>
+	{JSON.stringify(p)}
+</div>
 
 {#if !p.noDefaultAnchor}
 	<div class="hidden" use:onInitAnchorMount></div>
