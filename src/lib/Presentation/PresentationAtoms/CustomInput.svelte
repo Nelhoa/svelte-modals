@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { untrack, type Snippet } from 'svelte';
+	import { fly, slide } from 'svelte/transition';
 
 	let {
 		value = $bindable(),
@@ -57,7 +58,7 @@
 	</div>
 
 	{#if children && openned}
-		<div class="*:text-sm *:text-black/60 -mt-1">
+		<div in:fly={{ x: 5 }} class="*:text-sm *:text-black/60 -mt-1">
 			{@render children?.()}
 		</div>
 	{/if}

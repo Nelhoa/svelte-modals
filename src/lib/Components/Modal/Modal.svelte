@@ -6,7 +6,7 @@
 	import { mouse } from '$lib/utils/mouse-position.svelte.js';
 	import { createVirtualAnchor } from '$lib/utils/create-virtual-anchor.js';
 	import { cn } from '$lib/utils/cn.js';
-	import { createModal, getModal, ModalRemote } from './modal.svelte.js';
+	import { createModal, getModal } from './modal.svelte.js';
 	import { ScrollManager } from './scroll-manager.js';
 	import { getModalContext } from './modal-context.svelte.js';
 	import CloseDialog from './CloseDialog.svelte';
@@ -21,27 +21,23 @@
 	export const modal = createModal({ p, modalContext, parentModal });
 
 	function onInitAnchorMount(element: HTMLElement) {
-		modal.defaultAnchor = element.parentElement ?? undefined;
+		modal._defaultAnchor = element.parentElement ?? undefined;
 	}
-
-	// function renderChild(modal: ModalRemote){
-	// 	return p.children?.(modal)
-	// }
 
 	$effect(() => {
 		if (!modal.anchor) return;
-		if (p.noOpenOnAnchorClick) return;
+		if (modal.props.noOpenOnAnchorClick) return;
 		return on(modal.anchor, 'click', modal.open.bind(modal));
 	});
 
 	function onModalMount(element: HTMLElement) {
 		const mouseAnchor = createVirtualAnchor(mouse.x, mouse.y);
 		$effect(() => {
-			const anchor = modal.onMouse ? mouseAnchor : modal.anchor;
+			const anchor = modal._onMouse ? mouseAnchor : modal.anchor;
 			if (!anchor) return;
 			var scroll = new ScrollManager();
 			scroll.stop(...modal.stopScrollElements);
-			if (modal.p.noAutoUpdate || modal.onMouse) {
+			if (modal.props.noAutoUpdate || modal._onMouse) {
 				modal.positionModal(anchor, element);
 			} else {
 				var removeAutoUpdate = setAutoUpdate(modal, element, anchor);
@@ -74,10 +70,10 @@
 
 	$effect(() => {
 		const anchor = modal.anchor;
-		const tooltipContext = modal.modalContext.tooltip;
-		if (!modal.isVisible && anchor && tooltipContext) {
+		const tooltipContext = modal._modalContext.tooltip;
+		if (!modal.isVisible && anchor && tooltipContext && modal.props.tooltip) {
 			const { enter, leave } = tooltipContext.setTooltipAction(
-				() => ({ ...p.tooltipProps, children: p.tooltip }),
+				() => ({ ...modal.props.tooltipProps, children: modal.props.tooltip }),
 				anchor
 			);
 			const subs = new Subscribers();
@@ -91,19 +87,19 @@
 	});
 </script>
 
-{#if !p.noAnchor}
+{#if !modal.props.noAnchor}
 	<div class="hidden" use:onInitAnchorMount></div>
 {/if}
 
-{#if modal.isVisible && !p.centered}
+{#if modal.isVisible && !modal.props.centered}
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<Portal>
 		<div
 			role="none"
 			class={cn(
 				'pointer-events-none fixed inset-0 z-modal',
-				p.lockBackground && 'pointer-events-auto',
-				p.backdropStyles
+				modal.props.lockBackground && 'pointer-events-auto',
+				modal.props.backdropStyles
 			)}
 		></div>
 
@@ -116,15 +112,15 @@
 			in:fly={{ y: 20, duration: 80 }}
 			class={cn(
 				'pointer-events-auto fixed top-0 z-modal w-max overflow-hidden rounded-lg bg-white text-black shadow-lg',
-				p.class
+				modal.props.class
 			)}
 			style="top: {modal.position.y}px; left: {modal.position.x}px;"
 		>
-			{@render p.children?.(modal)}
+			{@render modal.props.children?.(modal)}
 		</div>
-		{#if p.portal}
+		{#if modal.props.portal}
 			<div class="fixed inset-0">
-				{@render p.portal()}
+				{@render modal.props.portal()}
 			</div>
 		{/if}
 	</Portal>
@@ -134,8 +130,8 @@
 			role="none"
 			class={cn(
 				'pointer-events-none fixed inset-0 z-modal',
-				p.lockBackground && 'pointer-events-auto',
-				p.backdropStyles
+				modal.props.lockBackground && 'pointer-events-auto',
+				modal.props.backdropStyles
 			)}
 		></div>
 
@@ -150,14 +146,14 @@
 				in:fly={{ y: 20, duration: 80 }}
 				class={cn(
 					'pointer-events-auto overflow-hidden rounded-lg bg-linear-to-b from-white/[.45] to-white/[.58] text-black shadow-lg backdrop-blur-md backdrop-brightness-[1.13]  ',
-					p.class
+					modal.props.class
 				)}
 			>
-				{@render p.children?.(modal)}
+				{@render modal.props.children?.(modal)}
 			</div>
 		</div>
-		{#if p.portal}
-			{@render p.portal()}
+		{#if modal.props.portal}
+			{@render modal.props.portal()}
 		{/if}
 	</Portal>
 {/if}

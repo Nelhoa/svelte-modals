@@ -15,8 +15,8 @@ export interface ModalProps {
 	enableCloseDialog?: boolean;
 	backdropStyles?: string; // styles of the backdrop
 	class?: string; // styles of the modal
-	ModalOffset?: number; // offset px of the modal from anchor
-	ModalShift?: number; // shift px of the modal from borders of window
+	modalOffset?: number; // offset px of the modal from anchor
+	modalShift?: number; // shift px of the modal from borders of window
 	centered?: boolean; // boolean : is the modal centered or not
 	noAutoUpdate?: boolean; // boolean : remove auto update
 	noCloseOnHide?: boolean; // boolean : remove close on anchor hide

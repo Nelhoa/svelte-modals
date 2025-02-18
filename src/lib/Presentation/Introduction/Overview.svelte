@@ -30,12 +30,12 @@
 					class="p-3 flex flex-col item-start justify-center border border-black/10"
 					><div>Its stackable !</div>
 					{#snippet tooltip()}
-						<Tooltip placement="bottom" class="mb-3 py-0.5 px-2">Click here !</Tooltip>
+						Click here !
 					{/snippet}
 				</Modal>
 			</button>
 			{#snippet tooltip()}
-				<Tooltip placement="top" class="mb-3 py-0.5 px-2">Click here !</Tooltip>
+				Click here !
 			{/snippet}
 		</Modal>
 	</button>
@@ -75,18 +75,20 @@
 			/>
 			<button class="mt-4" onclick={() => modal?.modal.close()}>Click here to close</button>
 			{#snippet tooltip()}
-				<Tooltip placement="bottom-start" class="my-2 py-0.5 px-2">Click here !</Tooltip>
+				Click here !
 			{/snippet}
 		</Modal>
 	</button>
 	<button
 		>🔒 Protected modal
-		<Modal enableCloseDialog class="p-3 max-w-[200px]">
+		<Modal
+			enableCloseDialog
+			class="p-3 max-w-[200px]"
+			tooltipProps={{ onMouse: true, tweenDuration: 200 }}
+		>
 			You won’t be able to close this modal unless you confirm your choice.
 			{#snippet tooltip()}
-				<Tooltip onMouse placement="bottom-start" class="m-5 py-0.5 px-2" tweenDuration={200}
-					>Click here !</Tooltip
-				>
+				Click here !
 			{/snippet}
 		</Modal>
 	</button>

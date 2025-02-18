@@ -14,39 +14,50 @@ import { wait } from '$lib/utils/wait.js';
 import type { ModalContextRemote } from './modal-context.svelte.js';
 import type Modal from './Modal.svelte';
 import type { ModalProps, Shallow } from './modal-props.svelte.js';
+import { cn } from '$lib/utils/cn.js';
 
 export type ModalElement = ReturnType<typeof Modal>;
 export type closeContext = 'outsideContextmenu' | 'outsideClick' | 'escape' | 'force';
 
+const defaultModalProps: ModalProps = { modalOffset: 10, modalShift: 10 };
 const MODAL_ATTRIBUTE = 'data-modal';
 export class ModalRemote {
-	p: Readonly<ModalProps> = $state()!;
-	closeDialogElement?: ReturnType<typeof Modal> = $state();
-	readonly closeDialog = $derived(this.closeDialogElement?.modal);
-	private modalContext: ModalContextRemote;
-	parentModal?: ModalRemote;
-	childModalOpenned?: ModalRemote = $state();
-	onMouse = $state(false);
-	defaultAnchor?: HTMLElement = $state();
-	givenAnchor?: HTMLElement = $state();
-	readonly #anchor?: HTMLElement = $derived(
-		this.givenAnchor ?? this.p.anchor ?? this.defaultAnchor
-	);
+	private p: Readonly<ModalProps> = $state()!;
+	readonly props = $derived.by(() => ({
+		...defaultModalProps,
+		...this._modalContext.defaultModalProps,
+		...this.p,
+		class: cn(this._modalContext.defaultModalProps.class, this.p.class)
+	}));
+	_modalContext: ModalContextRemote;
+	_parentModal?: ModalRemote;
+	_childModalOpenned?: ModalRemote = $state();
+
+	_onMouse = $state(false);
+	_defaultAnchor?: HTMLElement = $state();
+	_givenAnchor?: HTMLElement = $state();
+
 	element?: HTMLElement = $state();
 	#isVisibleBase = $state(false);
+
+	#position = $state({ x: 0, y: 0 });
+
+	_closeDialogElement?: ModalElement = $state();
+	readonly #closeDialog = $derived(this._closeDialogElement?.modal);
 	readonly #isVisible = $derived(
 		Boolean(
 			this.p.shallow ? this.p.shallow.page.state[this.p.shallow.stateName] : this.#isVisibleBase
 		)
 	);
-	position = $state({ x: 0, y: 0 });
-	readonly placement: Placement = $derived(this.p.placement ?? 'bottom');
+	readonly #anchor?: HTMLElement = $derived(
+		this._givenAnchor ?? this.p.anchor ?? this._defaultAnchor
+	);
 	readonly closeOnHide: boolean = $derived(!this.p.noCloseOnHide);
 	readonly middleware: Middleware[] = $derived(
 		this.p.middleware ?? [
-			offset(this.p.ModalOffset ?? 10),
+			offset(this.props.modalOffset),
 			flip(),
-			shift({ padding: this.p.ModalShift ?? 24 })
+			shift({ padding: this.props.modalShift })
 		]
 	);
 
@@ -55,7 +66,11 @@ export class ModalRemote {
 	}
 
 	set anchor(v) {
-		this.givenAnchor = v;
+		this._givenAnchor = v;
+	}
+
+	get position() {
+		return this.#position;
 	}
 
 	get stopScrollElements() {
@@ -72,54 +87,54 @@ export class ModalRemote {
 		parentModal?: ModalRemote;
 	}) {
 		this.p = params.p;
-		this.parentModal = params.parentModal;
-		this.modalContext = params.modalContext;
+		this._parentModal = params.parentModal;
+		this._modalContext = params.modalContext;
 		this.checkShallowStack();
 	}
 
-	checkShallowStack() {
+	private checkShallowStack() {
 		if (!this.p.shallow) return;
-		if (!this.parentModal?.hasShallowAncestors) return;
+		if (!this._parentModal?.hasShallowAncestors) return;
 		throw Error(`Modal Error : Can't stack shallow routed modals`);
 	}
 
-	hasShallowAncestors(): boolean {
-		const parentShallow = this.parentModal?.hasShallowAncestors();
+	private hasShallowAncestors(): boolean {
+		const parentShallow = this._parentModal?.hasShallowAncestors();
 		return Boolean(this.p.shallow || parentShallow);
 	}
 
-	getShallowState(state: Record<string, any>) {
-		this.parentModal?.getShallowState(state);
+	private getShallowState(state: Record<string, any>) {
+		this._parentModal?.getShallowState(state);
 		const shallow = this.p.shallow;
 		if (shallow) state[shallow.stateName] = true;
 	}
 
-	openState(shallow: Shallow) {
+	private openState(shallow: Shallow) {
 		const newState: Record<string, any> = {};
 		this.getShallowState(newState);
 		shallow.pushState('', newState);
 	}
 
-	closeState() {
+	private closeState() {
 		history.back();
 	}
 
-	declareOpenned() {
-		this.modalContext.addToModalOpenned(this);
+	private declareOpenned() {
+		this._modalContext.addToModalOpenned(this);
 	}
 
-	declareClosed() {
-		this.modalContext.removeFromModalOpenned(this);
+	private declareClosed() {
+		this._modalContext.removeFromModalOpenned(this);
 	}
 
-	getDeepestModalOpenned(): ModalRemote {
-		return this.childModalOpenned?.getDeepestModalOpenned() ?? this;
+	private getDeepestModalOpenned(): ModalRemote {
+		return this._childModalOpenned?.getDeepestModalOpenned() ?? this;
 	}
 
 	open() {
 		if (!this.canOpenModal()) return;
 		this.getSister()?.closeModal();
-		if (this.modalContext.opennedAtCaptureTime.map((i) => i.modal).includes(this)) return;
+		if (this._modalContext.opennedAtCaptureTime.map((i) => i.modal).includes(this)) return;
 
 		const shallow = this.p.shallow;
 		if (shallow) return this.openState(shallow);
@@ -129,33 +144,33 @@ export class ModalRemote {
 		this.declareOpenned();
 	}
 
-	getSister() {
-		if (this.parentModal && this.parentModal.childModalOpenned !== this)
-			return this.parentModal.childModalOpenned;
-		if (this.modalContext.rootModalOpenned !== this) return this.modalContext.rootModalOpenned;
+	private getSister() {
+		if (this._parentModal && this._parentModal._childModalOpenned !== this)
+			return this._parentModal._childModalOpenned;
+		if (this._modalContext.rootModalOpenned !== this) return this._modalContext.rootModalOpenned;
 		return undefined;
 	}
 
-	getDeepestBlockingModal() {
+	private getDeepestBlockingModal() {
 		let checkedModal = this.getDeepestModalOpenned();
 		let security = 0;
 		while (security <= 20) {
 			if (checkedModal.isModalBlocked()) return checkedModal;
 			if (this === checkedModal) return;
-			const parentModal = checkedModal.parentModal;
+			const parentModal = checkedModal._parentModal;
 			if (!parentModal) return undefined;
 			checkedModal = parentModal;
 			security++;
 		}
 	}
 
-	isModalBlocked() {
+	private isModalBlocked() {
 		if (this.p.enableCloseDialog) return true;
 		if (this.p.noCloseOnOutsideClick) return true;
 		return false;
 	}
 
-	canOpenModal(): boolean {
+	private canOpenModal(): boolean {
 		const sister = this.getSister();
 		if (!sister) return true;
 		const deepestBlockingModal = sister.getDeepestBlockingModal();
@@ -177,26 +192,26 @@ export class ModalRemote {
 			this.closeModal();
 			return true;
 		}
-		deepestBlockingModal.closeDialog?.switch();
+		deepestBlockingModal.#closeDialog?.switch();
 		return false;
 	}
 
 	closeModal() {
 		this.closeChild();
 		this.declareClosed();
-		this.modalContext.preventWindowClick();
+		this._modalContext.preventWindowClick();
 		const shallow = this.p.shallow;
 		if (shallow) return this.closeState();
 		this.p.callbacks?.hide?.(this);
 		this.setAnchorState('closed');
-		this.onMouse = false;
+		this._onMouse = false;
 		this.#isVisibleBase = false;
 		this.focusAnchor();
 	}
 
 	closeChild() {
-		this.childModalOpenned?.closeChild();
-		this.childModalOpenned?.closeModal();
+		this._childModalOpenned?.closeChild();
+		this._childModalOpenned?.closeModal();
 	}
 
 	deepClose(maxCloseNumber?: number) {
@@ -205,7 +220,7 @@ export class ModalRemote {
 			maxCloseNumber -= 1;
 		}
 		this.close();
-		this.parentModal?.deepClose(maxCloseNumber);
+		this._parentModal?.deepClose(maxCloseNumber);
 	}
 
 	focusAnchor() {
@@ -227,7 +242,7 @@ export class ModalRemote {
 	async openOnMouse() {
 		if (this.isVisible) this.close();
 		await wait(15);
-		this.onMouse = true;
+		this._onMouse = true;
 		this.open();
 	}
 
@@ -241,7 +256,7 @@ export class ModalRemote {
 	positionModal(anchor: HTMLElement | virtualAnchor, modalElement: HTMLElement) {
 		computePosition(anchor, modalElement, {
 			middleware: [...this.middleware, hide()],
-			placement: this.placement
+			placement: this.props.placement
 		}).then(({ x, y, middlewareData }) => {
 			const hide = middlewareData.hide;
 			const scrollX = window.scrollX;

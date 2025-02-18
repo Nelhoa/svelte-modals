@@ -7,9 +7,11 @@
 	import type { SvelteTransition, virtualAnchor } from '$lib/types/types.js';
 	import { createTooltip, type TooltipProps } from './tooltip-remote.svelte.js';
 	import { mouse } from '$lib/utils/mouse-position.svelte.js';
+	import { getModalContext } from '../Modal/modal-context.svelte.js';
 
 	let p: TooltipProps = $props();
-	export const tooltip = createTooltip(p);
+	const modalContext = getModalContext();
+	export const tooltip = createTooltip(p, modalContext);
 	const tooltipProps = $derived(tooltip.props);
 
 	const inTransition: SvelteTransition = $derived(

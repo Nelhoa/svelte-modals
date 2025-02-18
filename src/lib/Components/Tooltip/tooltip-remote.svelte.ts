@@ -7,6 +7,8 @@ import { type Snippet } from 'svelte';
 import { on } from 'svelte/events';
 import { Tween } from 'svelte/motion';
 import type Tooltip from './Tooltip.svelte';
+import type { ModalContextRemote } from '../Modal/modal-context.svelte.js';
+import { cn } from '$lib/utils/cn.js';
 
 type tweenType<T> = InstanceType<typeof Tween<T>>;
 type tweenOptions<T> = Parameters<tweenType<T>['set']>['1'];
@@ -32,8 +34,18 @@ export interface TooltipProps {
 export class TooltipRemote {
 	currentHides: symbol[] = [];
 	specialProps?: () => TooltipProps = $state();
+	private modalContext: ModalContextRemote;
 	#p: TooltipProps = $state()!;
-	readonly props: TooltipProps = $derived({ ...this.#p, ...this.specialProps?.() });
+	readonly props: TooltipProps = $derived.by(() => ({
+		...this.modalContext.defaultTooltipProps,
+		...this.#p,
+		...this.specialProps?.(),
+		class: cn(
+			this.modalContext.defaultTooltipProps.class,
+			this.#p.class,
+			this.specialProps?.().class
+		)
+	}));
 	defaultAnchor: HTMLElement | undefined | null = $state();
 	customAnchor = $state<HTMLElement>();
 	anchor = $derived(this.customAnchor ?? this.defaultAnchor);
@@ -54,7 +66,8 @@ export class TooltipRemote {
 		return this.#isVisible;
 	}
 
-	constructor(props: TooltipProps) {
+	constructor(props: TooltipProps, modalContext: ModalContextRemote) {
+		this.modalContext = modalContext;
 		this.#p = props;
 	}
 

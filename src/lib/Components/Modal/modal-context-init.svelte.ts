@@ -1,11 +1,13 @@
 import { untrack } from 'svelte';
-import { createModalContextRemote } from './modal-context.svelte.js';
+import { createModalContextRemote, ModalContextRemote } from './modal-context.svelte.js';
 import { on } from 'svelte/events';
 import { TooltipContext } from './tooltip-context.svelte.js';
 import { Subscribers } from '$lib/utils/subscribers.svelte.js';
 
-export function initModalContext() {
-	const modalContext = createModalContextRemote();
+type options = ConstructorParameters<typeof ModalContextRemote>;
+
+export function initModalContext(...options: options) {
+	const modalContext = createModalContextRemote(...options);
 
 	$effect(() => {
 		console.log('set modal context');

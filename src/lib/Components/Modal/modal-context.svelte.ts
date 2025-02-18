@@ -1,15 +1,24 @@
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
+import type { TooltipProps } from '../Tooltip/tooltip-remote.svelte.js';
+import type { ModalProps } from './modal-props.svelte.js';
 import type { ModalRemote } from './modal.svelte.js';
 import type { TooltipContext } from './tooltip-context.svelte.js';
 
 export class ModalContextRemote {
 	event?: Event;
 	#tooltip?: TooltipContext = $state();
+	defaultModalProps: ModalProps;
+	defaultTooltipProps: TooltipProps;
 	eventTarget?: EventTarget | null;
 	rootModalOpenned?: ModalRemote = $state();
 	everyModalOpenned: ModalRemote[] = $state.raw([]);
 	opennedAtCaptureTime: { modal: ModalRemote; element?: HTMLElement }[] = [];
 	openning?: ModalRemote;
+
+	constructor(options?: { defaultModalProps?: ModalProps; defaultTooltipProps: TooltipProps }) {
+		this.defaultModalProps = options?.defaultModalProps ?? {};
+		this.defaultTooltipProps = options?.defaultTooltipProps ?? {};
+	}
 
 	get tooltip() {
 		return this.#tooltip!;
@@ -31,21 +40,21 @@ export class ModalContextRemote {
 
 	addToModalOpenned(modal: ModalRemote) {
 		this.openning = modal;
-		const parentModal = modal.parentModal;
+		const parentModal = modal._parentModal;
 		this.removeFromModalOpenned(modal);
 		this.everyModalOpenned = [modal, ...this.everyModalOpenned];
 		if (parentModal) {
-			parentModal.childModalOpenned = modal;
+			parentModal._childModalOpenned = modal;
 		} else {
 			this.rootModalOpenned = modal;
 		}
 	}
 
 	removeFromModalOpenned(modal: ModalRemote) {
-		const parentModal = modal.parentModal;
+		const parentModal = modal._parentModal;
 		this.everyModalOpenned = this.everyModalOpenned.filter((i) => i !== modal);
-		if (parentModal && parentModal.childModalOpenned === modal) {
-			parentModal.childModalOpenned = undefined;
+		if (parentModal && parentModal._childModalOpenned === modal) {
+			parentModal._childModalOpenned = undefined;
 		} else if (this.rootModalOpenned === modal) {
 			this.rootModalOpenned = undefined;
 		}
@@ -67,7 +76,7 @@ export class ModalContextRemote {
 	) {
 		for (const openned of opennedAtCaptureTime) {
 			if (!openned.element?.contains(target)) continue;
-			return openned.modal.childModalOpenned;
+			return openned.modal._childModalOpenned;
 		}
 		return this.rootModalOpenned;
 	}
