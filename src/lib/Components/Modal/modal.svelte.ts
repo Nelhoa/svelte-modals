@@ -12,7 +12,7 @@ import type { virtualAnchor } from '$lib/types/types.js';
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import { wait } from '$lib/utils/wait.js';
 import type { ModalContextRemote } from './modal-context.svelte.js';
-import type Modal from './Modal.svelte.js';
+import type Modal from './Modal.svelte';
 import type { ModalProps, Shallow } from './modal-props.svelte.js';
 
 export type ModalElement = ReturnType<typeof Modal>;
@@ -23,7 +23,7 @@ export class ModalRemote {
 	p: Readonly<ModalProps> = $state()!;
 	closeDialogElement?: ReturnType<typeof Modal> = $state();
 	readonly closeDialog = $derived(this.closeDialogElement?.modal);
-	modalContext: ModalContextRemote;
+	private modalContext: ModalContextRemote;
 	parentModal?: ModalRemote;
 	childModalOpenned?: ModalRemote = $state();
 	onMouse = $state(false);

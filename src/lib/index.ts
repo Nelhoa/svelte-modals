@@ -1,9 +1,11 @@
 import Tooltip from './Components/Tooltip/Tooltip.svelte';
-import Modal from './Components/OldModal/Modal.svelte';
+import Modal from './Components/Modal/Modal.svelte';
 import Portal from './Components/Portal.svelte';
-import { type ModalComponent } from './Components/OldModal/modal-remote.svelte.js';
-import { getModal, createModal } from './Components/OldModal/modal-remote.svelte.js';
+import { type ModalElement } from './Components/Modal/modal.svelte.js';
+import { getModal, createModal } from './Components/Modal/modal.svelte.js';
 import { initModalContext } from './Components/Modal/modal-context-init.svelte.js';
+import type { ModalProps } from './Components/Modal/modal-props.svelte.js';
+import type { ModalRemote } from './Components/Modal/modal.svelte.js';
 import type {
 	TooltipElement,
 	TooltipProps,
@@ -14,7 +16,9 @@ export {
 	Tooltip,
 	Modal,
 	Portal,
-	type ModalComponent,
+	type ModalElement,
+	type ModalRemote,
+	type ModalProps,
 	type TooltipElement,
 	type TooltipProps,
 	type TooltipRemote,
