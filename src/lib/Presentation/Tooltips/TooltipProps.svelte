@@ -65,6 +65,9 @@
 <CustomInput type="number" bind:value={tooltipProps.modalOffset} title="modalOffset">
 	<p>Gap (px unit) between tooltip and its anchor or mouse</p>
 </CustomInput>
+<CustomInput type="number" bind:value={tooltipProps.modalShift} title="modalShift">
+	<p>Min gap (px unit) between tooltip borders of the window.</p>
+</CustomInput>
 
 <CustomInput type={placements} bind:value={tooltipProps.placement} title="placement"
 	><p>
@@ -77,9 +80,18 @@
 <p><InlineCode code="class" /> string. For styling tooltip with tailwindcss.</p>
 <p><InlineCode code="children" /> Snippet rendered in the tooltip element.</p>
 <p>
-	<InlineCode code="middleware" /> Middleware[]; Floating-ui middlewares. If you want to configure how
-	tooltip will be placed by yourself.
+	<InlineCode code="middleware" /> Array of Floating-ui middlewares. Configure your own, if you want,
+	by following <a href="https://floating-ui.com/docs/middleware">@floating-ui/dom</a> documentation.
 </p>
+
+<p>Default middlewares</p>
+
+<CodeSnippet
+	lang="typescript"
+	code={`import { flip, offset, shift } from '@floating-ui/dom';
+
+middleware = [offset(props.modalOffset), flip(), shift({ padding: props.modalShift })]`}
+/>
 
 <p>
 	<InlineCode code="noDefaultAnchor" /> For removing the default anchor like you would for modals. Learn

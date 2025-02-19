@@ -17,7 +17,7 @@ export type TooltipElement = ReturnType<typeof Tooltip>;
 export interface TooltipProps {
 	children?: Snippet;
 	modalOffset?: number;
-	ModalShift?: number;
+	modalShift?: number;
 	middleware?: Middleware[];
 	placement?: Placement;
 	tweenDuration?: number;
@@ -46,19 +46,19 @@ export class TooltipRemote {
 			this.specialProps?.().class
 		)
 	}));
-	defaultAnchor: HTMLElement | undefined | null = $state();
+	_defaultAnchor: HTMLElement | undefined | null = $state();
 	customAnchor = $state<HTMLElement>();
-	anchor = $derived(this.customAnchor ?? this.defaultAnchor);
+	readonly anchor = $derived(this.customAnchor ?? this._defaultAnchor);
 	element: HTMLElement | undefined | null = $state();
 	#isVisible = $state(false);
 	position = new Tween({ x: 0, y: 0 }, { duration: 0 });
 	cleanupAutoUpdate?: () => void;
-	placement = $derived(this.props.placement ?? 'bottom');
-	middleware = $derived(
+	readonly placement = $derived(this.props.placement ?? 'bottom');
+	readonly middleware = $derived(
 		this.props.middleware ?? [
-			offset(this.props.modalOffset ?? 10),
+			offset(this.props.modalOffset),
 			flip(),
-			shift({ padding: this.props.ModalShift ?? 24 })
+			shift({ padding: this.props.modalShift })
 		]
 	);
 
@@ -72,7 +72,7 @@ export class TooltipRemote {
 	}
 
 	initAnchorListeners(anchor: HTMLElement) {
-		this.defaultAnchor = anchor;
+		this._defaultAnchor = anchor;
 		const destroys = [
 			on(anchor, 'mouseenter', this.#onAnchorMouseEnter.bind(this)),
 			on(anchor, 'mouseleave', this.#onAnchorMouseLeave.bind(this))

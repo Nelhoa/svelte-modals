@@ -18,14 +18,14 @@ export {
 	Tooltip,
 	Modal,
 	Portal,
+	getModal,
+	initModalContext,
+	initModal,
+	initTooltip,
 	type ModalElement,
 	type ModalRemote,
 	type ModalProps,
 	type TooltipElement,
 	type TooltipProps,
-	type TooltipRemote,
-	getModal,
-	initModalContext,
-	initModal,
-	initTooltip
+	type TooltipRemote
 };

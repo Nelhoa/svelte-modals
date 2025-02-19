@@ -8,6 +8,9 @@
 	import { createTooltip, type TooltipProps } from './tooltip-remote.svelte.js';
 	import { mouse } from '$lib/utils/mouse-position.svelte.js';
 	import { getModalContext } from '../Modal/modal-context.svelte.js';
+	import { on } from 'svelte/events';
+
+	on;
 
 	let p: TooltipProps = $props();
 	const modalContext = getModalContext();
@@ -23,7 +26,8 @@
 	const { x, y } = $derived(tooltip.position.current);
 
 	let firstPositionned = false;
-	export function position(anchor: HTMLElement | virtualAnchor, element: HTMLElement) {
+
+	function position(anchor: HTMLElement | virtualAnchor, element: HTMLElement) {
 		computePosition(anchor, element, {
 			placement: tooltip.placement,
 			middleware: tooltip.middleware
