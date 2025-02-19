@@ -38,12 +38,16 @@
 
 <CodeSnippet
 	class="mt-5"
+	lang="typescript"
+	code={`const stopScrollElements = (modal) => [modal.anchor?.parentElement?.parentElement] `}
+/>
+
+<CodeSnippet
+	class="mt-5"
 	lang="svelte"
-	code={`<button
-	>Test
-	<Modal 
-		stopScrollElements={(modal) => [modal.anchor?.parentElement?.parentElement]}
-		>
+	code={`<button >
+	Test
+	<Modal {stopScrollElements} >
 		Content
 	</Modal>
 </button>`}
