@@ -33,7 +33,7 @@
 		class="bg-blue-500 mt-2 text-sm text-white font-semibold rounded px-3 py-1 cursor-pointer hover:bg-blue-600"
 		>Tester
 		<Modal
-			DEBUG={{ name: 'Modal 1' }}
+			_DEBUG={{ name: 'Modal 1' }}
 			bind:this={myModal}
 			placement="bottom-start"
 			class="px-3 py-1"

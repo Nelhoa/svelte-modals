@@ -31,7 +31,9 @@
 	<div
 		class="grid grid-cols-[auto_1fr_auto] border rounded focus-within:border-blue-500/40 h-[27px]"
 	>
-		<div class="bg-black/10 px-2 w-[130px] text-[13.5px] font-mono flex items-center leading-0">
+		<div
+			class=" bg-blue-500/10 text-blue-900/60 px-2 w-[175px] text-[13.5px] font-mono flex items-center leading-0"
+		>
 			{title}
 		</div>
 		{#if type === 'number'}

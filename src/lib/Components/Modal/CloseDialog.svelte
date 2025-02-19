@@ -30,8 +30,8 @@
 		bind:this={modal._closeDialogElement}
 		noAnchor
 		centered
-		isCloseDialog
-		DEBUG={{ name: `${modal.props.DEBUG?.name} - Close Dialog` }}
+		_isCloseDialog
+		_DEBUG={{ name: `${modal.props._DEBUG?.name} - Close Dialog` }}
 	>
 		{#if modal.props.closeDialog}
 			{@render modal.props.closeDialog({ close, back })}

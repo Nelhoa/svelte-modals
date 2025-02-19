@@ -184,7 +184,7 @@ export class ModalRemote {
 		this.close('context');
 	}
 
-	close(force?: 'context' | 'deepforce'): boolean {
+	close(force?: 'context' | 'deepforce' | 'escape'): boolean {
 		const deepestBlockingModal = this.getDeepestBlockingModal();
 		const noBlockingModal = !deepestBlockingModal;
 		const thisIsTheBlockingModalToForceClose = force === undefined && deepestBlockingModal === this;
@@ -247,7 +247,7 @@ export class ModalRemote {
 	}
 
 	private debug(...data: [string, unknown] | [string] | [unknown]) {
-		const name = this.p.DEBUG?.name;
+		const name = this.p._DEBUG?.name;
 		if (data[1]) return console.log(`${name} : ${data[0]}`, data[1]);
 		if (typeof data[0] === 'string') return console.log(`${name} : ${data[0]}`);
 		return console.log(`${name}`, data[0]);

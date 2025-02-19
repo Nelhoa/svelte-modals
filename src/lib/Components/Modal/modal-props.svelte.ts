@@ -30,9 +30,9 @@ export interface ModalProps {
 	shallow?: Shallow;
 	stopScrollElements?: (modal: ModalRemote) => (HTMLElement | undefined | null)[];
 	callbacks?: { show?: (modal: ModalRemote) => unknown; hide?: (modal: ModalRemote) => unknown }; // show and hide callbacks
-	isCloseDialog?: boolean;
 	tooltipProps?: ComponentProps<typeof Tooltip>;
-	DEBUG?: { name?: string; log?: boolean };
+	_isCloseDialog?: boolean;
+	_DEBUG?: { name?: string; log?: boolean };
 }
 
 export type Shallow = {

@@ -31,7 +31,7 @@
     }
 
     h2 {
-        @apply text-2xl text-black/90 font-serif mb-3 mt-7;
+        @apply text-2xl text-black/90 font-serif mb-3 mt-9;
     }
 
     ul {

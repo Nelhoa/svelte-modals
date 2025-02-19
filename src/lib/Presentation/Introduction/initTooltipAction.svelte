@@ -47,6 +47,19 @@
 	Props must be passed as a returned object of a function. This is required to keep reactivity.
 </p>
 
+<CodeSnippet
+	lang="svelte"
+	code={`{#snippet tooltip()}
+	Tooltip content
+{/snippet}
+
+<button use:initTooltip={() => ({ children: tooltip, ...tooltipProps })}>
+    Hover me !
+</button>`}
+/>
+
+<h2>Try it with a few props</h2>
+
 <CustomInput type="boolean" bind:value={tooltipProps.disabled} title="disabled"></CustomInput>
 <CustomInput type="boolean" bind:value={tooltipProps.onMouse} title="onMouse">
 	<p>Makes the tooltip be placed relatively to its anchor or to the mouse.</p>
@@ -79,38 +92,5 @@
 {/snippet}
 
 <button class="my-3.5" use:initTooltip={() => ({ children: tooltip, ...tooltipProps })}>
-	Button
+	Hover me !
 </button>
-
-<CodeSnippet
-	lang="svelte"
-	code={`{#snippet tooltip()}
-	Tooltip content
-{/snippet}
-
-<button use:initTooltip={() => ({ children: tooltip, ...tooltipProps })}>
-    Button
-</button>`}
-/>
-
-<!-- <CodeSnippet
-	class="mt-8"
-	lang="svelte"
-	code={`\<script lang="ts">
-    let tooltipProps: TooltipProps = $state({});
-</script\>
-
-{#snippet tooltip()}
-	My tooltip content
-{/snippet}
-
-<button>
-    Button one
-    <Modal {tooltipProps} {tooltip}>Modal content</Modal>
-</button>
-
-<button>
-    Button two
-    <Modal {tooltipProps} {tooltip}>Modal content</Modal>
-</button>`}
-/> -->

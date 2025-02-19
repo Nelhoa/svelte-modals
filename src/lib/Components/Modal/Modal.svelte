@@ -24,10 +24,15 @@
 		modal._defaultAnchor = element.parentElement ?? undefined;
 	}
 
+	function openViaAnchor() {
+		if (modal.props.noOpenOnAnchorClick) return;
+		modal.open();
+	}
+
 	$effect(() => {
 		if (!modal.anchor) return;
 		if (modal.props.noOpenOnAnchorClick) return;
-		return on(modal.anchor, 'click', modal.open.bind(modal));
+		return on(modal.anchor, 'click', openViaAnchor);
 	});
 
 	function onModalMount(element: HTMLElement) {
