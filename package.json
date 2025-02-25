@@ -1,6 +1,6 @@
 {
 	"name": "svelte-pops",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Popovers & tooltips fo Svelte 5 & Tailwind 4",
 	"license": "MIT",
 	"homepage": "https://svelte-pops.vercel.app/",
