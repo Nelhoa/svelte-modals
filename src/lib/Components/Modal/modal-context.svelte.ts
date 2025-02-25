@@ -35,6 +35,7 @@ export class ModalContextRemote {
 	escapeModals(event: KeyboardEvent) {
 		if (event.key !== 'Escape') return;
 		const firstModal = this.everyModalOpenned[0];
+		if (firstModal.props.noCloseOnEscape) return;
 		//TODO: make modal closable with escape when noCloseOnOutsideClick is enabled.
 		firstModal?.close('escape');
 	}

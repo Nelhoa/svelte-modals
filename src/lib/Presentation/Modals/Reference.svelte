@@ -20,6 +20,7 @@
 	noCloseOnHide?: boolean;
 	noOpenOnAnchorClick?: boolean; 
 	noCloseOnOutsideClick?: boolean; 
+	noCloseOnEscape?: boolean;
 	middleware?: Middleware[];
 	placement?: Placement;
 	anchor?: HTMLElement;

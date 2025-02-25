@@ -22,6 +22,7 @@ export interface ModalProps {
 	noCloseOnHide?: boolean; // boolean : remove close on anchor hide
 	noOpenOnAnchorClick?: boolean; // boolean : remove open on anchor click
 	noCloseOnOutsideClick?: boolean; // boolean : remove close when clicking outside the modal, inside it, use « getModal » context function to retrieve modal your'in and make your own button to close it
+	noCloseOnEscape?: boolean;
 	middleware?: Middleware[]; // array of floatingui/dom middleware
 	placement?: Placement; // enums of floatingui/dom placement from anchor or mouse position
 	anchor?: HTMLElement;

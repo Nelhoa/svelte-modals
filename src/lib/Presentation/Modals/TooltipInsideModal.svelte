@@ -70,10 +70,11 @@
 
 <button>
     My Button
-    <Modal
-        {tooltip}
-        tooltipProps={{ class: 'bg-cyan-100 text-cyan-600' }}>
-            Modal content
+    <Modal tooltipProps={{ class: 'bg-cyan-100 text-cyan-600' }}>
+		Modal content
+		{#snippet tooltip()}
+			My tooltip content
+		{/snippet}
     </Modal>
 </button>`}
 />

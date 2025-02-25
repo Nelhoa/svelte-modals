@@ -16,6 +16,7 @@
 		noCloseOnOutsideClick: false,
 		noCloseOnHide: false,
 		noOpenOnAnchorClick: false,
+		noCloseOnEscape: false,
 		lockBackground: false,
 		noAnchor: false
 	});
@@ -53,6 +54,12 @@
 	bind:value={modalProps.noCloseOnOutsideClick}
 	title="noCloseOnOutsideClick"
 ></CustomInput>
+<CustomInput type="boolean" bind:value={modalProps.noCloseOnEscape} title="noCloseOnEscape">
+	<p>
+		If the last modal openned has <InlineCode code="noCloseOnEscape" /> enabled, this will prevent every
+		modal to close with escape.
+	</p>
+</CustomInput>
 <CustomInput type="boolean" bind:value={modalProps.noCloseOnHide} title="noCloseOnHide"
 	><p>
 		If your anchor disapear from the window view (but stays mounted) your modal will close, except

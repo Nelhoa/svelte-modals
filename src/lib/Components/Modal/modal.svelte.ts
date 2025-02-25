@@ -1,13 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-	computePosition,
-	flip,
-	hide,
-	offset,
-	shift,
-	type Middleware,
-	type Placement
-} from '@floating-ui/dom';
+import { computePosition, flip, hide, offset, shift, type Middleware } from '@floating-ui/dom';
 import type { virtualAnchor } from '$lib/types/types.js';
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import { wait } from '$lib/utils/wait.js';
@@ -111,11 +103,13 @@ export class ModalRemote {
 
 	private openState(shallow: Shallow) {
 		const newState: Record<string, any> = {};
+		console.log('openState');
 		this.getShallowState(newState);
 		shallow.pushState('', newState);
 	}
 
 	private closeState() {
+		console.log('closeState');
 		history.back();
 	}
 
@@ -135,13 +129,12 @@ export class ModalRemote {
 		if (!this.canOpenModal()) return;
 		this.getSister()?.closeModal();
 		if (this._modalContext.opennedAtCaptureTime.map((i) => i.modal).includes(this)) return;
-
 		const shallow = this.p.shallow;
+		this.declareOpenned();
 		if (shallow) return this.openState(shallow);
 		this.p.callbacks?.show?.(this);
 		this.#isVisibleBase = true;
 		this.setAnchorState('open');
-		this.declareOpenned();
 	}
 
 	private getSister() {
@@ -185,6 +178,7 @@ export class ModalRemote {
 	}
 
 	close(force?: 'context' | 'deepforce' | 'escape'): boolean {
+		console.log('close');
 		const deepestBlockingModal = this.getDeepestBlockingModal();
 		const noBlockingModal = !deepestBlockingModal;
 		const thisIsTheBlockingModalToForceClose = force === undefined && deepestBlockingModal === this;
