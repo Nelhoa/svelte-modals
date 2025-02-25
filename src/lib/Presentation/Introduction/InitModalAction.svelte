@@ -42,7 +42,7 @@
 	class="mt-6"
 	lang="svelte"
 	code={`\<script lang="ts">
-	import { initModal } from '@nelhoa/svelte-modals';
+	import { initModal } from 'svelte-pops';
 </script\>
 
 <button use:initModal={{ children: modalContent,  }}

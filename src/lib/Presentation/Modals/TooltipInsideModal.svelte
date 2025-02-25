@@ -65,7 +65,7 @@
 <CodeSnippet
 	lang="svelte"
 	code={`<script>
-    import Modal from '@nelhoa/svelte-modals';
+    import Modal from 'svelte-pops';
 </script\>
 
 <button>

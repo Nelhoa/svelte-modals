@@ -37,11 +37,7 @@
 	performance.
 </p>
 
-<CodeSnippet
-	class="mt-3 mb-2"
-	lang="svelte"
-	code={`import { initTooltip } from '@nelhoa/svelte-modals'`}
-/>
+<CodeSnippet class="mt-3 mb-2" lang="svelte" code={`import { initTooltip } from 'svelte-pops'`} />
 
 <p class="mb-5">
 	Props must be passed as a returned object of a function. This is required to keep reactivity.

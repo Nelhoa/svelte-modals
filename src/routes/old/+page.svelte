@@ -93,18 +93,18 @@
 
 <div class="bg-gray-100 min-h-screen pt-10 py-10">
 	<div class="bg-white w-[90%] max-w-[1000px] mx-auto p-5 rounded-sm text-balance">
-		<h1 class="text-[20px] font-semibold">Welcome to @nelhoa/svelte-modals</h1>
+		<h1 class="text-[20px] font-semibold">Welcome to svelte-pops</h1>
 		<GridOfTooltip />
 		<a
 			class="underline text-cyan-500 font-semibold pr-3"
-			href="https://www.npmjs.com/package/@nelhoa/svelte-modals">NPM</a
+			href="https://www.npmjs.com/package/svelte-pops">NPM</a
 		>
 		<a
 			class="underline text-cyan-500 font-semibold pr-3"
 			href="https://github.com/Nelhoa/svelte-modals">Github</a
 		>
 		<div class="my-3">
-			<div class="rounded-sm bg-blue-100 py-1 px-3 inline">npm install @nelhoa/svelte-modals</div>
+			<div class="rounded-sm bg-blue-100 py-1 px-3 inline">npm install svelte-pops</div>
 		</div>
 		<div>Here is your button to open a modal</div>
 		<div class="mt-3">

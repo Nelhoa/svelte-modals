@@ -16,10 +16,37 @@
 			placement: 'bottom-start'
 		}
 	});
+
+	const title = 'Svelte-Props';
+	const image = 'https://svelte-pops.vercel.app/OG.png';
+	const description =
+		'Complete popover and tooltip management library for Svelte 5 & Tailwindcss 4';
+	const url = 'https://svelte-pops.vercel.app/';
 </script>
 
 <svelte:head>
-	<title>@nelhoa/svelte-modals</title>
+	<title>{title}</title>
+	<meta name="description" content={description} />
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content={description} />
+	<meta property="og:url" content={url} />
+	<meta property="og:image" content={image} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={title} />
+	<meta name="twitter:description" content={description} />
+	<meta name="twitter:image" content={image} />
+
+	<!-- Balises supplémentaires pour d'autres réseaux -->
+	<meta name="og:site_name" content={title} />
+	<meta name="og:locale" content="fr_FR" />
+	<meta property="article:author" content={'Neil Savin'} />
 </svelte:head>
 
 {@render props.children()}

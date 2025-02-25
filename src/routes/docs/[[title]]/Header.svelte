@@ -38,8 +38,8 @@
 				<div
 					class="flex px-3 pb-3 text-[16px] gap-x-3 font-semibold text-black/50 *:hover:text-black/80 *:cursor-pointer"
 				>
-					<a href="https://www.npmjs.com/package/@nelhoa/svelte-modals">NPM</a>
-					<a href="https://github.com/Nelhoa/svelte-modals">Github</a>
+					<a href="https://www.npmjs.com/package/svelte-pops">NPM</a>
+					<a href="https://github.com/Nelhoa/svelte-pops">Github</a>
 				</div>
 			</Modal>
 		</button>
@@ -47,7 +47,7 @@
 	<div
 		class="flex max-[800px]:hidden text-[16px] gap-x-3 font-semibold text-black/50 *:hover:text-black/80 *:cursor-pointer"
 	>
-		<a href="https://www.npmjs.com/package/@nelhoa/svelte-modals">NPM</a>
-		<a href="https://github.com/Nelhoa/svelte-modals">Github</a>
+		<a href="https://www.npmjs.com/package/svelte-pops">NPM</a>
+		<a href="https://github.com/Nelhoa/svelte-pops">Github</a>
 	</div>
 </div>

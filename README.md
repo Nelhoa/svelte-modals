@@ -4,6 +4,8 @@
 
 Complete popover and tooltip management library with Svelte 5 & Tailwindcss 4.
 
+Full documentation on [the demo site](https://svelte-pops.vercel.app/).
+
 # Features
 - Great DX with no extra bindings
 - Widely customizable
@@ -15,7 +17,3 @@ Complete popover and tooltip management library with Svelte 5 & Tailwindcss 4.
 - Based on Svelte 5 and typescript
 - Requires Tailwindcss 4
 - Placement based on floating-ui
-
-## Documentation
-
-Full documentation on [the demo site](https://svelte-pops.vercel.app/).
