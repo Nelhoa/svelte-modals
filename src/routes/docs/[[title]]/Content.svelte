@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { index, type presentationItem } from '$lib/Presentation/index.js';
+	import { index, type presentationItem } from '../../Presentation/index.js';
 
 	let { item }: { item: presentationItem } = $props();
 	const ItemComponent = $derived(item.component);

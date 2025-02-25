@@ -1,6 +1,6 @@
 <script lang="ts">
-	import CustomInput from '$lib/Presentation/PresentationAtoms/CustomInput.svelte';
-	import InlineCode from '$lib/Presentation/PresentationAtoms/InlineCode.svelte';
+	import CustomInput from '../PresentationAtoms/CustomInput.svelte';
+	import InlineCode from '../PresentationAtoms/InlineCode.svelte';
 	import type { TooltipProps } from '$lib/Components/Tooltip/tooltip-remote.svelte.js';
 	import type { Placement } from '@floating-ui/dom';
 	import { initTooltip } from '$lib/Components/Modal/tooltip-context.svelte.js';

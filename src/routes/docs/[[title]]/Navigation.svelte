@@ -1,7 +1,6 @@
 <script lang="ts">
-	import type { presentationItem } from '$lib/Presentation/index.js';
-	import { index } from '$lib/Presentation/index.js';
 	import { cn } from '$lib/utils/cn.js';
+	import { index, type presentationItem } from '../../Presentation/index.js';
 
 	let { item }: { item: presentationItem } = $props();
 </script>

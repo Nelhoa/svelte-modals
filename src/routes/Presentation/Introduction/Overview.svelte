@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { ModalElement } from '$lib/Components/Modal/modal.svelte.js';
 	import Modal from '$lib/Components/Modal/Modal.svelte';
-	import CodeSnippet from '$lib/Presentation/PresentationAtoms/CodeSnippet.svelte';
-	import InlineCode from '$lib/Presentation/PresentationAtoms/InlineCode.svelte';
+	import CodeSnippet from '../PresentationAtoms/CodeSnippet.svelte';
+	import InlineCode from '../PresentationAtoms/InlineCode.svelte';
 	import { layoutInit } from '../codeSnippet.js';
 	let modal = $state<ModalElement>();
 </script>

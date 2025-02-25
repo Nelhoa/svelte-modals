@@ -1,5 +1,5 @@
-import { findPresentationItem } from '$lib/Presentation/index.js';
 import { redirect } from '@sveltejs/kit';
+import { findPresentationItem } from '../../Presentation/index.js';
 
 export async function load({ params }) {
 	const item = findPresentationItem(params.title);

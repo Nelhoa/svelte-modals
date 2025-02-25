@@ -1,6 +1,6 @@
 <script>
-	import CodeSnippet from '$lib/Presentation/PresentationAtoms/CodeSnippet.svelte';
-	import InlineCode from '$lib/Presentation/PresentationAtoms/InlineCode.svelte';
+	import CodeSnippet from '../PresentationAtoms/CodeSnippet.svelte';
+	import InlineCode from '../PresentationAtoms/InlineCode.svelte';
 </script>
 
 <h2>ModalElement</h2>

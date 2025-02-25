@@ -1,9 +1,8 @@
 <script lang="ts">
 	import type { ModalProps } from '$lib/Components/Modal/modal-props.svelte.js';
 	import Modal from '$lib/Components/Modal/Modal.svelte';
-	import CodeSnippet from '$lib/Presentation/PresentationAtoms/CodeSnippet.svelte';
-	import CustomInput from '$lib/Presentation/PresentationAtoms/CustomInput.svelte';
-	import InlineCode from '$lib/Presentation/PresentationAtoms/InlineCode.svelte';
+	import CodeSnippet from '../PresentationAtoms/CodeSnippet.svelte';
+	import InlineCode from '../PresentationAtoms/InlineCode.svelte';
 	import type { Placement } from '@floating-ui/dom';
 
 	let modalProps = $state<ModalProps>({

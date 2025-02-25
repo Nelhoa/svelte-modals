@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Modal from '$lib/Components/Modal/Modal.svelte';
-	import CodeSnippet from '$lib/Presentation/PresentationAtoms/CodeSnippet.svelte';
-	import InlineCode from '$lib/Presentation/PresentationAtoms/InlineCode.svelte';
+	import CodeSnippet from '../PresentationAtoms/CodeSnippet.svelte';
+	import InlineCode from '../PresentationAtoms/InlineCode.svelte';
 
 	let checked = $state<boolean>(false);
 	let button1 = $state<HTMLElement>();
