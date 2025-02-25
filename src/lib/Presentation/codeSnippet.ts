@@ -1,4 +1,4 @@
 export const layoutInit = `<script>
-	import { initModalContext } from '@nelhoa/svelte-modals';
+	import { initModalContext } from 'svelte-pops';
 	initModalContext();
 </script>`;

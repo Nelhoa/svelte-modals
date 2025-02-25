@@ -9,10 +9,18 @@
 </script>
 
 <div
-	class="bg-white px-5 py-3 text-lg font-semibold border-b border-b-black/10 flex justify-between items-center max-[800px]:bg-blue-50 max-[800px]:border-t border-t-blue-200 max-[800px]:shadow"
+	class="bg-white px-5 h-[54px] text-lg font-semibold border-b border-b-black/10 flex justify-between items-center max-[800px]:bg-blue-50 max-[800px]:border-t border-t-blue-200 max-[800px]:shadow"
 >
-	<div>
-		<span class="text-blue-500">@nelhoa</span><span class="text-black/45">/</span>svelte-modals
+	<div
+		class="font-atma text-[25px] text-black flex gap-x-2 items-center max-[800px]:text-[18px] tracking-wider font-semibold"
+	>
+		<img
+			src="/my_icon.svg"
+			width="32"
+			alt=""
+			class="size-[32px] max-[800px]:size-[28px] pb-[4px]"
+		/>
+		svelte-pops
 	</div>
 	<div class="hidden max-[800px]:block">
 		<button

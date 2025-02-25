@@ -1,38 +1,19 @@
-# Really Flexible Modals with TailwindCSS!
+## Popovers and tooltips | Svelte 5 & Tailwindcss 4
 
-Includes tooltips that work harmoniously with the modals.
+Complete popover and tooltip management library with Svelte 5 & Tailwindcss 4.
 
-Find the documentation on [the library's demo site](https://nelhoa-svelte-modals.vercel.app/)
+# Features
+- Great DX with no extra bindings
+- Widely customizable
+- Stackable popover
+- Handle tooltips
+- Handle shallow routing
+- Handle escape keydown shortcut
+- Handle stop scrolling
+- Based on Svelte 5 and typescript
+- Requires Tailwindcss 4
+- Placement based on floating-ui
 
-# Objectifs
+## Documentation
 
-- Performant
-- Facile à intégrer
-- Manipulable
-- Mieux typé
-- Stackable
-- Le tooltip devrait être intégré à la modale
-- 
-
-## Installation Guide
-
-```bash
-npm install @nelhoa/svelte-modals
-```
-
-For the modals to work correctly, your project must use TypeScript.
-
-Modify your `tailwind.config.js` file to include the svelte-modals library:
-
-```javascript
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ['./src/**/*.{html,js,svelte,ts}',
-    './node_modules/@nelhoa/**/*.{html,js,svelte,ts}'
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-```
+Full documentation on [the demo site](https://svelte-pops.vercel.app/).

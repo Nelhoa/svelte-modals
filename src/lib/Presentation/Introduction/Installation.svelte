@@ -5,7 +5,7 @@
 
 <p>Install using npm</p>
 
-<CodeSnippet lang="powershell" code={`npm install @nelhoa/svelte-modals`} />
+<CodeSnippet lang="powershell" code={`npm install svelte-pops`} />
 
 <p>And init context</p>
 

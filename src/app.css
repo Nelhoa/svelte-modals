@@ -1,5 +1,14 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Atma:wght@500;600;700&display=swap');
 @import 'tailwindcss';
 @import './routes/docs/[[title]]/doc.css';
+
+
+
+
+@theme {
+  --font-atma: Atma, serif;
+}
 
 @layer base {
   *,
