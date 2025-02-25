@@ -1,6 +1,6 @@
 ## Popovers and tooltips | Svelte 5 & Tailwindcss 4
 
-![]
+![svelte-pops image](https://svelte-pops.vercel.app/svelte-pops-header.png)
 
 Complete popover and tooltip management library with Svelte 5 & Tailwindcss 4.
 

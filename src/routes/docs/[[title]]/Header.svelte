@@ -15,7 +15,7 @@
 		class="font-atma text-[25px] text-black flex gap-x-2 items-center max-[800px]:text-[18px] tracking-wider font-semibold"
 	>
 		<img
-			src="/my_icon.svg"
+			src="/svelte-pops-icon.svg"
 			width="32"
 			alt=""
 			class="size-[32px] max-[800px]:size-[28px] pb-[4px]"
