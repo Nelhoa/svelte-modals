@@ -16,7 +16,7 @@
 <h2>Test it !</h2>
 
 <div class="flex gap-3 mt-3 mb-3 flex-wrap">
-	<button
+	<button class="bg-white border text-black"
 		>⚓ Anchored modal
 		<Modal
 			placement="bottom-start"
@@ -38,7 +38,7 @@
 			{/snippet}
 		</Modal>
 	</button>
-	<button
+	<button class="bg-white border text-black"
 		>🎯 Centered modal
 		<Modal
 			bind:this={modal}
@@ -78,7 +78,7 @@
 			{/snippet}
 		</Modal>
 	</button>
-	<button
+	<button class="bg-white border text-black"
 		>🔒 Protected modal
 		<Modal
 			enableCloseDialog
