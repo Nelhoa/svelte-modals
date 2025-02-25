@@ -100,7 +100,7 @@
 	<li>Widely customizable</li>
 	<li>Stackable popover</li>
 	<li>Handle tooltips</li>
-	<li>Handle <InlineCode code="shallow routing" /></li>
+	<li>Handle <InlineCode code="shallow routing" /> (In progress)</li>
 	<li>Handle <InlineCode code="escape" /> keydown shortcut</li>
 	<li>Handle stop scrolling</li>
 	<li>Based on <a href="https://svelte.dev/">Svelte 5</a> and typescript</li>
