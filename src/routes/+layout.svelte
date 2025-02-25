@@ -17,7 +17,7 @@
 		}
 	});
 
-	const title = 'Svelte-Props';
+	const title = 'Svelte-Pops';
 	const image = 'https://svelte-pops.vercel.app/OG.png';
 	const description =
 		'Complete popover and tooltip management library for Svelte 5 & Tailwindcss 4';
