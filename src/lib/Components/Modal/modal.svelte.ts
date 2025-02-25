@@ -9,7 +9,7 @@ import type { ModalProps, Shallow } from './modal-props.svelte.js';
 import { cn } from '$lib/utils/cn.js';
 
 export type ModalElement = ReturnType<typeof Modal>;
-export type closeContext = 'outsideContextmenu' | 'outsideClick' | 'escape' | 'force';
+export type closeType = 'context' | 'deepforce' | 'escape';
 
 const defaultModalProps: ModalProps = { modalOffset: 10, modalShift: 10 };
 const MODAL_ATTRIBUTE = 'data-modal';
@@ -103,13 +103,11 @@ export class ModalRemote {
 
 	private openState(shallow: Shallow) {
 		const newState: Record<string, any> = {};
-		console.log('openState');
 		this.getShallowState(newState);
 		shallow.pushState('', newState);
 	}
 
 	private closeState() {
-		console.log('closeState');
 		history.back();
 	}
 
@@ -144,11 +142,11 @@ export class ModalRemote {
 		return undefined;
 	}
 
-	private getDeepestBlockingModal() {
+	private getDeepestBlockingModal(type?: closeType) {
 		let checkedModal = this.getDeepestModalOpenned();
 		let security = 0;
 		while (security <= 20) {
-			if (checkedModal.isModalBlocked()) return checkedModal;
+			if (checkedModal.isModalBlocked(type)) return checkedModal;
 			if (this === checkedModal) return;
 			const parentModal = checkedModal._parentModal;
 			if (!parentModal) return undefined;
@@ -157,9 +155,9 @@ export class ModalRemote {
 		}
 	}
 
-	private isModalBlocked() {
+	private isModalBlocked(type?: closeType) {
 		if (this.p.enableCloseDialog) return true;
-		if (this.p.noCloseOnOutsideClick) return true;
+		if (this.p.noCloseOnOutsideClick && type !== 'escape') return true;
 		return false;
 	}
 
@@ -177,20 +175,19 @@ export class ModalRemote {
 		this.close('context');
 	}
 
-	close(force?: 'context' | 'deepforce' | 'escape'): boolean {
-		console.log('close');
-		const deepestBlockingModal = this.getDeepestBlockingModal();
+	close(type?: closeType): boolean {
+		const deepestBlockingModal = this.getDeepestBlockingModal(type);
 		const noBlockingModal = !deepestBlockingModal;
-		const thisIsTheBlockingModalToForceClose = force === undefined && deepestBlockingModal === this;
-		if (force === 'deepforce' || noBlockingModal || thisIsTheBlockingModalToForceClose) {
-			this.closeModal();
+		const thisIsTheBlockingModalToForceClose = type === undefined && deepestBlockingModal === this;
+		if (type === 'deepforce' || noBlockingModal || thisIsTheBlockingModalToForceClose) {
+			this.closeModal(type);
 			return true;
 		}
 		deepestBlockingModal.#closeDialog?.switch();
 		return false;
 	}
 
-	closeModal() {
+	private closeModal(type?: closeType) {
 		this.closeChild();
 		this.declareClosed();
 		this._modalContext.preventWindowClick();
@@ -200,7 +197,7 @@ export class ModalRemote {
 		this.setAnchorState('closed');
 		this._onMouse = false;
 		this.#isVisibleBase = false;
-		this.focusAnchor();
+		if (type !== 'context') this.focusAnchor();
 	}
 
 	closeChild() {

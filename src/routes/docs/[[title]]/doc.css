@@ -23,7 +23,7 @@
     }
 
     button {
-        @apply bg-blue-500 text-white font-semibold px-3 rounded py-1 hover:bg-blue-600 cursor-pointer focus:shadow-sm focus:outline-1;
+        @apply bg-blue-500 text-white font-semibold px-3 rounded py-1 hover:bg-blue-600 cursor-pointer focus:shadow-sm focus:outline-hidden;
     }
 
     a {

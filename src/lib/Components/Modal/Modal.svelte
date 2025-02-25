@@ -67,7 +67,7 @@
 	$effect(() => {
 		return () => {
 			untrack(() => {
-				modal.close();
+				if (modal.isVisible) modal.close();
 				modal.element?.remove();
 			});
 		};

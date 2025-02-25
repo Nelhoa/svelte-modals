@@ -10,7 +10,6 @@ export function initModalContext(...options: options) {
 	const modalContext = createModalContextRemote(...options);
 
 	$effect(() => {
-		console.log('set modal context');
 		const subs = new Subscribers();
 
 		untrack(() => {
@@ -31,7 +30,6 @@ export function initModalContext(...options: options) {
 		});
 
 		return () => {
-			console.log('clean modal context');
 			modalContext.everyModalOpenned = [];
 			modalContext.rootModalOpenned = undefined;
 			subs.unsubscribe();
