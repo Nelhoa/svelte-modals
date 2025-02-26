@@ -1,6 +1,6 @@
 import type { Middleware, Placement } from '@floating-ui/dom';
 import type { ComponentProps, Snippet } from 'svelte';
-import type { ModalRemote } from './modal.svelte.js';
+import type { ModalRemote } from './modal-remote.svelte.js';
 import type Tooltip from '../Tooltip/Tooltip.svelte';
 
 type CloseDialogSnippet = Snippet<[{ close: () => unknown; back: () => unknown }]>;

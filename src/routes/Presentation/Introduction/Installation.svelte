@@ -8,11 +8,19 @@
 
 <CodeSnippet lang="powershell" code={`npm install svelte-pops`} />
 
-<p>And init context</p>
+<h2>Enable tailwindcss for svelte-pops</h2>
+
+<p>
+	The package may not work properly if you don't declare <InlineCode code="svelte-pops" /> as a source
+	to be detected by Tailwindcss. To solve this problem, go to your main style-sheet and add the source:
+</p>
+
+<CodeSnippet lang="css" code={`@source "../node_modules/svelte-pops/";`} fileName="app.css" />
+
+<h2>Init context</h2>
+<p>You need to init modal context on your top layout.</p>
 
 <CodeSnippet lang="svelte" code={layoutInit} fileName="+layout.svelte" />
-
-<h2>Defaults tooltips and modals props</h2>
 
 <p>
 	<InlineCode code="initModalContext()" /> function takes an optional parameter <InlineCode

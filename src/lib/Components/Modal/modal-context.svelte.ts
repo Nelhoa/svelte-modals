@@ -1,7 +1,7 @@
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import type { TooltipProps } from '../Tooltip/tooltip-remote.svelte.js';
 import type { ModalProps } from './modal-props.svelte.js';
-import type { ModalRemote } from './modal.svelte.js';
+import type { ModalRemote } from './modal-remote.svelte.js';
 import type { TooltipContext } from './tooltip-context.svelte.js';
 
 export class ModalContextRemote {

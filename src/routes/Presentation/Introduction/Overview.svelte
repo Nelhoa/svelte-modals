@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ModalElement } from '$lib/Components/Modal/modal.svelte.js';
+	import type { ModalElement } from '$lib/Components/Modal/modal-remote.svelte.js';
 	import Modal from '$lib/Components/Modal/Modal.svelte';
 	import CodeSnippet from '../PresentationAtoms/CodeSnippet.svelte';
 	import InlineCode from '../PresentationAtoms/InlineCode.svelte';

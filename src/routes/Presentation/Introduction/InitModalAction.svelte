@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { initModal } from '$lib/Components/Modal/modal-init.svelte.js';
-	import { ModalRemote } from '$lib/Components/Modal/modal.svelte.js';
+	import { ModalRemote } from '$lib/Components/Modal/modal-remote.svelte.js';
 	import type { TooltipProps } from '$lib/Components/Tooltip/tooltip-remote.svelte.js';
 	import CodeSnippet from '../PresentationAtoms/CodeSnippet.svelte';
 	import CustomInput from '../PresentationAtoms/CustomInput.svelte';

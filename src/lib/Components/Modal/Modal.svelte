@@ -6,7 +6,7 @@
 	import { mouse } from '$lib/utils/mouse-position.svelte.js';
 	import { createVirtualAnchor } from '$lib/utils/create-virtual-anchor.js';
 	import { cn } from '$lib/utils/cn.js';
-	import { createModal, getModal } from './modal.svelte.js';
+	import { createModal, getModal } from './modal-remote.svelte.js';
 	import { ScrollManager } from './scroll-manager.js';
 	import { getModalContext } from './modal-context.svelte.js';
 	import CloseDialog from './CloseDialog.svelte';

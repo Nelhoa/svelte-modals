@@ -4,7 +4,7 @@ import type { virtualAnchor } from '$lib/types/types.js';
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import { wait } from '$lib/utils/wait.js';
 import type { ModalContextRemote } from './modal-context.svelte.js';
-import type Modal from './Modal.svelte';
+import type Modal from './modal-remote.svelte.js';
 import type { ModalProps, Shallow } from './modal-props.svelte.js';
 import { cn } from '$lib/utils/cn.js';
 
