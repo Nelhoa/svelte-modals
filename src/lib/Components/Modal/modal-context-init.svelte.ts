@@ -11,6 +11,7 @@ export function initModalContext(...options: options) {
 
 	$effect(() => {
 		const subs = new Subscribers();
+		modalContext.log('init');
 
 		untrack(() => {
 			const tooltipContext = new TooltipContext();
@@ -30,6 +31,7 @@ export function initModalContext(...options: options) {
 		});
 
 		return () => {
+			modalContext.log('clean');
 			modalContext.everyModalOpenned = [];
 			modalContext.rootModalOpenned = undefined;
 			subs.unsubscribe();

@@ -4,9 +4,9 @@ import type { virtualAnchor } from '$lib/types/types.js';
 import { newRemote } from '$lib/utils/component-remote-wrapper.js';
 import { wait } from '$lib/utils/wait.js';
 import type { ModalContextRemote } from './modal-context.svelte.js';
-import type Modal from './modal-remote.svelte.js';
 import type { ModalProps, Shallow } from './modal-props.svelte.js';
 import { cn } from '$lib/utils/cn.js';
+import Modal from './Modal.svelte';
 
 export type ModalElement = ReturnType<typeof Modal>;
 export type closeType = 'context' | 'deepforce' | 'escape';
@@ -237,7 +237,8 @@ export class ModalRemote {
 		this.open();
 	}
 
-	private debug(...data: [string, unknown] | [string] | [unknown]) {
+	log(...data: [string, unknown] | [string] | [unknown]) {
+		if (this.p._DEBUG?.log !== true) return;
 		const name = this.p._DEBUG?.name;
 		if (data[1]) return console.log(`${name} : ${data[0]}`, data[1]);
 		if (typeof data[0] === 'string') return console.log(`${name} : ${data[0]}`);

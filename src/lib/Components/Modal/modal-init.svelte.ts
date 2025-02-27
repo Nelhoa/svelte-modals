@@ -7,6 +7,7 @@ export function initModal(element: HTMLElement, props: ComponentProps<typeof Mod
 			target: element,
 			props: { noAnchor: true, anchor: element, ...props }
 		});
+		modal.modal.log('effect - init modal');
 		return () => {
 			unmount(modal);
 		};

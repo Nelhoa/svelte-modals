@@ -30,6 +30,7 @@
 	}
 
 	$effect(() => {
+		modal.log('effect - set anchor click');
 		if (!modal.anchor) return;
 		if (modal.props.noOpenOnAnchorClick) return;
 		return on(modal.anchor, 'click', openViaAnchor);
@@ -38,6 +39,7 @@
 	function onModalMount(element: HTMLElement) {
 		const mouseAnchor = createVirtualAnchor(mouse.x, mouse.y);
 		$effect(() => {
+			modal.log('effect - on modal mount');
 			const anchor = modal._onMouse ? mouseAnchor : modal.anchor;
 			if (!anchor) return;
 			var scroll = new ScrollManager();
@@ -56,6 +58,7 @@
 
 	function onCenteredModalMount(element: HTMLElement) {
 		$effect(() => {
+			modal.log('effect - on centered modal mount');
 			const scroll = new ScrollManager();
 			scroll.stop(...modal.stopScrollElements);
 			return () => {
@@ -74,6 +77,7 @@
 	});
 
 	$effect(() => {
+		modal.log('effect - init tooltip');
 		const anchor = modal.anchor;
 		const tooltipContext = modal._modalContext.tooltip;
 		if (!modal.isVisible && anchor && tooltipContext && modal.props.tooltip) {

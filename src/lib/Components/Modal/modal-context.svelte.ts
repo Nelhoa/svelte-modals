@@ -14,10 +14,16 @@ export class ModalContextRemote {
 	everyModalOpenned: ModalRemote[] = $state.raw([]);
 	opennedAtCaptureTime: { modal: ModalRemote; element?: HTMLElement }[] = [];
 	openning?: ModalRemote;
+	_debug: boolean;
 
-	constructor(options?: { defaultModalProps?: ModalProps; defaultTooltipProps: TooltipProps }) {
+	constructor(options?: {
+		defaultModalProps?: ModalProps;
+		defaultTooltipProps?: TooltipProps;
+		_debug?: boolean;
+	}) {
 		this.defaultModalProps = options?.defaultModalProps ?? {};
 		this.defaultTooltipProps = options?.defaultTooltipProps ?? {};
+		this._debug = options?._debug ?? false;
 	}
 
 	get tooltip() {
@@ -95,6 +101,13 @@ export class ModalContextRemote {
 		if (!(target instanceof Node)) return;
 		const branchToClose = this.getTargetedRootModals(target, opennedAtCaptureTime);
 		branchToClose?.contextClose(exception);
+	}
+
+	log(...data: [string, unknown] | [string] | [unknown]) {
+		if (!this._debug) return;
+		if (data[1]) return console.log(`modal-context : ${data[0]}`, data[1]);
+		if (typeof data[0] === 'string') return console.log(`modal-context : ${data[0]}`);
+		return console.log(`modal-context`, data[0]);
 	}
 }
 
